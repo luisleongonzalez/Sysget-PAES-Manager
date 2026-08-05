@@ -14,38 +14,50 @@
     savedConfig = {};
   }
 
+  const DEFAULT_CONFIG = {
+    apiKey:            "AIzaSyC2D4SaRCWTzm7Pkg3zhIVCvY4svPgFI5s",
+    authDomain:        "proyecto-paes-web-ia.firebaseapp.com",
+    projectId:         "proyecto-paes-web-ia",
+    storageBucket:     "proyecto-paes-web-ia.firebasestorage.app",
+    messagingSenderId: "481585784153",
+    appId:             "1:481585784153:web:81d6737725ddaf5cf99848"
+  };
+
   const firebaseConfig = {
-    apiKey:            savedConfig.apiKey            || "AIzaSyC2D4SaRCWTzm7Pkg3zhIVCvY4svPgFI5s",
-    authDomain:        savedConfig.authDomain        || "proyecto-paes-web-ia.firebaseapp.com",
-    projectId:         savedConfig.projectId         || "proyecto-paes-web-ia",
-    storageBucket:     savedConfig.storageBucket     || "proyecto-paes-web-ia.firebasestorage.app",
-    messagingSenderId: savedConfig.messagingSenderId || "481585784153",
-    appId:             savedConfig.appId             || "1:481585784153:web:81d6737725ddaf5cf99848"
+    apiKey:            (savedConfig.apiKey && savedConfig.apiKey.length > 10) ? savedConfig.apiKey : DEFAULT_CONFIG.apiKey,
+    authDomain:        (savedConfig.authDomain && savedConfig.authDomain.includes('.')) ? savedConfig.authDomain : DEFAULT_CONFIG.authDomain,
+    projectId:         (savedConfig.projectId && savedConfig.projectId.length > 3) ? savedConfig.projectId : DEFAULT_CONFIG.projectId,
+    storageBucket:     (savedConfig.storageBucket && savedConfig.storageBucket.includes('.')) ? savedConfig.storageBucket : DEFAULT_CONFIG.storageBucket,
+    messagingSenderId: savedConfig.messagingSenderId || DEFAULT_CONFIG.messagingSenderId,
+    appId:             savedConfig.appId || DEFAULT_CONFIG.appId
   };
 
   let isFirebaseActive = false;
   let firestoreDb = null;
 
-  // Validar que las credenciales no sean los valores por defecto
-  if (
-    firebaseConfig.apiKey && 
-    firebaseConfig.apiKey !== "YOUR_API_KEY" && 
-    firebaseConfig.projectId && 
-    firebaseConfig.projectId !== "YOUR_PROJECT_ID"
-  ) {
+  function initFirebase(cfg) {
     try {
-      // Inicializar Firebase (Compat Mode)
-      firebase.initializeApp(firebaseConfig);
-      firestoreDb = firebase.firestore();
+      if (firebase.apps && firebase.apps.length > 0) {
+        firestoreDb = firebase.firestore();
+      } else {
+        firebase.initializeApp(cfg);
+        firestoreDb = firebase.firestore();
+      }
       isFirebaseActive = true;
-      console.log("[PAES Manager] Conectado con Firebase Firestore con éxito.");
+      console.log("[PAES Manager] Conectado con Firebase Firestore con éxito (" + cfg.projectId + ").");
+      return true;
     } catch (error) {
-      console.error("[PAES Manager] Error al inicializar Firebase. Usando LocalStorage como fallback:", error);
-      isFirebaseActive = false;
+      console.error("[PAES Manager] Error al inicializar Firebase con config dada:", error);
+      return false;
     }
-  } else {
-    console.log("[PAES Manager] Firebase sin configurar o en modo Local. Usando LocalStorage local.");
-    isFirebaseActive = false;
+  }
+
+  // Intentar primero con la config resuelta
+  if (!initFirebase(firebaseConfig)) {
+    // Si falló por alguna config guardada corrupta, auto-limpiar y probar con los defaults oficiales
+    console.warn("[PAES Manager] Reintentando con configuración por defecto oficial...");
+    localStorage.removeItem(CFG_KEY);
+    initFirebase(DEFAULT_CONFIG);
   }
 
   window.abrirConfigFirebase = function() {
