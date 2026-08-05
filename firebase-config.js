@@ -15,12 +15,12 @@
   }
 
   const firebaseConfig = {
-    apiKey:            savedConfig.apiKey            || "YOUR_API_KEY",
-    authDomain:        savedConfig.authDomain        || "YOUR_PROJECT_ID.firebaseapp.com",
-    projectId:         savedConfig.projectId         || "YOUR_PROJECT_ID",
-    storageBucket:     savedConfig.storageBucket     || "YOUR_PROJECT_ID.firebasestorage.app",
-    messagingSenderId: savedConfig.messagingSenderId || "",
-    appId:             savedConfig.appId             || ""
+    apiKey:            savedConfig.apiKey            || "AIzaSyC2D4SaRCWTzm7Pkg3zhIVCvY4svPgFI5s",
+    authDomain:        savedConfig.authDomain        || "proyecto-paes-web-ia.firebaseapp.com",
+    projectId:         savedConfig.projectId         || "proyecto-paes-web-ia",
+    storageBucket:     savedConfig.storageBucket     || "proyecto-paes-web-ia.firebasestorage.app",
+    messagingSenderId: savedConfig.messagingSenderId || "481585784153",
+    appId:             savedConfig.appId             || "1:481585784153:web:81d6737725ddaf5cf99848"
   };
 
   let isFirebaseActive = false;
