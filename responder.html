@@ -355,20 +355,36 @@
         <!-- Panel Derecho: Hoja de Respuestas -->
         <div id="sheet-side-panel" style="flex: 1; width: 100%;">
           <header class="student-header">
-            <h1 class="student-title" id="exam-title">Evaluación en Línea</h1>
-            <p class="student-name" id="student-display-name">Alumno: —</p>
-            <div id="student-db-badge" style="display:inline-block; font-size:10px; padding: 2px 8px; border-radius: 99px; background: rgba(245, 158, 11, 0.1); color: #f59e0b; border: 1px solid rgba(245, 158, 11, 0.3); margin-top: 8px;">
-              <span style="display:inline-block; width:5px; height:5px; border-radius:50%; background:#f59e0b; margin-right:4px; vertical-align: middle;"></span>
-              <span id="student-db-text" style="vertical-align: middle;">Modo Local</span>
+            <div style="display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 12px;">
+              <div>
+                <h1 class="student-title" id="exam-title">Evaluación en Línea</h1>
+                <p class="student-name" id="student-display-name">Alumno: —</p>
+                <div id="student-db-badge" style="display:inline-block; font-size:10px; padding: 2px 8px; border-radius: 99px; background: rgba(245, 158, 11, 0.1); color: #f59e0b; border: 1px solid rgba(245, 158, 11, 0.3); margin-top: 8px;">
+                  <span style="display:inline-block; width:5px; height:5px; border-radius:50%; background:#f59e0b; margin-right:4px; vertical-align: middle;"></span>
+                  <span id="student-db-text" style="vertical-align: middle;">Modo Local</span>
+                </div>
+              </div>
+
+              <!-- PreUNAB Style Progress Badge -->
+              <div style="background: rgba(124, 58, 237, 0.12); border: 1px solid rgba(124, 58, 237, 0.3); border-radius: 14px; padding: 10px 16px; text-align: right;">
+                <span style="font-size: 11px; color: #a78bfa; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; display: block;">Tu Progreso</span>
+                <span id="progress-percentage-badge" style="font-size: 22px; font-weight: 800; color: #c084fc; font-family: 'Inter', sans-serif;">0,00%</span>
+              </div>
             </div>
             
-            <div id="btn-ver-pdf-container" style="margin-top: 12px; display: none; gap: 8px; flex-wrap: wrap;">
+            <div id="btn-ver-pdf-container" style="margin-top: 14px; display: none; gap: 8px; flex-wrap: wrap; align-items: center;">
               <button id="btn-toggle-split" onclick="toggleModoDividido()" style="display: inline-flex; align-items: center; justify-content: center; gap: 6px; background: rgba(124, 58, 237, 0.2); color: #c4b5fd; border: 1px solid rgba(124, 58, 237, 0.4); padding: 8px 14px; border-radius: 8px; font-size: 13px; font-weight: 600; cursor: pointer;">
                 📖 Ver PDF y Hoja en Misma Pantalla
               </button>
               <a id="link-ver-pdf" href="#" target="_blank" style="display: inline-flex; align-items: center; justify-content: center; gap: 6px; background: rgba(59, 130, 246, 0.15); color: #60a5fa; border: 1px solid rgba(59, 130, 246, 0.3); padding: 8px 14px; border-radius: 8px; font-size: 13px; font-weight: 600; text-decoration: none;">
                 ↗️ Pestaña Nueva
               </a>
+
+              <!-- Toggle Vista: Hoja Completa vs Pregunta a Pregunta (PreUNAB) -->
+              <div style="margin-left: auto; display: flex; background: rgba(0,0,0,0.3); border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; padding: 2px;">
+                <button id="btn-mode-sheet" onclick="cambiarModoVista('sheet')" style="background: rgba(124,58,237,0.3); color: #fff; border: none; padding: 5px 12px; border-radius: 6px; font-size: 12px; font-weight: 600; cursor: pointer;">📋 Lista</button>
+                <button id="btn-mode-focus" onclick="cambiarModoVista('focus')" style="background: transparent; color: #94a3b8; border: none; padding: 5px 12px; border-radius: 6px; font-size: 12px; font-weight: 600; cursor: pointer;">🔍 Enfocado</button>
+              </div>
             </div>
             
             <div id="exam-timer-box" style="display: none; margin-top: 12px; background: rgba(239, 68, 68, 0.12); border: 1px solid rgba(239, 68, 68, 0.3); border-radius: 10px; padding: 10px 16px; text-align: center; box-shadow: 0 4px 15px rgba(239, 68, 68, 0.15);">
@@ -383,9 +399,40 @@
             <span class="progress-text" id="progress-display-text">Respondidas: 0 de 0 (0%)</span>
           </header>
 
+          <!-- VISTA 1: Lista Completa de Preguntas (Tradicional) -->
           <main class="questions-grid" id="grid-contenedor-preguntas">
             <!-- Generado dinámicamente -->
           </main>
+
+          <!-- VISTA 2: Modo Enfocado Pregunta a Pregunta (Estilo PreUNAB) -->
+          <div id="focus-question-container" style="display: none; margin-bottom: 30px;">
+            <div style="background: rgba(15, 23, 42, 0.6); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 16px; padding: 24px; box-shadow: 0 10px 30px rgba(0,0,0,0.4);">
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; border-bottom: 1px solid rgba(255,255,255,0.08); padding-bottom: 12px;">
+                <span id="focus-question-header" style="font-size: 18px; font-weight: 800; color: #a78bfa; text-transform: uppercase; letter-spacing: 1px;">PREGUNTA 1</span>
+                <span id="focus-status-badge" style="font-size: 12px; padding: 4px 10px; border-radius: 99px; background: rgba(255,255,255,0.05); color: #94a3b8; font-weight: 600;">Sin responder</span>
+              </div>
+
+              <!-- Tarjetas de Opciones A, B, C, D, E (Estilo PreUNAB) -->
+              <div id="focus-options-list" style="display: flex; flex-direction: column; gap: 12px; margin-bottom: 24px;">
+                <!-- Generado dinámicamente -->
+              </div>
+
+              <!-- Navegación Pregunta a Pregunta -->
+              <div style="display: flex; justify-content: space-between; align-items: center; gap: 10px; border-top: 1px solid rgba(255,255,255,0.08); padding-top: 16px;">
+                <button class="btn btn-outline" id="btn-focus-prev" onclick="navegarPreguntaFocus(-1)" style="padding: 10px 20px; font-size: 14px; border-color: rgba(255,255,255,0.15); color: #cbd5e1;">⬅️ Anterior</button>
+                <button class="btn btn-outline" onclick="marcarAlternativa(state.focusCurrentQuestion, '')" style="padding: 8px 14px; font-size: 12px; border-color: rgba(239,68,68,0.3); color: #f87171;">Borrar Respuesta</button>
+                <button class="btn btn-primary" id="btn-focus-next" onclick="navegarPreguntaFocus(1)" style="padding: 10px 20px; font-size: 14px; font-weight: 700;">Siguiente ➡️</button>
+              </div>
+            </div>
+
+            <!-- Grilla Rápida de Selección de Pregunta -->
+            <div style="margin-top: 20px; background: rgba(15, 23, 42, 0.4); border: 1px solid rgba(255,255,255,0.06); border-radius: 14px; padding: 16px;">
+              <span style="font-size: 12px; color: #94a3b8; font-weight: 600; margin-bottom: 10px; display: block;">Navegación Rápida de Preguntas:</span>
+              <div id="focus-grid-jump" style="display: flex; flex-wrap: wrap; gap: 6px; max-height: 140px; overflow-y: auto; padding-right: 4px;">
+                <!-- Generado dinámicamente -->
+              </div>
+            </div>
+          </div>
 
           <div class="submit-container">
             <button class="btn-submit-exam" onclick="confirmarYEnviarPrueba()">

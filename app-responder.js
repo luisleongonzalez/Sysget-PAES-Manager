@@ -7,7 +7,9 @@ const state = {
   envio: null,
   sesion: null,
   respuestas: {},
-  numPreguntas: 0
+  numPreguntas: 0,
+  focusCurrentQuestion: 1,
+  viewMode: 'sheet' // 'sheet' | 'focus'
 };
 
 // Toast notification helper
@@ -202,7 +204,7 @@ function marcarAlternativa(pregunta, alternativa) {
     state.respuestas[qStr] = alternativa;
   }
   
-  // Actualizar visualmente la fila de alternativas
+  // Actualizar visualmente la fila de alternativas en modo lista
   const row = document.getElementById(`row-${pregunta}`);
   if (row) {
     if (alternativa === '') {
@@ -220,6 +222,11 @@ function marcarAlternativa(pregunta, alternativa) {
     });
   }
   
+  // Si estamos en modo enfocado, actualizar la tarjeta activa
+  if (state.viewMode === 'focus') {
+    renderFocusQuestion();
+  }
+
   actualizarProgreso();
   autoGuardarBorrador();
 }
@@ -227,13 +234,129 @@ function marcarAlternativa(pregunta, alternativa) {
 function actualizarProgreso() {
   const respondidas = Object.keys(state.respuestas).filter(k => state.respuestas[k] !== '').length;
   const total = state.numPreguntas;
-  const pct = total > 0 ? Math.round((respondidas / total) * 100) : 0;
+  const rawPct = total > 0 ? (respondidas / total) * 100 : 0;
+  const pctRound = Math.round(rawPct);
   
   const fill = document.getElementById('progress-fill');
   const text = document.getElementById('progress-display-text');
+  const badge = document.getElementById('progress-percentage-badge');
   
-  if (fill) fill.style.width = `${pct}%`;
-  if (text) text.textContent = `Respondidas: ${respondidas} de ${total} (${pct}%)`;
+  if (fill) fill.style.width = `${pctRound}%`;
+  if (text) text.textContent = `Respondidas: ${respondidas} de ${total} (${pctRound}%)`;
+  if (badge) badge.textContent = `${rawPct.toFixed(2).replace('.', ',')}%`;
+}
+
+// ──────────────────────────────────────────────────────────
+// MODO ENFOCADO PREGUNTA A PREGUNTA (ESTILO PREUNAB)
+// ──────────────────────────────────────────────────────────
+function cambiarModoVista(modo) {
+  state.viewMode = modo;
+  const btnSheet = document.getElementById('btn-mode-sheet');
+  const btnFocus = document.getElementById('btn-mode-focus');
+  const gridSheet = document.getElementById('grid-contenedor-preguntas');
+  const focusBox = document.getElementById('focus-question-container');
+
+  if (modo === 'focus') {
+    if (btnSheet) { btnSheet.style.background = 'transparent'; btnSheet.style.color = '#94a3b8'; }
+    if (btnFocus) { btnFocus.style.background = 'rgba(124,58,237,0.3)'; btnFocus.style.color = '#fff'; }
+    if (gridSheet) gridSheet.style.display = 'none';
+    if (focusBox) focusBox.style.display = 'block';
+    renderFocusQuestion();
+  } else {
+    if (btnSheet) { btnSheet.style.background = 'rgba(124,58,237,0.3)'; btnSheet.style.color = '#fff'; }
+    if (btnFocus) { btnFocus.style.background = 'transparent'; btnFocus.style.color = '#94a3b8'; }
+    if (gridSheet) gridSheet.style.display = 'flex';
+    if (focusBox) focusBox.style.display = 'none';
+  }
+}
+
+function renderFocusQuestion() {
+  const q = state.focusCurrentQuestion || 1;
+  const qStr = String(q);
+  const selectedVal = state.respuestas[qStr] || '';
+  const total = state.numPreguntas;
+
+  const txtHeader = document.getElementById('focus-question-header');
+  const badgeStatus = document.getElementById('focus-status-badge');
+  const optionsList = document.getElementById('focus-options-list');
+  const btnPrev = document.getElementById('btn-focus-prev');
+  const btnNext = document.getElementById('btn-focus-next');
+  const gridJump = document.getElementById('focus-grid-jump');
+
+  if (txtHeader) txtHeader.textContent = `PREGUNTA ${q} DE ${total}`;
+
+  if (badgeStatus) {
+    if (selectedVal) {
+      badgeStatus.textContent = `Respondida (${selectedVal})`;
+      badgeStatus.style.background = 'rgba(16, 185, 129, 0.15)';
+      badgeStatus.style.color = '#34d399';
+      badgeStatus.style.border = '1px solid rgba(16, 185, 129, 0.3)';
+    } else {
+      badgeStatus.textContent = 'Sin responder';
+      badgeStatus.style.background = 'rgba(255, 255, 255, 0.05)';
+      badgeStatus.style.color = '#94a3b8';
+      badgeStatus.style.border = '1px solid rgba(255, 255, 255, 0.1)';
+    }
+  }
+
+  // Tarjetas de Opciones Estilo PreUNAB
+  const opciones = ['A', 'B', 'C', 'D', 'E'];
+  if (optionsList) {
+    optionsList.innerHTML = opciones.map(opt => {
+      const isSelected = selectedVal === opt;
+      const bg = isSelected ? 'linear-gradient(135deg, rgba(124,58,237,0.35) 0%, rgba(109,40,217,0.45) 100%)' : 'rgba(255,255,255,0.03)';
+      const border = isSelected ? '1px solid #a78bfa' : '1px solid rgba(255,255,255,0.08)';
+      const shadow = isSelected ? 'box-shadow: 0 0 16px rgba(124, 58, 237, 0.4);' : '';
+      const colorLetter = isSelected ? '#ffffff' : '#a78bfa';
+      const bgLetter = isSelected ? '#7c3aed' : 'rgba(167,139,250,0.12)';
+
+      return `
+        <div onclick="marcarAlternativa(${q}, '${opt}')" style="cursor:pointer; background:${bg}; border:${border}; ${shadow} border-radius:12px; padding:14px 18px; display:flex; align-items:center; gap:16px; transition:all 0.2s ease;">
+          <div style="width:36px; height:36px; border-radius:10px; background:${bgLetter}; color:${colorLetter}; font-weight:800; font-size:16px; display:flex; align-items:center; justify-content:center; flex-shrink:0;">
+            ${opt}
+          </div>
+          <div style="font-size:15px; font-weight:600; color:${isSelected ? '#ffffff' : '#cbd5e1'};">
+            Opción ${opt}
+          </div>
+          ${isSelected ? '<div style="margin-left:auto; color:#34d399; font-weight:700; font-size:16px;">✓</div>' : ''}
+        </div>`;
+    }).join('');
+  }
+
+  // Deshabilitar botones al inicio o fin
+  if (btnPrev) btnPrev.disabled = q <= 1;
+  if (btnNext) btnNext.disabled = q >= total;
+
+  // Grilla Rápida Jump
+  if (gridJump) {
+    let jumpHtml = '';
+    for (let i = 1; i <= total; i++) {
+      const isCurrent = i === q;
+      const isAns = !!state.respuestas[String(i)];
+      const bg = isCurrent ? '#7c3aed' : (isAns ? 'rgba(16,185,129,0.2)' : 'rgba(255,255,255,0.04)');
+      const color = isCurrent ? '#ffffff' : (isAns ? '#34d399' : '#94a3b8');
+      const border = isCurrent ? '1px solid #c084fc' : (isAns ? '1px solid rgba(16,185,129,0.4)' : '1px solid rgba(255,255,255,0.08)');
+
+      jumpHtml += `
+        <button onclick="jumpToFocusQuestion(${i})" style="width:34px; height:34px; border-radius:8px; background:${bg}; color:${color}; border:${border}; font-size:12px; font-weight:700; cursor:pointer; display:flex; align-items:center; justify-content:center; transition:all 0.15s;">
+          ${i}
+        </button>`;
+    }
+    gridJump.innerHTML = jumpHtml;
+  }
+}
+
+function navegarPreguntaFocus(delta) {
+  const target = state.focusCurrentQuestion + delta;
+  if (target >= 1 && target <= state.numPreguntas) {
+    state.focusCurrentQuestion = target;
+    renderFocusQuestion();
+  }
+}
+
+function jumpToFocusQuestion(idx) {
+  state.focusCurrentQuestion = idx;
+  renderFocusQuestion();
 }
 
 function confirmarYEnviarPrueba() {
