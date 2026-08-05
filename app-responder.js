@@ -9,7 +9,7 @@ const state = {
   respuestas: {},
   numPreguntas: 0,
   focusCurrentQuestion: 1,
-  viewMode: 'sheet' // 'sheet' | 'focus'
+  viewMode: 'focus' // 'focus' (Estilo PreUNAB por defecto) | 'sheet'
 };
 
 // Toast notification helper
@@ -135,6 +135,7 @@ async function inicializarHoja() {
     }
     
     renderPreguntasGrid();
+    cambiarModoVista(state.viewMode || 'focus');
     actualizarProgreso();
     iniciarRelojConteoRegresivo();
     mostrarPantalla('exam-screen');
