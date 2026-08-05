@@ -11,6 +11,11 @@
   <link rel="stylesheet" href="styles.css">
   <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/pdf-lib@1.17.1/dist/pdf-lib.min.js"></script>
+  <!-- QR Code generator -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+  <!-- jsPDF for PDF reports -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.31/jspdf.plugin.autotable.min.js"></script>
   <script src="email-service.js" defer></script>
 </head>
 <body>
@@ -434,15 +439,24 @@ historia_2025 · lectora_2024 · m1_2023 ...</div>
             <div class="form-row" style="align-items: flex-end; gap: 8px; display: flex;">
               <div class="form-group" style="flex: 2; margin-bottom: 0;">
                 <label class="form-label" for="nombre-alumno">Nombre Completo</label>
-                <input type="text" id="nombre-alumno" class="form-input" placeholder="Nombre Alumno">
+                <input type="text" id="nombre-alumno" class="form-input" placeholder="Nombre Alumno" onkeydown="if(event.key==='Enter') agregarAlumnoLista()">
               </div>
               <div class="form-group" style="flex: 2; margin-bottom: 0;">
                 <label class="form-label" for="email-alumno">Email (Opcional)</label>
                 <input type="email" id="email-alumno" class="form-input" placeholder="alumno@correo.com">
               </div>
-              <button class="btn btn-primary" onclick="agregarAlumnoLista()" style="margin-bottom: 0; padding: 10px 15px; height: 42px; display: flex; align-items: center; justify-content: center; font-size: 20px;">
+              <button class="btn btn-primary" onclick="agregarAlumnoLista()" style="margin-bottom: 0; padding: 10px 15px; height: 42px; display: flex; align-items: center; justify-content: center; font-size: 20px;" title="Agregar alumno">
                 ＋
               </button>
+            </div>
+
+            <!-- Importar desde CSV -->
+            <div style="margin-top: 10px;">
+              <input type="file" id="input-csv-alumnos" accept=".csv,.txt" style="display:none" onchange="importarAlumnosCSV(event)">
+              <button class="btn btn-outline" onclick="document.getElementById('input-csv-alumnos').click()" style="width:100%; font-size:13px; border-color: rgba(52,211,153,0.4); color:#34d399; padding:8px;">
+                📥 Importar Lista desde CSV/Excel
+              </button>
+              <p style="font-size:11px; color:var(--text-muted); margin:5px 0 0; text-align:center;">Formato: una fila por alumno, columnas <strong>Nombre,Email</strong></p>
             </div>
 
             <div id="lista-alumnos-box" style="margin-top: 15px; max-height: 250px; overflow-y: auto; border: 1px solid var(--border-glow); border-radius: 8px; padding: 10px; background: rgba(0,0,0,0.2);">
@@ -496,6 +510,7 @@ historia_2025 · lectora_2024 · m1_2023 ...</div>
           <div style="display: flex; gap: 10px; align-items: flex-end; flex-wrap: wrap;">
             <button class="btn btn-outline" onclick="actualizarResultadosEnTiempoReal()">🔁 Actualizar</button>
             <button class="btn btn-primary" onclick="exportarResultadosCSV()">📊 Exportar Excel (CSV)</button>
+            <button class="btn btn-outline" onclick="generarReportePDF()" style="border-color: rgba(168,85,247,0.4); color: #c084fc;">📄 Reporte PDF</button>
             <button class="btn btn-outline" onclick="abrirGestionSesiones()" style="border-color: rgba(220,38,38,0.4); color: #f87171;">🗑️ Gestionar Sesiones</button>
           </div>
         </div>
@@ -585,8 +600,26 @@ historia_2025 · lectora_2024 · m1_2023 ...</div>
 
   </main>
 
+  <!-- ─── MODAL QR CODE ─────────────────── -->
+  <div id="modal-qr" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.85); z-index:9999; align-items:center; justify-content:center; backdrop-filter:blur(8px);">
+    <div style="background:#0f172a; border:1px solid rgba(255,255,255,0.12); border-radius:20px; padding:32px; max-width:440px; width:90%; text-align:center; position:relative; box-shadow:0 25px 60px rgba(0,0,0,0.6);">
+      <button onclick="cerrarModalQR()" style="position:absolute;top:14px;right:16px;background:none;border:none;color:#94a3b8;font-size:22px;cursor:pointer;line-height:1;">✕</button>
+      <div style="font-size:28px; margin-bottom:4px;">📱</div>
+      <h3 id="qr-sesion-titulo" style="margin:0 0 4px; font-size:18px; font-weight:700; color:#f1f5f9;">QR de Acceso a la Sesión</h3>
+      <p style="font-size:12px; color:#64748b; margin:0 0 20px;">Los alumnos escanean este código para acceder a su evaluación</p>
+      <div id="qr-canvas-box" style="display:inline-block; padding:16px; background:#ffffff; border-radius:12px; margin-bottom:18px;"></div>
+      <p style="font-size:11px; color:#475569; word-break:break-all; margin:0 0 6px;" id="qr-url-text"></p>
+      <p style="font-size:12px; color:#94a3b8; margin:4px 0 20px;">📌 Proyecta esta pantalla con el data show para que los alumnos escaneen</p>
+      <div style="display:flex; gap:10px; justify-content:center; flex-wrap:wrap;">
+        <button onclick="imprimirQR()" style="background:rgba(99,102,241,0.15); border:1px solid rgba(99,102,241,0.4); color:#a5b4fc; border-radius:10px; padding:8px 20px; font-size:13px; font-weight:600; cursor:pointer;">🖨️ Imprimir QR</button>
+        <button onclick="cerrarModalQR()" style="background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.12); color:#94a3b8; border-radius:10px; padding:8px 20px; font-size:13px; cursor:pointer;">Cerrar</button>
+      </div>
+    </div>
+  </div>
+
   <!-- ─── TOAST NOTIFICACIÓN ─────────────────── -->
   <div class="toast" id="toast"></div>
+
 
   <!-- ─── FOOTER ─────────────────── -->
   <footer class="footer">

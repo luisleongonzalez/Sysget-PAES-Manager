@@ -35,3 +35,5 @@ npm-debug.log*
 
 # ── Vercel local
 .vercel
+
+.vercel

@@ -11,7 +11,14 @@
   const EmailService = {
     get publicKey()  { return localStorage.getItem(CFG_KEYS.pub)  || ""; },
     get serviceId()  { return localStorage.getItem(CFG_KEYS.svc)  || ""; },
-    get templateId() { return localStorage.getItem(CFG_KEYS.tpl)  || ""; },
+    get templateId() { 
+      const val = localStorage.getItem(CFG_KEYS.tpl);
+      if (!val || val === "template_id" || val.includes("YOUR_")) {
+        localStorage.setItem(CFG_KEYS.tpl, "nerqwi7");
+        return "nerqwi7";
+      }
+      return val; 
+    },
     get fromName()   { return localStorage.getItem(CFG_KEYS.from) || "PAES Manager - Evaluaciones"; },
 
     isConfigured() { return !!(this.publicKey && this.serviceId && this.templateId); },
@@ -19,7 +26,7 @@
     save(pk, sid, tid, fn) {
       localStorage.setItem(CFG_KEYS.pub,  pk.trim());
       localStorage.setItem(CFG_KEYS.svc,  sid.trim());
-      localStorage.setItem(CFG_KEYS.tpl,  tid.trim());
+      localStorage.setItem(CFG_KEYS.tpl,  (tid || "nerqwi7").trim());
       localStorage.setItem(CFG_KEYS.from, (fn || "PAES Manager").trim());
     },
 

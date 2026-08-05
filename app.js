@@ -1062,6 +1062,7 @@ async function crearSesionEvaluacion() {
         <div style="color: #34d399; font-weight: 700; font-size: 14px; margin-bottom: 4px;">🎉 ¡Sesión Habilitada con Éxito en Firebase!</div>
         <div style="color: var(--text-primary); font-size: 13px;">La sesión <strong>"${titulo}"</strong> ya está activa. Usa la tabla de la derecha para copiar los links o enviar correos a los alumnos.</div>
         <div style="margin-top: 10px; display: flex; gap: 8px; flex-wrap: wrap;">
+          <button class="btn btn-outline" onclick="mostrarQRSesion('${sesionId}', '${titulo.replace(/'/g, "\\'")}')" style="padding: 8px 14px; font-size: 12px; border-color: rgba(99,102,241,0.4); color: #a5b4fc; font-weight: 600;">📱 Ver Código QR de Sala</button>
           <button class="btn btn-primary" onclick="irAResultadosSesion('${sesionId}')" style="padding: 8px 14px; font-size: 12px; font-weight: 600;">📊 Ir a Ver Resultados en Tiempo Real ➡️</button>
           <button class="btn btn-outline" onclick="nuevaListaEvaluacion()" style="padding: 8px 14px; font-size: 12px;">➕ Crear Otra Sesión</button>
         </div>
@@ -1642,4 +1643,268 @@ async function confirmarBorrarSesiones() {
   } else {
     showToast(`⚠️ ${borrados} eliminadas, ${errores} con error: ${primerError}`);
   }
+}
+
+// ──────────────────────────────────────────────────────────
+// 1. IMPORTAR ALUMNOS DESDE CSV / EXCEL
+// ──────────────────────────────────────────────────────────
+function importarAlumnosCSV(event) {
+  const file = event.target.files[0];
+  if (!file) return;
+
+  const reader = new FileReader();
+  reader.onload = function (e) {
+    const text = e.target.result;
+    const lineas = text.split(/\r?\n/);
+    let agregados = 0;
+
+    lineas.forEach(linea => {
+      const trimLine = linea.trim();
+      if (!trimLine) return;
+
+      // Omitir cabecera si existe
+      if (trimLine.toLowerCase().startsWith('nombre') || trimLine.toLowerCase().startsWith('alumno')) return;
+
+      // Separar por coma o punto y coma
+      const partes = trimLine.split(/[,;]/);
+      const nombre = partes[0] ? partes[0].trim().replace(/^["']|["']$/g, '') : '';
+      const email = partes[1] ? partes[1].trim().replace(/^["']|["']$/g, '') : '';
+
+      if (nombre && nombre.length >= 2) {
+        const token = 'tok_' + Math.random().toString(36).substr(2, 9);
+        state.alumnosEnSession.push({
+          nombre: nombre,
+          email: email,
+          token: token,
+          estado: 'pendiente',
+          respuestas: {}
+        });
+        agregados++;
+      }
+    });
+
+    // Resetear input para permitir cargar el mismo archivo
+    event.target.value = '';
+
+    if (agregados > 0) {
+      renderAlumnosLista();
+      showToast(`✅ ${agregados} alumno(s) importado(s) desde CSV`);
+    } else {
+      showToast('⚠️ No se encontraron nombres válidos en el archivo');
+    }
+  };
+  reader.readAsText(file, 'UTF-8');
+}
+
+// ──────────────────────────────────────────────────────────
+// 2. CÓDIGO QR PARA ACCESO EN SALA
+// ──────────────────────────────────────────────────────────
+let currentQRInstance = null;
+
+function mostrarQRSesion(sesionId, titulo, token) {
+  const modal = document.getElementById('modal-qr');
+  const box = document.getElementById('qr-canvas-box');
+  const txtTitulo = document.getElementById('qr-sesion-titulo');
+  const txtUrl = document.getElementById('qr-url-text');
+  if (!modal || !box) return;
+
+  const baseUrl = window.location.href.split('#')[0].replace('index.html', '') + 'responder.html';
+  const fullUrl = token ? `${baseUrl}?token=${token}` : baseUrl;
+
+  if (txtTitulo) txtTitulo.textContent = `QR: ${titulo || 'Sesión PAES'}`;
+  if (txtUrl) txtUrl.textContent = fullUrl;
+
+  box.innerHTML = '';
+  try {
+    if (window.QRCode) {
+      currentQRInstance = new QRCode(box, {
+        text: fullUrl,
+        width: 200,
+        height: 200,
+        colorDark: '#0f172a',
+        colorLight: '#ffffff',
+        correctLevel: QRCode.CorrectLevel.H
+      });
+    } else {
+      box.innerHTML = `<img src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${encodeURIComponent(fullUrl)}" alt="QR Code" width="200" height="200">`;
+    }
+  } catch (err) {
+    box.innerHTML = `<img src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${encodeURIComponent(fullUrl)}" alt="QR Code" width="200" height="200">`;
+  }
+
+  modal.style.display = 'flex';
+}
+
+function cerrarModalQR() {
+  const modal = document.getElementById('modal-qr');
+  if (modal) modal.style.display = 'none';
+}
+
+function imprimirQR() {
+  const box = document.getElementById('qr-canvas-box');
+  const txtTitulo = document.getElementById('qr-sesion-titulo');
+  const txtUrl = document.getElementById('qr-url-text');
+  if (!box) return;
+
+  const imgElem = box.querySelector('img') || box.querySelector('canvas');
+  const imgSrc = imgElem ? (imgElem.src || imgElem.toDataURL()) : '';
+
+  const printWin = window.open('', '_blank');
+  printWin.document.write(`
+    <!DOCTYPE html>
+    <html>
+    <head>
+      <title>QR Acceso - ${txtTitulo ? txtTitulo.textContent : 'PAES Manager'}</title>
+      <style>
+        body { font-family: Arial, sans-serif; text-align: center; padding: 40px; }
+        h1 { color: #0f172a; font-size: 24px; margin-bottom: 8px; }
+        p { color: #475569; font-size: 14px; margin-bottom: 24px; }
+        img { border: 2px solid #cbd5e1; border-radius: 12px; padding: 16px; width: 260px; height: 260px; }
+        .url { font-family: monospace; font-size: 12px; color: #64748b; margin-top: 16px; word-break: break-all; }
+      </style>
+    </head>
+    <body onload="window.print(); window.close();">
+      <h1>${txtTitulo ? txtTitulo.textContent : 'PAES Manager'}</h1>
+      <p>Escanea este código QR con la cámara de tu teléfono para acceder a la evaluación en línea</p>
+      <img src="${imgSrc}">
+      <div class="url">${txtUrl ? txtUrl.textContent : ''}</div>
+    </body>
+    </html>
+  `);
+  printWin.document.close();
+}
+
+// ──────────────────────────────────────────────────────────
+// 3. GENERADOR DE REPORTE PDF DE RESULTADOS
+// ──────────────────────────────────────────────────────────
+function generarReportePDF() {
+  const sesion = state.sesionActivaDocenteData;
+  const enviosDeSesion = state.enviosActivos || [];
+
+  if (!sesion) {
+    showToast('⚠️ Debes seleccionar una sesión para generar el reporte PDF');
+    return;
+  }
+
+  const { jsPDF } = window.jspdf || {};
+  if (!jsPDF) {
+    showToast('⚠️ Cargando módulo de PDF... Intenta de nuevo en 2 segundos');
+    return;
+  }
+
+  const doc = new jsPDF({ orientation: 'p', unit: 'mm', format: 'a4' });
+  const fechaStr = new Date().toLocaleDateString('es-CL');
+
+  // Encabezado
+  doc.setFillColor(15, 23, 42); // slate-900
+  doc.rect(0, 0, 210, 32, 'F');
+
+  doc.setTextColor(241, 245, 249);
+  doc.setFont('helvetica', 'bold');
+  doc.setFontSize(18);
+  doc.text('PAES Manager — Reporte de Evaluación', 14, 16);
+
+  doc.setFont('helvetica', 'normal');
+  doc.setFontSize(10);
+  doc.setTextColor(148, 163, 184);
+  doc.text(`Fecha de emisión: ${fechaStr} | Generado automáticamente`, 14, 24);
+
+  // Metadata de la sesión
+  doc.setTextColor(15, 23, 42);
+  doc.setFontSize(14);
+  doc.setFont('helvetica', 'bold');
+  doc.text(sesion.titulo || 'Resultados de Evaluación', 14, 42);
+
+  doc.setFontSize(10);
+  doc.setFont('helvetica', 'normal');
+  doc.setTextColor(71, 85, 105);
+  doc.text(`Sala: ${sesion.sala || 'SALA-1'}  |  Preguntas: ${sesion.numPreguntas || '?'}  |  Tiempo límite: ${sesion.duracionMinutos > 0 ? sesion.duracionMinutos + ' min' : 'Sin límite'}`, 14, 48);
+
+  // Estadísticas del grupo
+  const completados = enviosDeSesion.filter(e => e.estado === 'completado');
+  let sumaPaes = 0, maxPaes = 0;
+
+  const tableRows = [];
+
+  enviosDeSesion.forEach(e => {
+    if (e.estado === 'completado') {
+      const { correctas, incorrectas, omitidas } = corregirPrueba(e.respuestas, sesion.claves, sesion.pilotos);
+      const totalEvaluadas = sesion.numPreguntas - (sesion.pilotos ? sesion.pilotos.length : 0);
+      const logroPct = totalEvaluadas > 0 ? Math.round((correctas / totalEvaluadas) * 100) : 0;
+      let paes = 100;
+      if (sesion.escala && sesion.escala[String(correctas)] !== undefined) {
+        paes = sesion.escala[String(correctas)];
+      }
+      sumaPaes += paes;
+      if (paes > maxPaes) maxPaes = paes;
+
+      tableRows.push([
+        e.alumnoNombre || 'Sin nombre',
+        'Completado',
+        `${correctas}/${totalEvaluadas}`,
+        `${incorrectas}`,
+        `${omitidas}`,
+        `${paes} pts`,
+        `${logroPct}%`
+      ]);
+    } else {
+      tableRows.push([
+        e.alumnoNombre || 'Sin nombre',
+        'Pendiente',
+        '-', '-', '-', '-', '-'
+      ]);
+    }
+  });
+
+  const promedioPaes = completados.length > 0 ? Math.round(sumaPaes / completados.length) : 0;
+
+  // Cajas resumen KPI
+  doc.setFillColor(248, 250, 252);
+  doc.setDrawColor(226, 232, 240);
+  doc.roundedRect(14, 54, 56, 18, 3, 3, 'FD');
+  doc.roundedRect(77, 54, 56, 18, 3, 3, 'FD');
+  doc.roundedRect(140, 54, 56, 18, 3, 3, 'FD');
+
+  doc.setFontSize(12); doc.setFont('helvetica', 'bold'); doc.setTextColor(37, 99, 235);
+  doc.text(`${completados.length} / ${enviosDeSesion.length}`, 20, 63);
+  doc.text(`${promedioPaes} pts`, 83, 63);
+  doc.text(`${maxPaes} pts`, 146, 63);
+
+  doc.setFontSize(8); doc.setFont('helvetica', 'normal'); doc.setTextColor(100, 116, 139);
+  doc.text('ALUMNOS COMPLETADOS', 20, 68);
+  doc.text('PROMEDIO PAES GRUPO', 83, 68);
+  doc.text('PUNTAJE MÁXIMO PAES', 146, 68);
+
+  // Tabla de resultados
+  if (doc.autoTable) {
+    doc.autoTable({
+      startY: 78,
+      head: [['Alumno', 'Estado', 'Correctas', 'Incorrectas', 'Omitidas', 'Puntaje PAES', '% Logro']],
+      body: tableRows,
+      theme: 'striped',
+      headStyles: { fillColor: [15, 23, 42], textColor: 255, fontStyle: 'bold' },
+      styles: { fontSize: 9, cellPadding: 3 },
+      columnStyles: {
+        0: { cellWidth: 50 },
+        1: { cellWidth: 25 },
+        2: { cellWidth: 22 },
+        3: { cellWidth: 22 },
+        4: { cellWidth: 20 },
+        5: { cellWidth: 25, fontStyle: 'bold' },
+        6: { cellWidth: 20 }
+      }
+    });
+  }
+
+  // Pie de página
+  const pageCount = doc.internal.getNumberOfPages();
+  for (let i = 1; i <= pageCount; i++) {
+    doc.setPage(i);
+    doc.setFontSize(8);
+    doc.setTextColor(148, 163, 184);
+    doc.text(`Página ${i} de ${pageCount} — Sistema PAES Manager`, 105, 290, { align: 'center' });
+  }
+
+  doc.save(`reporte_PAES_${sesion.titulo.replace(/\s+/g, '_')}.pdf`);
+  showToast('📄 Reporte PDF generado correctamente');
 }
