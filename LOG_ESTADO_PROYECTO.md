@@ -1,47 +1,89 @@
-# 📌 Registro de Estado y Continuación — Proyecto PAES WEB
+# 📌 Registro de Estado y Continuación — Proyecto PAES WEB (Sysget-PAES-Manager)
 
-**Fecha:** 04 de Agosto, 2026  
-**Ubicación del Proyecto:** `C:\Proyectos\Proyecto PAES WEB`  
-**Estado Actual:** 🟢 Conectado a Firebase Firestore en la nube (`proyecto-paes-web-ia`)  
-
----
-
-## 🚀 ¿Dónde quedamos y qué está hecho?
-
-### 1. Base de Datos en la Nube (Firebase Firestore)
-- **Proyecto Firebase:** `proyecto-paes-web-ia` (Plan Spark 100% Gratuito, sin tarjeta de crédito).
-- **Archivo de Configuración:** `firebase-config.js` (con credenciales reales integradas y encapsulado en IIFE).
-- **Reglas de Seguridad:** Configuradas en Firebase Console para permitir lecturas/escrituras de sesiones y envíos de alumnos **sin permitir borrados ni modificaciones destructivas**.
-
-### 2. Correcciones de Código Aplicadas
-- **`app.js`**: Se corrigieron las referencias a `CATALOGO` no definido. Ahora usa `getMeta()` mapeando materias.
-- **`styles.css`**: Se agregaron reglas CSS explícitas para elementos `<select>` y `<option>` garantizando legibilidad en fondo oscuro.
-- **`catalogo_historico.json` y `scrape_paes.py`**: Se reclasificaron los archivos `temario...pdf` y `revista...pdf` para asignarles tipo `'temario'` y `'revista'`, separándolos de `tipo: 'prueba'`. Asimismo, se corrigió la clasificación de materias para que `matematica1` y `matematica2` se mapeen adecuadamente a `m1` y `m2`.
-- **`PAES_DB` y `app-responder.js` (Auto-Guardado en Tiempo Real):** Se implementó `PAES_DB.guardarBorrador()`. Cada alternativa marcada por el alumno se persiste automáticamente en tiempo real en Firestore/LocalStorage. Si el alumno cierra la ventana o recarga la página, al volver a abrir su enlace se restauran todas sus respuestas contestadas en progreso.
-- **`app-responder.js` y `responder.html` (Solucionario y Retroalimentación Pedagógica):**
-  - **Matemáticas (M1, M2, Matemática):** Muestra desglose **Paso a Paso** con la **Definición/Propiedad Utillizada** y desarrollo sistemático.
-  - **Demás Materias (Lectora, Ciencias, Historia, etc.):** Muestra la **Habilidad Evaluada**, la **Justificación de la Opción Correcta** y la **Argumentación del Error** en las opciones marcadas.
-- **Documentación en Obsidian:** Sincronizados los archivos `Ficha-Principal-PAES-Web.md` y `Arquitectura_Firebase.md` en `C:\Proyectos\Obsidian\01 - Proyectos\paes-web`.
+**Fecha de Última Actualización:** 05 de Agosto, 2026  
+**Ubicación Local del Proyecto:** `C:\Proyectos\Proyecto PAES WEB`  
+**Repositorio GitHub:** `https://github.com/leontestvirtual1-sketch/Sysget-PAES-Manager`  
+**Despliegue Producción (Vercel):** `https://sysget-paes-manager.vercel.app` (o subdominio asignado en Vercel)  
+**Base de Datos Nube:** 🟢 Firebase Firestore (`proyecto-paes-web-ia`)  
 
 ---
 
-## 🎯 Próximos Pasos al Volver a Encender el PC
+## 🚀 Resumen Ejecutivo y Novedades de la Versión Actual
 
-### Opción A: Probar Localmente
-1. Abrir la terminal PowerShell en `C:\Proyectos\Proyecto PAES WEB`.
-2. Iniciar el servidor local:
-   ```powershell
-   python -m http.server 8080
-   ```
-3. Abrir en el navegador: `http://localhost:8080`
+### 1. 🌐 Despliegue en la Nube y CI/CD Automático
+- **Repositorio en GitHub:** Proyecto alojado de forma segura en `leontestvirtual1-sketch/Sysget-PAES-Manager`. Credenciales de Firebase y correos aislados sin exposición en el código.
+- **Despliegue Continuo en Vercel:** Vinculado mediante GitHub Integration. Cada `git push` a la rama `main` activa una compilación y despliegue automático en tiempo real en Vercel.
+- **Configuración `vercel.json`:** Ajustes de rutas limpias (ej. `/responder`), cabeceras de seguridad y optimizaciones de caché para los archivos de gran tamaño (`explicaciones_paes.json` y `catalogo_historico.json`).
 
-### Opción B: Subir a Internet (100% Gratis 24/7)
-Para que los alumnos puedan ingresar sin depender de que tu PC esté encendido:
-- Desplegar en **Firebase Hosting** o **Vercel** para obtener una URL pública (ej: `https://proyecto-paes-web-ia.web.app`).
+### 2. 📊 Estandarización de Puntuación PAES (Sin Notas 1.0 - 7.0)
+- **Escala Oficial DEMRE (100 a 1000 puntos):** Se eliminó por completo el parámetro de "Exigencia (%)" y la escala de notas del sistema escolar chileno (1.0 a 7.0).
+- **Indicadores Clave (KPIs):** El panel del docente muestra en tiempo real:
+  - Alumnos Completados vs Total.
+  - Promedio de Puntaje PAES del Grupo.
+  - Puntaje Máximo Obtenido en la Sesión.
+- **Exportación Excel (CSV):** La descarga en CSV ahora reporta el **Puntaje PAES** y el **% Logro** de cada estudiante.
+
+### 3. 🗑️ Gestión y Eliminación Reactiva de Sesiones
+- **Panel de Gestión en Tiempo Real:** Reescritura completa del modal de eliminación utilizando `escucharSesiones()` de Firestore (`onSnapshot`).
+- **Eliminación Individual y Masiva:** Cada fila cuenta con su propio botón **🗑️ Borrar** instantáneo (con confirmación de seguridad), manteniendo la opción de eliminación por lotes vía checkbox.
+- **Limpieza Automática:** Si la sesión eliminada estaba activa en el panel de resultados, la vista se resetea de inmediato.
+
+### 4. 💾 Auto-Guardado en Tiempo Real y Restauración de Sesión (Portal Alumno)
+- **Persistencia Inmediata (`guardarBorrador`):** Cada alternativa seleccionada por el alumno se guarda al instante en Firestore/LocalStorage.
+- **Restauración de Estado:** Si el alumno cierra la pestaña, pierde conexión o recarga la página, al reingresar se restauran automáticamente todas sus respuestas previamente marcadas.
+
+### 5. 💡 Solucionario y Retroalimentación Pedagógica en el Portal Alumno
+- **Matemáticas (M1, M2, Matemática):** Al finalizar la prueba, el alumno visualiza la **Definición / Propiedad Clave** utilizada y el desarrollo **Paso a Paso** (Planteamiento, Desarrollo y Conclusión), además del **Diagnóstico del Error** específico si se equivocó en alguna opción.
+- **Demás Materias (Competencia Lectora, Ciencias, Historia, etc.):** Muestra la **Habilidad Evaluada**, la **Justificación de la Respuesta Correcta** y la **Argumentación Pedagógica del Error**.
+
+### 6. 📧 Formato de Correo Compatible con Outlook (Windows) y Dispositivos Móviles
+- **HTML Estructurado en Tablas Inline:** Maquetación compatible con el motor de renderizado de Microsoft Word/Outlook en Windows.
+- **Respaldo con Código Token:** Casilla destacada en verde con el código personal (`PAES-tok_...`) en tipografía `Courier New`, permitiendo al alumno ingresar manualmente si Outlook inhabilita los hipervínculos por políticas corporativas.
 
 ---
 
-## 💬 Cómo retomar la conversación con el Asistente
+## 🛠️ Comandos de Desarrollo y Despliegue
 
-Al volver a encender tu computador y abrir el editor, simplemente dile al asistente:
-> *"Continuemos con el proyecto PAES WEB desde el archivo LOG_ESTADO_PROYECTO.md"*
+### Para ejecutar en entorno local:
+```powershell
+cd "C:\Proyectos\Proyecto PAES WEB"
+python -m http.server 8080
+# Abrir en navegador: http://localhost:8080
+```
+
+### Para publicar cambios en Producción (Vercel):
+```powershell
+git -C "C:\Proyectos\Proyecto PAES WEB" add .
+git -C "C:\Proyectos\Proyecto PAES WEB" commit -m "Descripción del cambio"
+git -C "C:\Proyectos\Proyecto PAES WEB" push
+# Vercel actualizará la web pública automáticamente en 30 segundos
+```
+
+---
+
+## 📁 Estructura del Proyecto
+
+```
+Proyecto PAES WEB/
+├── .gitignore                  ← Excluye PDFs pesados (152MB) y scripts temporales
+├── vercel.json                 ← Configuración de Vercel (URLs limpias y caché)
+├── index.html                  ← Panel docente (descarga, mezcla, envío, resultados)
+├── responder.html              ← Portal de evaluación del alumno + Solucionario
+├── styles.css                  ← Estilos UI Dark Mode Premium (glassmorphism)
+├── app.js                      ← Lógica del docente y gestión de resultados PAES
+├── app-responder.js            ← Lógica del alumno, auto-guardado y retroalimentación
+├── firebase-config.js          ← Interfaz PAES_DB IIFE (Firestore + LocalStorage)
+├── email-service.js            ← Generador de plantillas HTML de correo para Outlook
+├── catalogo_historico.json     ← Catálogo de pruebas oficiales del DEMRE
+├── claves_y_escalas.json       ← Claves oficiales y tablas de conversión (100-1000 pts)
+├── explicaciones_paes.json     ← Base de datos de retroalimentación y solucionario paso a paso
+├── mezclar_paes.py             ← Motor de mezcla de páginas PDF de ensayos PAES
+└── LOG_ESTADO_PROYECTO.md      ← Este documento de registro de estado
+```
+
+---
+
+## 💬 Cómo continuar en próximas sesiones
+
+Al iniciar una nueva conversación con el Asistente AI, simplemente indica:
+> *"Continuemos con el proyecto PAES WEB basándote en LOG_ESTADO_PROYECTO.md"*
