@@ -17,6 +17,7 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.31/jspdf.plugin.autotable.min.js"></script>
   <script src="email-service.js" defer></script>
+  <script src="biblioteca.js" defer></script>
 </head>
 <body>
 
@@ -38,6 +39,7 @@
         <a href="#ensayos" class="nav-link" id="nav-ensayos" onclick="showSection('ensayos')">Mis Ensayos</a>
         <a href="#enviar" class="nav-link" id="nav-enviar" onclick="showSection('enviar')">Enviar Prueba</a>
         <a href="#resultados" class="nav-link" id="nav-resultados" onclick="showSection('resultados')">Resultados</a>
+        <a href="#biblioteca" class="nav-link" id="nav-biblioteca" onclick="showSection('biblioteca')">Biblioteca</a>
         <a href="#ayuda" class="nav-link" id="nav-ayuda" onclick="showSection('ayuda')">Ayuda</a>
       </nav>
       <div class="header-badge" id="firebase-status-badge" onclick="abrirConfigFirebase()" title="Haz clic para configurar credenciales de Firebase" style="background: rgba(245, 158, 11, 0.1); border: 1px solid rgba(245, 158, 11, 0.3); color: var(--gold); margin-right: 8px; cursor: pointer;">
@@ -595,6 +597,55 @@ historia_2025 · lectora_2024 · m1_2023 ...</div>
             <!-- Grid dinámico de correctas / incorrectas -->
           </div>
         </div>
+      </div>
+    </section>
+
+    <!-- ─── SECCIÓN: BIBLIOTECA DIGITAL ─────────────────── -->
+    <section class="section hidden" id="biblioteca">
+      <div class="section-header">
+        <div class="section-tag">Recursos Pedagógicos</div>
+        <h2 class="section-title">📚 Biblioteca Digital por Ejes Temáticos</h2>
+        <p class="section-desc">Accede a formularios oficiales, PPTs de clases, videos explicativos y miniensayos por eje temático DEMRE.</p>
+      </div>
+
+      <!-- Barra de herramientas: Tabs de Asignatura y Buscador -->
+      <div class="config-card" style="margin-bottom: 20px;">
+        <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 15px; margin-bottom: 15px;">
+          <!-- Tabs por Asignatura -->
+          <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+            <button class="btn btn-outline btn-asig-tab active" data-asig="matematica" onclick="cambiarAsignaturaBiblioteca('matematica')">🔴 Matemática (M1/M2)</button>
+            <button class="btn btn-outline btn-asig-tab" data-asig="lenguaje" onclick="cambiarAsignaturaBiblioteca('lenguaje')">🔵 Lenguaje</button>
+            <button class="btn btn-outline btn-asig-tab" data-asig="historia" onclick="cambiarAsignaturaBiblioteca('historia')">🟡 Historia y CC.SS.</button>
+            <button class="btn btn-outline btn-asig-tab" data-asig="ciencias" onclick="cambiarAsignaturaBiblioteca('ciencias')">🟢 Ciencias</button>
+          </div>
+
+          <!-- Contador -->
+          <span id="cant-materiales-badge" style="font-size: 12px; font-weight: 700; color: #a78bfa; background: rgba(124, 58, 237, 0.15); padding: 6px 14px; border-radius: 20px; border: 1px solid rgba(124, 58, 237, 0.3);">
+            Cargando materiales...
+          </span>
+        </div>
+
+        <!-- Buscador e Insumo por Eje -->
+        <div style="display: flex; gap: 15px; flex-wrap: wrap; align-items: center;">
+          <div style="flex: 1; min-width: 250px;">
+            <input type="text" class="form-input" placeholder="🔍 Buscar formulario, tema o clase..." oninput="buscarEnBiblioteca(this.value)">
+          </div>
+
+          <!-- Chips de Eje Temático -->
+          <div style="display: flex; gap: 6px; flex-wrap: wrap; align-items: center;">
+            <span style="font-size: 12px; color: #64748b; font-weight: 600; margin-right: 4px;">Eje DEMRE:</span>
+            <button class="chip-eje" data-eje="todos" onclick="filtrarEjeBiblioteca('todos')" style="background: rgba(124, 58, 237, 0.35); border: 1px solid rgba(124, 58, 237, 0.6); color: #fff; padding: 5px 12px; border-radius: 8px; font-size: 12px; font-weight: 600; cursor: pointer;">Todos</button>
+            <button class="chip-eje" data-eje="Números" onclick="filtrarEjeBiblioteca('Números')" style="background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.1); color: #94a3b8; padding: 5px 12px; border-radius: 8px; font-size: 12px; font-weight: 600; cursor: pointer;">Números</button>
+            <button class="chip-eje" data-eje="Álgebra y Funciones" onclick="filtrarEjeBiblioteca('Álgebra y Funciones')" style="background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.1); color: #94a3b8; padding: 5px 12px; border-radius: 8px; font-size: 12px; font-weight: 600; cursor: pointer;">Álgebra y Funciones</button>
+            <button class="chip-eje" data-eje="Geometría" onclick="filtrarEjeBiblioteca('Geometría')" style="background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.1); color: #94a3b8; padding: 5px 12px; border-radius: 8px; font-size: 12px; font-weight: 600; cursor: pointer;">Geometría</button>
+            <button class="chip-eje" data-eje="Datos y Azar" onclick="filtrarEjeBiblioteca('Datos y Azar')" style="background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.1); color: #94a3b8; padding: 5px 12px; border-radius: 8px; font-size: 12px; font-weight: 600; cursor: pointer;">Datos y Azar</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Grilla dinámica de materiales -->
+      <div id="grid-materiales-biblioteca" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 16px;">
+        <!-- Generado por biblioteca.js -->
       </div>
     </section>
 

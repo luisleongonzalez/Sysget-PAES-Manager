@@ -1,0 +1,128 @@
+[
+  {
+    "id": "num-01",
+    "asignatura": "matematica",
+    "eje": "Números",
+    "titulo": "Formulario - Números Racionales e Irracionales",
+    "tipo": "pdf",
+    "descripcion": "Resumen completo de conceptos clave, propiedades de conjuntos numéricos, potencias y raíces.",
+    "url": "#"
+  },
+  {
+    "id": "num-02",
+    "asignatura": "matematica",
+    "eje": "Números",
+    "titulo": "PPT Clase Resumen: Números (M2)",
+    "tipo": "ppt",
+    "descripcion": "Presentación explicativa con resolución guiada de logaritmos y números reales.",
+    "url": "#"
+  },
+  {
+    "id": "num-03",
+    "asignatura": "matematica",
+    "eje": "Números",
+    "titulo": "Clase Resolución Miniensayo 1 - Parte 1 (M1)",
+    "tipo": "video",
+    "descripcion": "Video resolución paso a paso de los primeros 25 ejercicios del miniensayo de Números M1.",
+    "url": "#"
+  },
+  {
+    "id": "num-04",
+    "asignatura": "matematica",
+    "eje": "Números",
+    "titulo": "Clase Maratón M1 - Números y Soluciones",
+    "tipo": "ejercicio",
+    "descripcion": "Guía de ejercitación intensiva con clave de respuestas corregidas para el eje de Números.",
+    "url": "#"
+  },
+  {
+    "id": "dat-01",
+    "asignatura": "matematica",
+    "eje": "Datos y Azar",
+    "titulo": "Formulario - Medidas de Tendencia Central y Rango",
+    "tipo": "pdf",
+    "descripcion": "Fórmulas oficiales para Media, Mediana, Moda y Rango en datos agrupados y no agrupados.",
+    "url": "#"
+  },
+  {
+    "id": "dat-02",
+    "asignatura": "matematica",
+    "eje": "Datos y Azar",
+    "titulo": "PPT Tablas de Frecuencia y Gráficos (M1)",
+    "tipo": "ppt",
+    "descripcion": "Diapositivas explicativas sobre representación de histogramas, polígonos de frecuencia y diagramas de cajón.",
+    "url": "#"
+  },
+  {
+    "id": "dat-03",
+    "asignatura": "matematica",
+    "eje": "Datos y Azar",
+    "titulo": "Clase en vivo | Probabilidad y Estadística Resumen",
+    "tipo": "video",
+    "descripcion": "Revisión completa de regla de Laplace, probabilidad condicional y diagramas de árbol.",
+    "url": "#"
+  },
+  {
+    "id": "alg-01",
+    "asignatura": "matematica",
+    "eje": "Álgebra y Funciones",
+    "titulo": "Formulario - Álgebra y Funciones PAES",
+    "tipo": "pdf",
+    "descripcion": "Síntesis de productos notables, factorizaciones, ecuación cuadrática y propiedades de función afín/lineal.",
+    "url": "#"
+  },
+  {
+    "id": "alg-02",
+    "asignatura": "matematica",
+    "eje": "Álgebra y Funciones",
+    "titulo": "PPT Clase 23 - Funciones Trigonométricas y Logarítmicas (M2)",
+    "tipo": "ppt",
+    "descripcion": "Presentación enfocada en dominio, recorrido y aplicaciones de modelos exponenciales y trigonométricos.",
+    "url": "#"
+  },
+  {
+    "id": "alg-03",
+    "asignatura": "matematica",
+    "eje": "Álgebra y Funciones",
+    "titulo": "Clase Maratón M1 - Álgebra y Sistemas de Ecuaciones",
+    "tipo": "video",
+    "descripcion": "Taller intensivo de ejercicios resueltos de modelación matemática y sistemas 2x2.",
+    "url": "#"
+  },
+  {
+    "id": "geo-01",
+    "asignatura": "matematica",
+    "eje": "Geometría",
+    "titulo": "Formulario - Transformaciones Isométricas y Vectores",
+    "tipo": "pdf",
+    "descripcion": "Hojas resumen de traslación, rotación, simetrías axial/central y regla de homotecia.",
+    "url": "#"
+  },
+  {
+    "id": "geo-02",
+    "asignatura": "matematica",
+    "eje": "Geometría",
+    "titulo": "PPT Clase: Semejanza y Teorema de Thales (M1/M2)",
+    "tipo": "ppt",
+    "descripcion": "Clase interactiva con demostraciones geométricas de triángulos semejantes y razones proporcionales.",
+    "url": "#"
+  },
+  {
+    "id": "geo-03",
+    "asignatura": "matematica",
+    "eje": "Geometría",
+    "titulo": "Clase en vivo | Cuerpos Geométricos y Razones Trigonométricas",
+    "tipo": "video",
+    "descripcion": "Resolución de problemas de área total, volumen de prismas/cilindros y seno, coseno y tangente.",
+    "url": "#"
+  },
+  {
+    "id": "geo-04",
+    "asignatura": "matematica",
+    "eje": "Geometría",
+    "titulo": "Eje Geometría - Guía de Ejercitación Intensiva",
+    "tipo": "ejercicio",
+    "descripcion": "Recopilación de 50 preguntas tipo PAES con pauta oficial explicada.",
+    "url": "#"
+  }
+]
