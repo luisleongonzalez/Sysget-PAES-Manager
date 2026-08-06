@@ -1,12 +1,16 @@
 ﻿/* ═══════════════════════════════════════════════════════════
    PAES MANAGER - BIBLIOTECA DIGITAL DE ESTUDIO
-   Parte 2: Gestión de URLs, Visor PDF, YouTube y Drive
+   Parte 2 & 3: Gestión de URLs, Visor PDF, YouTube, Drive
+   y Soporte Integrado de Carpeta Drive Oficial
    ═══════════════════════════════════════════════════════════ */
 
 let bibliotecaMateriales = [];
 let filtroAsignaturaActual = 'matematica';
 let filtroEjeActual = 'todos';
 let busquedaTextoActual = '';
+
+const DRIVE_FOLDER_OFICIAL_URL = 'https://drive.google.com/drive/folders/1pd6PXvuU87PVfLe0nevk_oWaWXBlVA4k?usp=sharing';
+const DRIVE_FOLDER_ID = '1pd6PXvuU87PVfLe0nevk_oWaWXBlVA4k';
 
 // URLs asignadas por el admin (guardadas en Firebase y localStorage como fallback)
 let urlsPersonalizadas = {};
@@ -173,14 +177,14 @@ function renderTarjetaMaterial(m) {
         </div>
         <h3 style="font-size:15px;font-weight:700;color:#f8fafc;margin:0 0 8px;line-height:1.4;">${m.titulo}</h3>
         <p style="font-size:12px;color:#94a3b8;margin:0 0 14px;line-height:1.5;">${m.descripcion}</p>
-        ${tieneUrl ? '' : '<div style="font-size:11px;color:#f59e0b;background:rgba(245,158,11,0.1);border:1px solid rgba(245,158,11,0.25);border-radius:6px;padding:6px 10px;margin-bottom:10px;">⚠️ Sin enlace · Haz clic en <strong>⚙️</strong> para asignar</div>'}
+        ${tieneUrl ? '' : '<div style="font-size:11px;color:#f59e0b;background:rgba(245,158,11,0.1);border:1px solid rgba(245,158,11,0.25);border-radius:6px;padding:6px 10px;margin-bottom:10px;">⚠️ Sin enlace propio · <a href="javascript:void(0)" onclick="abrirCarpetaDriveOficial()" style="color:#f59e0b;font-weight:700;">Buscar en Drive</a></div>'}
       </div>
       <div style="display:flex;gap:8px;margin-top:auto;flex-wrap:wrap;">
         <button onclick="abrirMaterial('${m.id}')"
-          style="flex:1;min-width:100px;text-align:center;background:${tieneUrl ? 'rgba(124,58,237,0.25)' : 'rgba(255,255,255,0.05)'};border:1px solid ${tieneUrl ? 'rgba(124,58,237,0.5)' : 'rgba(255,255,255,0.1)'};color:${tieneUrl ? '#c4b5fd' : '#64748b'};padding:8px 12px;border-radius:8px;font-size:12px;font-weight:600;cursor:pointer;">
-          ${tieneUrl ? '👁️ Ver / Descargar' : '🔒 Sin enlace'}
+          style="flex:1;min-width:100px;text-align:center;background:${tieneUrl ? 'rgba(124,58,237,0.25)' : 'rgba(16,185,129,0.15)'};border:1px solid ${tieneUrl ? 'rgba(124,58,237,0.5)' : 'rgba(16,185,129,0.3)'};color:${tieneUrl ? '#c4b5fd' : '#34d399'};padding:8px 12px;border-radius:8px;font-size:12px;font-weight:600;cursor:pointer;">
+          ${tieneUrl ? '👁️ Ver / Descargar' : '📂 Explorar en Drive'}
         </button>
-        <button onclick="abrirModalAsignarUrl('${m.id}', '${tituloEscapado}')" title="Asignar o cambiar URL"
+        <button onclick="abrirModalAsignarUrl('${m.id}', '${tituloEscapado}')" title="Asignar o cambiar URL específica"
           style="background:rgba(245,158,11,0.12);border:1px solid rgba(245,158,11,0.3);color:#f59e0b;padding:8px 12px;border-radius:8px;font-size:13px;cursor:pointer;">⚙️</button>
         <button id="fav-${m.id}" onclick="toggleFavoritoBiblioteca('${m.id}', this)"
           style="background:${esFav ? 'rgba(234,179,8,0.15)' : 'rgba(255,255,255,0.05)'};border:1px solid rgba(255,255,255,0.12);color:${esFav ? '#eab308' : '#e2e8f0'};padding:8px 12px;border-radius:8px;cursor:pointer;">⭐</button>
@@ -188,27 +192,41 @@ function renderTarjetaMaterial(m) {
     </div>`;
 }
 
-/* Abrir material */
+/* Abrir material o Carpeta Drive */
 function abrirMaterial(id) {
   const material = bibliotecaMateriales.find(m => m.id === id);
   if (!material) return;
   const url = getUrlEfectiva(material);
-  if (!url || url === '#') { abrirModalAsignarUrl(id, material.titulo); return; }
+
+  if (!url || url === '#') {
+    // Si no tiene URL específica, abrir la carpeta oficial de Drive
+    abrirCarpetaDriveOficial();
+    return;
+  }
 
   if (url.includes('youtube.com') || url.includes('youtu.be')) {
     const videoId = extraerYoutubeId(url);
-    if (videoId) { abrirVisorModal({ titulo: material.titulo, embedUrl: 'https://www.youtube.com/embed/' + videoId + '?autoplay=1' }); return; }
+    if (videoId) { abrirVisorModal({ titulo: material.titulo, embedUrl: 'https://www.youtube.com/embed/' + videoId + '?autoplay=1', externalUrl: url }); return; }
   }
   if (url.includes('drive.google.com')) {
-    abrirVisorModal({ titulo: material.titulo, embedUrl: convertirDriveAEmbed(url) }); return;
+    abrirVisorModal({ titulo: material.titulo, embedUrl: convertirDriveAEmbed(url), externalUrl: url }); return;
   }
   if (url.includes('onedrive.live.com') || url.includes('1drv.ms')) {
-    abrirVisorModal({ titulo: material.titulo, embedUrl: url.replace('/view', '/embed') }); return;
+    abrirVisorModal({ titulo: material.titulo, embedUrl: url.replace('/view', '/embed'), externalUrl: url }); return;
   }
   if (url.toLowerCase().includes('.pdf')) {
-    abrirVisorModal({ titulo: material.titulo, embedUrl: url }); return;
+    abrirVisorModal({ titulo: material.titulo, embedUrl: url, externalUrl: url }); return;
   }
   window.open(url, '_blank');
+}
+
+function abrirCarpetaDriveOficial() {
+  const embedUrl = 'https://drive.google.com/embeddedfolderview?id=' + DRIVE_FOLDER_ID + '#grid';
+  abrirVisorModal({
+    titulo: '📂 Carpeta Oficial de Materiales (Google Drive)',
+    embedUrl: embedUrl,
+    externalUrl: DRIVE_FOLDER_OFICIAL_URL
+  });
 }
 
 function extraerYoutubeId(url) {
@@ -217,6 +235,10 @@ function extraerYoutubeId(url) {
 }
 
 function convertirDriveAEmbed(url) {
+  if (url.includes('/folders/')) {
+    const mFolder = url.match(/\/folders\/([a-zA-Z0-9_-]+)/);
+    if (mFolder) return 'https://drive.google.com/embeddedfolderview?id=' + mFolder[1] + '#grid';
+  }
   const m = url.match(/\/file\/d\/([a-zA-Z0-9_-]+)/);
   if (m) return 'https://drive.google.com/file/d/' + m[1] + '/preview';
   const m2 = url.match(/[?&]id=([a-zA-Z0-9_-]+)/);
@@ -225,10 +247,20 @@ function convertirDriveAEmbed(url) {
 }
 
 /* Modal visor */
-function abrirVisorModal({ titulo, embedUrl }) {
+function abrirVisorModal({ titulo, embedUrl, externalUrl }) {
   const modal = document.getElementById('modal-visor-biblioteca');
   if (!modal) return;
   document.getElementById('modal-visor-titulo').textContent = titulo;
+
+  const headerActions = document.getElementById('modal-visor-header-actions');
+  if (headerActions) {
+    let extBtn = '';
+    if (externalUrl) {
+      extBtn = `<a href="${externalUrl}" target="_blank" style="background:rgba(16,185,129,0.2);border:1px solid rgba(16,185,129,0.4);color:#34d399;padding:6px 14px;border-radius:8px;text-decoration:none;font-size:12px;font-weight:700;margin-right:10px;display:inline-flex;align-items:center;gap:6px;">🔗 Abrir en Google Drive</a>`;
+    }
+    headerActions.innerHTML = extBtn + '<button onclick="cerrarVisorBiblioteca()" style="background:rgba(239,68,68,0.15);border:1px solid rgba(239,68,68,0.3);color:#f87171;padding:6px 14px;border-radius:8px;cursor:pointer;font-size:13px;font-weight:600;">✕ Cerrar</button>';
+  }
+
   document.getElementById('modal-visor-content').innerHTML =
     '<iframe src="' + embedUrl + '" style="width:100%;height:75vh;border:none;border-radius:8px;background:#000;" allow="autoplay;fullscreen" allowfullscreen></iframe>';
   modal.style.display = 'flex';
@@ -293,7 +325,9 @@ function inyectarModalBiblioteca() {
             <span style="font-size:20px;">📚</span>
             <span id="modal-visor-titulo" style="font-size:16px;font-weight:700;color:#f8fafc;"></span>
           </div>
-          <button onclick="cerrarVisorBiblioteca()" style="background:rgba(239,68,68,0.15);border:1px solid rgba(239,68,68,0.3);color:#f87171;padding:6px 14px;border-radius:8px;cursor:pointer;font-size:13px;font-weight:600;">✕ Cerrar</button>
+          <div id="modal-visor-header-actions" style="display:flex;align-items:center;">
+            <button onclick="cerrarVisorBiblioteca()" style="background:rgba(239,68,68,0.15);border:1px solid rgba(239,68,68,0.3);color:#f87171;padding:6px 14px;border-radius:8px;cursor:pointer;font-size:13px;font-weight:600;">✕ Cerrar</button>
+          </div>
         </div>
         <div id="modal-visor-content" style="padding:0;background:#000;"></div>
       </div>
