@@ -124,5 +124,131 @@
     "tipo": "ejercicio",
     "descripcion": "Recopilación de 50 preguntas tipo PAES con pauta oficial explicada.",
     "url": "#"
+  },
+  {
+    "id": "fis-01",
+    "asignatura": "fisica",
+    "eje": "Mecánica",
+    "titulo": "Formulario - Cinemática y Dinámica",
+    "tipo": "pdf",
+    "descripcion": "Fórmulas de MRU, MRUA, leyes de Newton, trabajo y energía con ejemplos resueltos.",
+    "url": "#"
+  },
+  {
+    "id": "fis-02",
+    "asignatura": "fisica",
+    "eje": "Mecánica",
+    "titulo": "PPT Clase: Movimiento Rectilíneo Uniforme y Acelerado",
+    "tipo": "ppt",
+    "descripcion": "Presentación con gráficos v-t y d-t, ejercicios de interpretación y aplicación a contextos PAES.",
+    "url": "#"
+  },
+  {
+    "id": "fis-03",
+    "asignatura": "fisica",
+    "eje": "Electricidad y Magnetismo",
+    "titulo": "Formulario - Ley de Ohm y Circuitos Eléctricos",
+    "tipo": "pdf",
+    "descripcion": "Resumen de resistencias en serie/paralelo, potencia eléctrica y ley de Ohm con problemas tipo.",
+    "url": "#"
+  },
+  {
+    "id": "fis-04",
+    "asignatura": "fisica",
+    "eje": "Termodinámica",
+    "titulo": "PPT Clase: Calor, Temperatura y Leyes de la Termodinámica",
+    "tipo": "ppt",
+    "descripcion": "Explicación visual de conducción, convección, radiación y cambios de estado.",
+    "url": "#"
+  },
+  {
+    "id": "fis-05",
+    "asignatura": "fisica",
+    "eje": "Óptica y Ondas",
+    "titulo": "Guía Ejercitación - Óptica Geométrica y Ondas",
+    "tipo": "ejercicio",
+    "descripcion": "30 preguntas tipo PAES de reflexión, refracción, lentes convergentes/divergentes y ondas mecánicas.",
+    "url": "#"
+  },
+  {
+    "id": "qui-01",
+    "asignatura": "quimica",
+    "eje": "Materia y sus Transformaciones",
+    "titulo": "Formulario - Tabla Periódica y Estructura Atómica",
+    "tipo": "pdf",
+    "descripcion": "Resumen de propiedades periódicas, configuración electrónica y tipos de enlace químico.",
+    "url": "#"
+  },
+  {
+    "id": "qui-02",
+    "asignatura": "quimica",
+    "eje": "Reacciones Químicas",
+    "titulo": "PPT Clase: Estequiometría y Balanceo de Ecuaciones",
+    "tipo": "ppt",
+    "descripcion": "Presentación con método de balanceo, cálculo de moles y rendimiento de reacciones químicas.",
+    "url": "#"
+  },
+  {
+    "id": "qui-03",
+    "asignatura": "quimica",
+    "eje": "Solución y Mezclas",
+    "titulo": "Formulario - Concentración de Soluciones",
+    "tipo": "pdf",
+    "descripcion": "Cálculos de molaridad, molalidad, % en masa y % en volumen con ejercicios resueltos.",
+    "url": "#"
+  },
+  {
+    "id": "qui-04",
+    "asignatura": "quimica",
+    "eje": "Química Orgánica",
+    "titulo": "PPT Clase: Hidrocarburos y Grupos Funcionales",
+    "tipo": "ppt",
+    "descripcion": "Nomenclatura de alcanos, alquenos, alquinos, alcoholes, ácidos carboxílicos y aminas.",
+    "url": "#"
+  },
+  {
+    "id": "qui-05",
+    "asignatura": "quimica",
+    "eje": "Reacciones Químicas",
+    "titulo": "Guía Miniensayo - Ácidos y Bases / pH",
+    "tipo": "ejercicio",
+    "descripcion": "25 preguntas tipo PAES sobre escala de pH, indicadores ácido-base y reacciones de neutralización.",
+    "url": "#"
+  },
+  {
+    "id": "bio-01",
+    "asignatura": "biologia",
+    "eje": "Biología Celular",
+    "titulo": "Formulario - Célula: Organelos y Funciones",
+    "tipo": "pdf",
+    "descripcion": "Resumen visual comparativo de célula procarionte vs eucarionte, organelos y procesos de transporte.",
+    "url": "#"
+  },
+  {
+    "id": "bio-02",
+    "asignatura": "biologia",
+    "eje": "Genética y Evolución",
+    "titulo": "PPT Clase: Leyes de Mendel y Herencia Genética",
+    "tipo": "ppt",
+    "descripcion": "Cuadros de Punnett, grupos sanguíneos, herencia ligada al sexo y codominancia con ejercicios.",
+    "url": "#"
+  },
+  {
+    "id": "bio-03",
+    "asignatura": "biologia",
+    "eje": "Fisiología",
+    "titulo": "Guía Ejercitación - Sistemas Orgánicos Humanos",
+    "tipo": "ejercicio",
+    "descripcion": "30 preguntas PAES sobre sistema circulatorio, digestivo, nervioso, endocrino e inmune.",
+    "url": "#"
+  },
+  {
+    "id": "bio-04",
+    "asignatura": "biologia",
+    "eje": "Ecología",
+    "titulo": "PPT Clase: Ecosistemas y Flujos de Energía",
+    "tipo": "ppt",
+    "descripcion": "Cadenas alimentarias, pirámides ecológicas, ciclos biogeoquímicos y relaciones interespecíficas.",
+    "url": "#"
   }
 ]

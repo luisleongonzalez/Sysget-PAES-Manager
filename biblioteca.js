@@ -8,8 +8,20 @@ let filtroAsignaturaActual = 'matematica';
 let filtroEjeActual = 'todos';
 let busquedaTextoActual = '';
 
+// Ejes temáticos oficiales DEMRE por asignatura
+const EJES_POR_ASIGNATURA = {
+  matematica: ['Números', 'Álgebra y Funciones', 'Geometría', 'Datos y Azar'],
+  lenguaje:   ['Comprensión Lectora', 'Vocabulario', 'Textos Literarios', 'Textos No Literarios'],
+  historia:   ['Historia de Chile', 'Formación Ciudadana', 'Economía', 'Mundo Global'],
+  biologia:   ['Biología Celular', 'Genética y Evolución', 'Fisiología', 'Ecología'],
+  fisica:     ['Mecánica', 'Termodinámica', 'Electricidad y Magnetismo', 'Óptica y Ondas'],
+  quimica:    ['Materia y sus Transformaciones', 'Reacciones Químicas', 'Química Orgánica', 'Solución y Mezclas'],
+  tp:         ['Ciencias para la Vida', 'Tecnología y Sociedad', 'Sistemas de Producción']
+};
+
 document.addEventListener('DOMContentLoaded', () => {
   cargarCatalogoBiblioteca();
+  renderChipsEje('matematica'); // Inicializar chips por defecto
 });
 
 /**
@@ -44,7 +56,31 @@ function cambiarAsignaturaBiblioteca(asig) {
     }
   });
 
+  renderChipsEje(asig);
   renderBiblioteca();
+}
+
+/**
+ * Renderiza los chips de Eje Temático para la asignatura seleccionada
+ */
+function renderChipsEje(asig) {
+  const container = document.getElementById('chips-eje-container');
+  if (!container) return;
+
+  const ejes = EJES_POR_ASIGNATURA[asig] || [];
+
+  container.innerHTML = `
+    <span style="font-size: 12px; color: #64748b; font-weight: 600; margin-right: 4px;">Eje DEMRE:</span>
+    <button class="chip-eje" data-eje="todos" onclick="filtrarEjeBiblioteca('todos')"
+      style="background: rgba(124, 58, 237, 0.35); border: 1px solid rgba(124, 58, 237, 0.6); color: #fff; padding: 5px 12px; border-radius: 8px; font-size: 12px; font-weight: 600; cursor: pointer;">
+      Todos
+    </button>
+    ${ejes.map(eje => `
+    <button class="chip-eje" data-eje="${eje}" onclick="filtrarEjeBiblioteca('${eje}')"
+      style="background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); color: #94a3b8; padding: 5px 12px; border-radius: 8px; font-size: 12px; font-weight: 600; cursor: pointer;">
+      ${eje}
+    </button>`).join('')}
+  `;
 }
 
 /**

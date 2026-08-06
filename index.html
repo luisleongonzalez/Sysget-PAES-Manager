@@ -616,7 +616,10 @@ historia_2025 · lectora_2024 · m1_2023 ...</div>
             <button class="btn btn-outline btn-asig-tab active" data-asig="matematica" onclick="cambiarAsignaturaBiblioteca('matematica')">🔴 Matemática (M1/M2)</button>
             <button class="btn btn-outline btn-asig-tab" data-asig="lenguaje" onclick="cambiarAsignaturaBiblioteca('lenguaje')">🔵 Lenguaje</button>
             <button class="btn btn-outline btn-asig-tab" data-asig="historia" onclick="cambiarAsignaturaBiblioteca('historia')">🟡 Historia y CC.SS.</button>
-            <button class="btn btn-outline btn-asig-tab" data-asig="ciencias" onclick="cambiarAsignaturaBiblioteca('ciencias')">🟢 Ciencias</button>
+            <button class="btn btn-outline btn-asig-tab" data-asig="biologia" onclick="cambiarAsignaturaBiblioteca('biologia')">🧬 Biología</button>
+            <button class="btn btn-outline btn-asig-tab" data-asig="fisica" onclick="cambiarAsignaturaBiblioteca('fisica')">⚡ Física</button>
+            <button class="btn btn-outline btn-asig-tab" data-asig="quimica" onclick="cambiarAsignaturaBiblioteca('quimica')">🧪 Química</button>
+            <button class="btn btn-outline btn-asig-tab" data-asig="tp" onclick="cambiarAsignaturaBiblioteca('tp')">🔧 Técnico Profesional</button>
           </div>
 
           <!-- Contador -->
@@ -631,14 +634,9 @@ historia_2025 · lectora_2024 · m1_2023 ...</div>
             <input type="text" class="form-input" placeholder="🔍 Buscar formulario, tema o clase..." oninput="buscarEnBiblioteca(this.value)">
           </div>
 
-          <!-- Chips de Eje Temático -->
-          <div style="display: flex; gap: 6px; flex-wrap: wrap; align-items: center;">
-            <span style="font-size: 12px; color: #64748b; font-weight: 600; margin-right: 4px;">Eje DEMRE:</span>
-            <button class="chip-eje" data-eje="todos" onclick="filtrarEjeBiblioteca('todos')" style="background: rgba(124, 58, 237, 0.35); border: 1px solid rgba(124, 58, 237, 0.6); color: #fff; padding: 5px 12px; border-radius: 8px; font-size: 12px; font-weight: 600; cursor: pointer;">Todos</button>
-            <button class="chip-eje" data-eje="Números" onclick="filtrarEjeBiblioteca('Números')" style="background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.1); color: #94a3b8; padding: 5px 12px; border-radius: 8px; font-size: 12px; font-weight: 600; cursor: pointer;">Números</button>
-            <button class="chip-eje" data-eje="Álgebra y Funciones" onclick="filtrarEjeBiblioteca('Álgebra y Funciones')" style="background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.1); color: #94a3b8; padding: 5px 12px; border-radius: 8px; font-size: 12px; font-weight: 600; cursor: pointer;">Álgebra y Funciones</button>
-            <button class="chip-eje" data-eje="Geometría" onclick="filtrarEjeBiblioteca('Geometría')" style="background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.1); color: #94a3b8; padding: 5px 12px; border-radius: 8px; font-size: 12px; font-weight: 600; cursor: pointer;">Geometría</button>
-            <button class="chip-eje" data-eje="Datos y Azar" onclick="filtrarEjeBiblioteca('Datos y Azar')" style="background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.1); color: #94a3b8; padding: 5px 12px; border-radius: 8px; font-size: 12px; font-weight: 600; cursor: pointer;">Datos y Azar</button>
+          <!-- Chips de Eje Temático (generado dinámicamente por biblioteca.js) -->
+          <div id="chips-eje-container" style="display: flex; gap: 6px; flex-wrap: wrap; align-items: center;">
+            <!-- Renderizado dinámico según asignatura seleccionada -->
           </div>
         </div>
       </div>
