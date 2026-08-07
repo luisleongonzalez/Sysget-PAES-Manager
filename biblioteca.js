@@ -1,4 +1,4 @@
-﻿/* ═══════════════════════════════════════════════════════════
+/* ═══════════════════════════════════════════════════════════
    PAES MANAGER - BIBLIOTECA DIGITAL DE ESTUDIO
    Parte 2 & 3: Gestión de URLs, Visor PDF, YouTube, Drive
    y Soporte Integrado de Carpeta Drive Oficial
@@ -192,32 +192,56 @@ function renderTarjetaMaterial(m) {
     </div>`;
 }
 
-/* Abrir material o Carpeta Drive */
+/* Abrir material o Carpeta Drive en Visor Modal Propio SysGet */
 function abrirMaterial(id) {
   const material = bibliotecaMateriales.find(m => m.id === id);
   if (!material) return;
   const url = getUrlEfectiva(material);
 
   if (!url || url === '#') {
-    // Si no tiene URL específica, abrir la carpeta oficial de Drive
     abrirCarpetaDriveOficial();
     return;
   }
 
+  // 1. Videos de YouTube -> Visor de Video SysGet
   if (url.includes('youtube.com') || url.includes('youtu.be')) {
     const videoId = extraerYoutubeId(url);
-    if (videoId) { abrirVisorModal({ titulo: material.titulo, embedUrl: 'https://www.youtube.com/embed/' + videoId + '?autoplay=1', externalUrl: url }); return; }
+    if (videoId) { 
+      abrirVisorModal({ 
+        titulo: material.titulo, 
+        embedUrl: 'https://www.youtube.com/embed/' + videoId + '?autoplay=1', 
+        externalUrl: null 
+      }); 
+      return; 
+    }
   }
+
+  // 2. Archivos de Google Drive -> Visor Google Drive Embed
   if (url.includes('drive.google.com')) {
-    abrirVisorModal({ titulo: material.titulo, embedUrl: convertirDriveAEmbed(url), externalUrl: url }); return;
+    abrirVisorModal({ 
+      titulo: material.titulo, 
+      embedUrl: convertirDriveAEmbed(url), 
+      externalUrl: url 
+    }); 
+    return;
   }
-  if (url.includes('onedrive.live.com') || url.includes('1drv.ms')) {
-    abrirVisorModal({ titulo: material.titulo, embedUrl: url.replace('/view', '/embed'), externalUrl: url }); return;
-  }
+
+  // 3. Archivos PDF directos o locales -> Visor PDF Interno
   if (url.toLowerCase().includes('.pdf')) {
-    abrirVisorModal({ titulo: material.titulo, embedUrl: url, externalUrl: url }); return;
+    abrirVisorModal({ 
+      titulo: material.titulo, 
+      embedUrl: url, 
+      externalUrl: null 
+    }); 
+    return;
   }
-  window.open(url, '_blank');
+
+  // 4. Cualquier otro material -> Abrir en Visor Modal Iframe Propio SysGet
+  abrirVisorModal({ 
+    titulo: material.titulo, 
+    embedUrl: url, 
+    externalUrl: null 
+  });
 }
 
 function abrirCarpetaDriveOficial() {
