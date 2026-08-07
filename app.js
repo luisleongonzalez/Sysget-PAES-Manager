@@ -250,6 +250,7 @@ function showSection(id) {
   // Acciones por sección
   if (id === 'ensayos') renderEnsayos();
   if (id === 'mezcla') actualizarComando();
+  if (id === 'generar' && typeof renderGeneradorEvaluacion === 'function') renderGeneradorEvaluacion();
 
   // Scroll al contenido
   window.scrollTo({ top: 0, behavior: 'smooth' });

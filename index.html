@@ -40,6 +40,7 @@
         <a href="#enviar" class="nav-link" id="nav-enviar" onclick="showSection('enviar')">Enviar Prueba</a>
         <a href="#resultados" class="nav-link" id="nav-resultados" onclick="showSection('resultados')">Resultados</a>
         <a href="#biblioteca" class="nav-link" id="nav-biblioteca" onclick="showSection('biblioteca')">Biblioteca</a>
+        <a href="#generar" class="nav-link" id="nav-generar" onclick="showSection('generar')">Generar Evaluación</a>
         <a href="#ayuda" class="nav-link" id="nav-ayuda" onclick="showSection('ayuda')">Ayuda</a>
       </nav>
       <div class="header-badge" id="firebase-status-badge" onclick="abrirConfigFirebase()" title="Haz clic para configurar credenciales de Firebase" style="background: rgba(245, 158, 11, 0.1); border: 1px solid rgba(245, 158, 11, 0.3); color: var(--gold); margin-right: 8px; cursor: pointer;">
@@ -652,6 +653,37 @@ historia_2025 · lectora_2024 · m1_2023 ...</div>
       </div>
     </section>
 
+    <!-- ═══════════════════════════════════════════
+         SECCIÓN: GENERAR EVALUACIÓN PERSONALIZADA
+    ═══════════════════════════════════════════ -->
+    <section id="sec-generar" class="section hidden">
+      <div class="section-header" style="text-align:center; margin-bottom: 24px;">
+        <span class="badge" style="background: rgba(37, 99, 235, 0.15); border: 1px solid rgba(37, 99, 235, 0.3); color: #93c5fd; padding: 6px 16px; border-radius: 20px; font-weight: 700; font-size: 12px; text-transform: uppercase; letter-spacing: 1px;">
+          Sello Institucional PAES Manager
+        </span>
+        <h2 class="section-title" style="margin-top: 8px; font-size: 28px; font-weight: 800; color: #f8fafc;">
+          Generar Evaluación Personalizada
+        </h2>
+        <p class="section-desc" style="color: #94a3b8; font-size: 14px; max-width: 680px; margin: 0 auto;">
+          Haz clic en las diferentes categorías para personalizar los contenidos, tiempo y cantidad de preguntas de la evaluación.
+        </p>
+      </div>
+
+      <!-- Pestañas de Asignatura para Generar -->
+      <div style="display: flex; justify-content: center; gap: 10px; margin-bottom: 24px; flex-wrap: wrap;">
+        <button class="btn btn-outline btn-gen-tab active" data-asig="matematica" onclick="cambiarAsignaturaGenerador('matematica')" style="padding: 10px 20px; font-weight: 700;">🔴 Matemática</button>
+        <button class="btn btn-outline btn-gen-tab" data-asig="lenguaje" onclick="cambiarAsignaturaGenerador('lenguaje')" style="padding: 10px 20px; font-weight: 700;">🔵 Lenguaje</button>
+        <button class="btn btn-outline btn-gen-tab" data-asig="historia" onclick="cambiarAsignaturaGenerador('historia')" style="padding: 10px 20px; font-weight: 700;">🟡 Historia</button>
+        <button class="btn btn-outline btn-gen-tab" data-asig="ciencias" onclick="cambiarAsignaturaGenerador('ciencias')" style="padding: 10px 20px; font-weight: 700;">🧬 Ciencias</button>
+      </div>
+
+      <!-- Grilla Principal del Generador (2 Columnas: Configurar y Personalizar) -->
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 20px; max-width: 1100px; margin: 0 auto;">
+        <div id="gen-config-col"></div>
+        <div id="gen-personal-col"></div>
+      </div>
+    </section>
+
   </main>
 
   <!-- ─── MODAL QR CODE ─────────────────── -->
@@ -700,5 +732,7 @@ historia_2025 · lectora_2024 · m1_2023 ...</div>
   <!-- Firebase Config / Database Interface -->
   <script src="firebase-config.js"></script>
   <script src="app.js"></script>
+  <script src="biblioteca.js"></script>
+  <script src="generador-evaluaciones.js"></script>
 </body>
 </html>
