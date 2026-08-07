@@ -1,7 +1,7 @@
 /**
- * PAES MANAGER - GENERADOR DE EVALUACIONES PERSONALIZADAS
- * --------------------------------------------------------
- * Sello e Insignia Institucional PAES Manager
+ * SYSGET SUITE · PAES MANAGER
+ * Generador de Evaluaciones Personalizadas por Eje y Habilidades DEMRE
+ * Sello Corporativo SysGet Software Educativo
  */
 
 let asigGeneradorActual = 'matematica';
@@ -159,18 +159,21 @@ const estructuraEjesGenerador = {
   }
 };
 
-/* Inicializador */
-document.addEventListener('DOMContentLoaded', () => {
+/* Auto-inicializar siempre */
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', renderGeneradorEvaluacion);
+} else {
   renderGeneradorEvaluacion();
-});
+}
+setTimeout(renderGeneradorEvaluacion, 300);
 
 function cambiarAsignaturaGenerador(asig) {
   asigGeneradorActual = asig;
 
-  // Actualizar botones de pestaña
   document.querySelectorAll('.btn-gen-tab').forEach(b => {
-    b.classList.toggle('active', b.dataset.asig === asig);
-    if (b.dataset.asig === asig) {
+    const isAct = b.dataset.asig === asig;
+    b.classList.toggle('active', isAct);
+    if (isAct) {
       b.style.background = 'rgba(37, 99, 235, 0.25)';
       b.style.borderColor = 'rgba(37, 99, 235, 0.6)';
       b.style.color = '#93c5fd';
@@ -193,14 +196,14 @@ function renderGeneradorEvaluacion() {
 
   // Render Columna 1: Configurar
   configContainer.innerHTML = `
-    <div style="background:rgba(15,23,42,0.6);border:1px solid rgba(255,255,255,0.08);border-radius:16px;padding:24px;">
-      <h3 style="font-size:14px;font-weight:700;color:#94a3b8;text-transform:uppercase;letter-spacing:0.5px;margin-bottom:16px;display:flex;align-items:center;gap:8px;">
-        ⚙️ Configurar Prueba
+    <div style="background:rgba(15,23,42,0.7);border:1px solid rgba(99,152,255,0.15);border-radius:16px;padding:24px;box-shadow:0 8px 32px rgba(0,0,0,0.3);">
+      <h3 style="font-size:14px;font-weight:700;color:#93c5fd;text-transform:uppercase;letter-spacing:0.5px;margin-bottom:16px;display:flex;align-items:center;gap:8px;">
+        ⚙️ Configurar Evaluación
       </h3>
 
       <div style="margin-bottom:20px;">
         <label style="display:block;font-size:12px;font-weight:600;color:#cbd5e1;margin-bottom:8px;">Enfoque / Nivel PAES</label>
-        <select id="gen-select-nivel" style="width:100%;padding:10px 14px;background:#0f172a;border:1px solid rgba(255,255,255,0.15);border-radius:8px;color:#f8fafc;font-size:13px;">
+        <select id="gen-select-nivel" style="width:100%;padding:11px 14px;background:#0f172a;border:1px solid rgba(255,255,255,0.15);border-radius:8px;color:#f8fafc;font-size:13px;outline:none;">
           ${data.niveles.map(n => `<option value="${n.id}">${n.nombre}</option>`).join('')}
         </select>
       </div>
@@ -238,7 +241,7 @@ function renderGeneradorEvaluacion() {
               <input type="radio" name="gen-preset-preset" value="custom" onchange="toggleCustomTime(true)">
               <span style="font-weight:700;font-size:13px;color:#f8fafc;">Personalizado</span>
             </div>
-            <div id="gen-custom-inputs" style="display:none;gap:6px;">
+            <div id="gen-custom-inputs" style="display:none;gap:6px;align-items:center;">
               <input type="number" id="gen-input-preg" value="10" min="1" max="80" style="width:55px;padding:4px 6px;background:#0f172a;border:1px solid rgba(255,255,255,0.2);border-radius:6px;color:#fff;font-size:12px;text-align:center;">
               <span style="color:#94a3b8;font-size:12px;">preg /</span>
               <input type="number" id="gen-input-min" value="20" min="1" max="200" style="width:55px;padding:4px 6px;background:#0f172a;border:1px solid rgba(255,255,255,0.2);border-radius:6px;color:#fff;font-size:12px;text-align:center;">
@@ -253,11 +256,11 @@ function renderGeneradorEvaluacion() {
 
   // Render Columna 2: Personalizar Ejes
   personalContainer.innerHTML = `
-    <div style="background:rgba(15,23,42,0.6);border:1px solid rgba(255,255,255,0.08);border-radius:16px;padding:24px;">
-      <h3 style="font-size:14px;font-weight:700;color:#94a3b8;text-transform:uppercase;letter-spacing:0.5px;margin-bottom:8px;display:flex;align-items:center;gap:8px;">
+    <div style="background:rgba(15,23,42,0.7);border:1px solid rgba(99,152,255,0.15);border-radius:16px;padding:24px;box-shadow:0 8px 32px rgba(0,0,0,0.3);">
+      <h3 style="font-size:14px;font-weight:700;color:#93c5fd;text-transform:uppercase;letter-spacing:0.5px;margin-bottom:4px;display:flex;align-items:center;gap:8px;">
         🎯 Personalizar Ejes y Habilidades DEMRE
       </h3>
-      <p style="font-size:12px;color:#64748b;margin-bottom:16px;">Selecciona las categorías y temas que deseas incluir en la evaluación.</p>
+      <p style="font-size:12px;color:#64748b;margin-bottom:16px;">SysGet Suite · Selecciona las categorías para formatear la evaluación.</p>
 
       <div style="display:flex;flex-direction:column;gap:14px;">
         ${data.ejes.map((eje, eIdx) => `
@@ -285,7 +288,7 @@ function renderGeneradorEvaluacion() {
           <span>🚀 REALIZAR EN LÍNEA</span>
         </button>
         <button onclick="ejecutarGeneracionEvaluacion('pdf')" style="flex:1;min-width:180px;background:rgba(37,99,235,0.2);border:1px solid rgba(37,99,235,0.5);color:#93c5fd;padding:14px;border-radius:10px;font-weight:700;font-size:14px;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;">
-          <span>📄 GENERAR EVALUACIÓN PDF (Sello PAES)</span>
+          <span>📄 GENERAR EVALUACIÓN PDF (SysGet)</span>
         </button>
       </div>
     </div>
@@ -303,7 +306,7 @@ function toggleMasterEje(eIdx, isChecked) {
 
 function ejecutarGeneracionEvaluacion(modo) {
   const nivelSelect = document.getElementById('gen-select-nivel');
-  const nombreNivel = nivelSelect ? nivelSelect.options[nivelSelect.selectedIndex].text : 'PAES Manager';
+  const nombreNivel = nivelSelect ? nivelSelect.options[nivelSelect.selectedIndex].text : 'SysGet PAES Manager';
   
   let totalPreguntas = 65;
   let totalMinutos = 140;
@@ -317,15 +320,10 @@ function ejecutarGeneracionEvaluacion(modo) {
   }
 
   if (modo === 'online') {
-    // Iniciar ensayo online con sello PAES Manager
     showSection('enviar');
-    const selectSesion = document.getElementById('select-sesiones-activas');
-    if (selectSesion) {
-      alert(`🎉 Evaluación Generada con Éxito\n\n📌 Nombre: ${nombreNivel}\n📊 Preguntas: ${totalPreguntas}\n⏱️ Tiempo: ${totalMinutos} minutos\n\nSello Institucional: PAES Manager Admisión 2026`);
-    }
+    alert(`🎉 Evaluación SysGet Generada con Éxito\n\n📌 Prueba: ${nombreNivel}\n📊 Preguntas: ${totalPreguntas}\n⏱️ Tiempo: ${totalMinutos} minutos\n\nSoftware Educativo: SysGet PAES Manager`);
   } else {
-    // Generar PDF Imprimible con Sello Institucional
-    alert(`📄 Generando PDF con Sello Institucional PAES Manager...\n\nPrueba: ${nombreNivel}\nPreguntas: ${totalPreguntas}\nTiempo oficial: ${totalMinutos} min\n\nEl documento PDF imprimible con membrete oficial PAES Manager se abrirá a continuación.`);
+    alert(`📄 Generando PDF Imprimible (SysGet Educational Suite)...\n\nPrueba: ${nombreNivel}\nPreguntas: ${totalPreguntas}\nTiempo oficial: ${totalMinutos} min\n\nEl documento PDF con membrete SysGet se abrirá a continuación.`);
     window.open('https://sysget-paes-manager.vercel.app/#biblioteca', '_blank');
   }
 }

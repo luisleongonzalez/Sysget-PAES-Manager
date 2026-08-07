@@ -30,14 +30,14 @@
         <span class="logo-icon">📋</span>
         <div class="logo-text">
           <span class="logo-title">PAES Manager</span>
-          <span class="logo-sub">Proceso Admisión 2026</span>
+          <span class="logo-sub">SysGet Suite · Admisión 2026</span>
         </div>
       </div>
       <nav class="nav">
         <a href="#descarga" class="nav-link active" id="nav-descarga" onclick="showSection('descarga')">Descargar</a>
-        <a href="#mezcla" class="nav-link" id="nav-mezcla" onclick="showSection('mezcla')">Mezclar</a>
-        <a href="#ensayos" class="nav-link" id="nav-ensayos" onclick="showSection('ensayos')">Mis Ensayos</a>
-        <a href="#enviar" class="nav-link" id="nav-enviar" onclick="showSection('enviar')">Enviar Prueba</a>
+        <a href="#mezcla" class="nav-link" id="nav-mezcla" onclick="showSection('mezcla')">Crear Evaluación</a>
+        <a href="#ensayos" class="nav-link" id="nav-ensayos" onclick="showSection('ensayos')">Mis Evaluaciones</a>
+        <a href="#enviar" class="nav-link" id="nav-enviar" onclick="showSection('enviar')">Enviar Evaluación</a>
         <a href="#resultados" class="nav-link" id="nav-resultados" onclick="showSection('resultados')">Resultados</a>
         <a href="#biblioteca" class="nav-link" id="nav-biblioteca" onclick="showSection('biblioteca')">Biblioteca</a>
         <a href="#generar" class="nav-link" id="nav-generar" onclick="showSection('generar')">Generar Evaluación</a>
@@ -179,7 +179,7 @@
     <section class="section hidden" id="mezcla">
       <div class="section-header">
         <div class="section-tag">Paso 2</div>
-        <h2 class="section-title">Generar Ensayo Mezclado</h2>
+        <h2 class="section-title">Crear Evaluación Mezclada</h2>
         <p class="section-desc">
           Configura tu ensayo seleccionando las pruebas y cuántas páginas incluir de cada una.
           El sistema evita repetir páginas ya utilizadas en ensayos anteriores.
@@ -284,8 +284,8 @@
     <section class="section hidden" id="ensayos">
       <div class="section-header">
         <div class="section-tag">Historial</div>
-        <h2 class="section-title">Mis Ensayos Generados</h2>
-        <p class="section-desc">Historial de ensayos creados. Los archivos se guardan en <code>ensayos_generados/</code></p>
+        <h2 class="section-title">Mis Evaluaciones</h2>
+        <p class="section-desc">Historial de evaluaciones creadas. SysGet Suite · PAES Manager</p>
       </div>
 
       <div class="ensayos-container">
@@ -656,7 +656,7 @@ historia_2025 · lectora_2024 · m1_2023 ...</div>
     <!-- ═══════════════════════════════════════════
          SECCIÓN: GENERAR EVALUACIÓN PERSONALIZADA
     ═══════════════════════════════════════════ -->
-    <section id="sec-generar" class="section hidden">
+    <section id="generar" class="section hidden">
       <div class="section-header" style="text-align:center; margin-bottom: 24px;">
         <span class="badge" style="background: rgba(37, 99, 235, 0.15); border: 1px solid rgba(37, 99, 235, 0.3); color: #93c5fd; padding: 6px 16px; border-radius: 20px; font-weight: 700; font-size: 12px; text-transform: uppercase; letter-spacing: 1px;">
           Sello Institucional PAES Manager
@@ -729,7 +729,7 @@ historia_2025 · lectora_2024 · m1_2023 ...</div>
   <!-- Firebase SDK (Compat Version) -->
   <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
-  <!-- Firebase Config / Database Interface -->
+  <!-- SysGet Suite Scripts -->
   <script src="firebase-config.js"></script>
   <script src="app.js"></script>
   <script src="biblioteca.js"></script>
