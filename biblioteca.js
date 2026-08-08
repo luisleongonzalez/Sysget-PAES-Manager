@@ -155,39 +155,36 @@ function renderBiblioteca() {
 
 function renderTarjetaMaterial(m) {
   const tipoMap = {
-    pdf:       { icon: '📄', color: '#3b82f6', label: 'PDF Formulario' },
-    ppt:       { icon: '💻', color: '#eab308', label: 'PPT Clase' },
-    video:     { icon: '🎥', color: '#ef4444', label: 'Video Clase' },
-    ejercicio: { icon: '📝', color: '#10b981', label: 'Ejercitación' }
+    pdf:       { icon: '📄', badgeClass: 'badge-tipo-pdf', label: 'PDF Guía' },
+    ppt:       { icon: '💻', badgeClass: 'badge-tipo-ppt', label: 'PPT Clase' },
+    video:     { icon: '🎥', badgeClass: 'badge-tipo-video', label: 'Video Clase' },
+    ejercicio: { icon: '📝', badgeClass: 'badge-tipo-pdf', label: 'Ejercitación' }
   };
-  const { icon, color, label } = tipoMap[m.tipo] || tipoMap['pdf'];
+  const { icon, badgeClass, label } = tipoMap[m.tipo] || tipoMap['pdf'];
   const urlEfectiva = getUrlEfectiva(m);
   const tieneUrl = urlEfectiva && urlEfectiva !== '#';
   const esFav = localStorage.getItem('fav_bib_' + m.id) === '1';
   const tituloEscapado = m.titulo.replace(/'/g, "&#39;").replace(/"/g, "&quot;");
 
   return `
-    <div id="card-${m.id}" style="background:rgba(15,23,42,0.65);border:1px solid rgba(255,255,255,0.08);border-radius:14px;padding:20px;display:flex;flex-direction:column;justify-content:space-between;transition:all 0.2s ease;"
-      onmouseover="this.style.borderColor='rgba(124,58,237,0.4)'"
-      onmouseout="this.style.borderColor='rgba(255,255,255,0.08)'">
+    <div id="card-${m.id}" class="card-material-pn">
       <div>
-        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;">
-          <span style="font-size:11px;font-weight:700;color:#a78bfa;text-transform:uppercase;background:rgba(124,58,237,0.15);padding:4px 10px;border-radius:6px;border:1px solid rgba(124,58,237,0.3);">📍 ${m.eje}</span>
-          <span style="font-size:11px;font-weight:700;color:${color};background:rgba(255,255,255,0.05);padding:4px 10px;border-radius:6px;border:1px solid rgba(255,255,255,0.1);">${icon} ${label}</span>
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;gap:8px;">
+          <span class="badge-eje-demre">📍 ${m.eje}</span>
+          <span class="${badgeClass}">${icon} ${label}</span>
         </div>
-        <h3 style="font-size:15px;font-weight:700;color:#f8fafc;margin:0 0 8px;line-height:1.4;">${m.titulo}</h3>
-        <p style="font-size:12px;color:#94a3b8;margin:0 0 14px;line-height:1.5;">${m.descripcion}</p>
-        ${tieneUrl ? '' : '<div style="font-size:11px;color:#f59e0b;background:rgba(245,158,11,0.1);border:1px solid rgba(245,158,11,0.25);border-radius:6px;padding:6px 10px;margin-bottom:10px;">⚠️ Sin enlace propio · <a href="javascript:void(0)" onclick="abrirCarpetaDriveOficial()" style="color:#f59e0b;font-weight:700;">Buscar en Drive</a></div>'}
+        <h3 style="font-size:15px;font-weight:700;color:var(--pn-text-main);margin:0 0 8px;line-height:1.45;font-family:var(--pn-font-family);">${m.titulo}</h3>
+        <p style="font-size:12.5px;color:var(--pn-text-muted);margin:0 0 16px;line-height:1.5;font-family:var(--pn-font-family);">${m.descripcion}</p>
+        ${tieneUrl ? '' : '<div style="font-size:11px;color:#f59e0b;background:rgba(245,158,11,0.1);border:1px solid rgba(245,158,11,0.25);border-radius:6px;padding:6px 10px;margin-bottom:12px;">⚠️ Sin enlace propio · <a href="javascript:void(0)" onclick="abrirCarpetaDriveOficial()" style="color:#f59e0b;font-weight:700;">Buscar en Drive</a></div>'}
       </div>
-      <div style="display:flex;gap:8px;margin-top:auto;flex-wrap:wrap;">
-        <button onclick="abrirMaterial('${m.id}')"
-          style="flex:1;min-width:100px;text-align:center;background:${tieneUrl ? 'rgba(124,58,237,0.25)' : 'rgba(16,185,129,0.15)'};border:1px solid ${tieneUrl ? 'rgba(124,58,237,0.5)' : 'rgba(16,185,129,0.3)'};color:${tieneUrl ? '#c4b5fd' : '#34d399'};padding:8px 12px;border-radius:8px;font-size:12px;font-weight:600;cursor:pointer;">
-          ${tieneUrl ? '👁️ Ver / Descargar' : '📂 Explorar en Drive'}
+      <div style="display:flex;gap:8px;margin-top:auto;flex-wrap:wrap;align-items:center;">
+        <button onclick="abrirMaterial('${m.id}')" class="btn-pn-action" style="flex:1;">
+          👁️ Ver en Línea
         </button>
         <button onclick="abrirModalAsignarUrl('${m.id}', '${tituloEscapado}')" title="Asignar o cambiar URL específica"
-          style="background:rgba(245,158,11,0.12);border:1px solid rgba(245,158,11,0.3);color:#f59e0b;padding:8px 12px;border-radius:8px;font-size:13px;cursor:pointer;">⚙️</button>
-        <button id="fav-${m.id}" onclick="toggleFavoritoBiblioteca('${m.id}', this)"
-          style="background:${esFav ? 'rgba(234,179,8,0.15)' : 'rgba(255,255,255,0.05)'};border:1px solid rgba(255,255,255,0.12);color:${esFav ? '#eab308' : '#e2e8f0'};padding:8px 12px;border-radius:8px;cursor:pointer;">⭐</button>
+          style="background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.12);color:var(--pn-text-muted);padding:9px 12px;border-radius:10px;font-size:13px;cursor:pointer;transition:all 0.2s ease;">⚙️</button>
+        <button id="fav-${m.id}" onclick="toggleFavoritoBiblioteca('${m.id}', this)" title="Guardar en Favoritos"
+          style="background:${esFav ? 'var(--pn-gold-light)' : 'rgba(255,255,255,0.06)'};border:1px solid ${esFav ? 'rgba(252,181,51,0.4)' : 'rgba(255,255,255,0.12)'};color:${esFav ? 'var(--pn-gold)' : 'var(--pn-text-muted)'};padding:9px 12px;border-radius:10px;cursor:pointer;transition:all 0.2s ease;">⭐</button>
       </div>
     </div>`;
 }
