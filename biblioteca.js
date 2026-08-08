@@ -65,7 +65,7 @@ async function guardarUrls() {
 /* Carga del catálogo */
 async function cargarCatalogoBiblioteca() {
   try {
-    const res = await fetch('biblioteca_paes.json');
+    const res = await fetch('biblioteca_paes.json?v=' + Date.now());
     if (res.ok) {
       bibliotecaMateriales = await res.json();
       renderBiblioteca();
