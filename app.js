@@ -248,6 +248,10 @@ function showSection(id) {
   if (navLink) navLink.classList.add('active');
 
   // Acciones por sección
+  if (id === 'descarga') {
+    renderPruebasGrid(state.anioActivoDescarga);
+    renderClavijeros(state.anioActivoDescarga);
+  }
   if (id === 'ensayos') renderEnsayos();
   if (id === 'mezcla') actualizarComando();
   if (id === 'generar' && typeof renderGeneradorEvaluacion === 'function') renderGeneradorEvaluacion();
