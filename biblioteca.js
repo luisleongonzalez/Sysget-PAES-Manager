@@ -203,20 +203,36 @@ function abrirMaterial(id) {
     return;
   }
 
-  // 1. Videos de YouTube -> Visor de Video SysGet
+  // 1. Links de UAutónoma / OGR (requieren autenticación de sesión del navegador)
+  if (url.includes('uautonoma.cl') || url.includes('ogr.cl')) {
+    window.open(url, '_blank');
+    return;
+  }
+
+  // 2. Links de archivos locales (file:///) de Drive H
+  if (url.startsWith('file:///')) {
+    if (window.location.protocol === 'file:' || window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {
+      window.open(url, '_blank');
+    } else {
+      abrirCarpetaDriveOficial();
+    }
+    return;
+  }
+
+  // 3. Videos de YouTube -> Visor de Video SysGet
   if (url.includes('youtube.com') || url.includes('youtu.be')) {
     const videoId = extraerYoutubeId(url);
     if (videoId) { 
       abrirVisorModal({ 
         titulo: material.titulo, 
         embedUrl: 'https://www.youtube.com/embed/' + videoId + '?autoplay=1', 
-        externalUrl: null 
+        externalUrl: 'https://www.youtube.com/watch?v=' + videoId
       }); 
       return; 
     }
   }
 
-  // 2. Archivos de Google Drive -> Visor Google Drive Embed
+  // 4. Archivos de Google Drive -> Visor Google Drive Embed
   if (url.includes('drive.google.com')) {
     abrirVisorModal({ 
       titulo: material.titulo, 
@@ -226,22 +242,22 @@ function abrirMaterial(id) {
     return;
   }
 
-  // 3. Archivos PDF directos o locales -> Visor PDF Interno
+  // 5. Archivos PDF directos -> Visor PDF Interno / Google Docs Viewer
   if (url.toLowerCase().includes('.pdf')) {
+    let embedPdfUrl = url;
+    if (url.startsWith('http')) {
+      embedPdfUrl = 'https://docs.google.com/gview?embedded=true&url=' + encodeURIComponent(url);
+    }
     abrirVisorModal({ 
       titulo: material.titulo, 
-      embedUrl: url, 
-      externalUrl: null 
+      embedUrl: embedPdfUrl, 
+      externalUrl: url 
     }); 
     return;
   }
 
-  // 4. Cualquier otro material -> Abrir en Visor Modal Iframe Propio SysGet
-  abrirVisorModal({ 
-    titulo: material.titulo, 
-    embedUrl: url, 
-    externalUrl: null 
-  });
+  // 6. Cualquier otra URL externa -> Abrir directamente en nueva pestaña
+  window.open(url, '_blank');
 }
 
 function abrirCarpetaDriveOficial() {
