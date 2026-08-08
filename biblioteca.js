@@ -256,7 +256,18 @@ function abrirMaterial(id) {
     return;
   }
 
-  // 6. Cualquier otra URL externa -> Abrir directamente en nueva pestaña
+  // 6. Archivos PPT/PPTX → Microsoft Office Online Viewer (sin descargar)
+  if (url.toLowerCase().match(/\.pptx?(\?.*)?$/)) {
+    const msViewerUrl = 'https://view.officeapps.live.com/op/embed.aspx?src=' + encodeURIComponent(url);
+    abrirVisorModal({
+      titulo: material.titulo,
+      embedUrl: msViewerUrl,
+      externalUrl: url
+    });
+    return;
+  }
+
+  // 7. Cualquier otra URL externa -> Abrir directamente en nueva pestaña
   window.open(url, '_blank');
 }
 
@@ -296,7 +307,7 @@ function abrirVisorModal({ titulo, embedUrl, externalUrl }) {
   if (headerActions) {
     let extBtn = '';
     if (externalUrl) {
-      extBtn = `<a href="${externalUrl}" target="_blank" style="background:rgba(16,185,129,0.2);border:1px solid rgba(16,185,129,0.4);color:#34d399;padding:6px 14px;border-radius:8px;text-decoration:none;font-size:12px;font-weight:700;margin-right:10px;display:inline-flex;align-items:center;gap:6px;">🔗 Abrir en Google Drive</a>`;
+      extBtn = `<a href="${externalUrl}" target="_blank" style="background:rgba(16,185,129,0.2);border:1px solid rgba(16,185,129,0.4);color:#34d399;padding:6px 14px;border-radius:8px;text-decoration:none;font-size:12px;font-weight:700;margin-right:10px;display:inline-flex;align-items:center;gap:6px;">🔗 Abrir / Descargar</a>`;
     }
     headerActions.innerHTML = extBtn + '<button onclick="cerrarVisorBiblioteca()" style="background:rgba(239,68,68,0.15);border:1px solid rgba(239,68,68,0.3);color:#f87171;padding:6px 14px;border-radius:8px;cursor:pointer;font-size:13px;font-weight:600;">✕ Cerrar</button>';
   }
