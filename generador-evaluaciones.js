@@ -393,6 +393,10 @@ function configurarSeccionEnvioDesdeGenerador(evalConfig) {
   if (duracionInput) {
     duracionInput.value = evalConfig.duracionMinutos;
   }
+  const numPregInput = document.getElementById('num-preguntas-sesion');
+  if (numPregInput) {
+    numPregInput.value = evalConfig.numPreguntas;
+  }
 
   // Si ya habían alumnos en la lista, regenerar sus tokens para que correspondan a esta nueva evaluación
   if (state.alumnosEnSession && state.alumnosEnSession.length > 0) {

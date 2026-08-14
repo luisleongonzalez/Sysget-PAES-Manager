@@ -75,14 +75,24 @@ async function inicializarHoja() {
       return;
     }
     
-    // Cargar estado con número exacto de preguntas según claves
-    if (state.sesion.claves && Object.keys(state.sesion.claves).length > 0) {
-      state.numPreguntas = Object.keys(state.sesion.claves).length;
-    } else if (state.sesion.numPreguntas) {
-      state.numPreguntas = parseInt(state.sesion.numPreguntas) || 65;
-    } else {
-      state.numPreguntas = 65;
+    // Cargar estado con número exacto de preguntas según claves, título o metadatos
+    let numPreg = 0;
+    if (state.sesion.numPreguntas && parseInt(state.sesion.numPreguntas) > 0 && parseInt(state.sesion.numPreguntas) < 65) {
+      numPreg = parseInt(state.sesion.numPreguntas);
     }
+    if (!numPreg && state.sesion.claves && Object.keys(state.sesion.claves).length > 0 && Object.keys(state.sesion.claves).length < 65) {
+      numPreg = Object.keys(state.sesion.claves).length;
+    }
+    if (!numPreg && state.sesion.titulo) {
+      const match = state.sesion.titulo.match(/\((\d+)\s*preg/i);
+      if (match) numPreg = parseInt(match[1]);
+    }
+    if (!numPreg) {
+      numPreg = (state.sesion.claves && Object.keys(state.sesion.claves).length > 0)
+        ? Object.keys(state.sesion.claves).length
+        : (state.sesion.numPreguntas || 65);
+    }
+    state.numPreguntas = numPreg;
     state.respuestas = state.envio.respuestas || {};
 
     const prevCount = Object.keys(state.respuestas).filter(k => state.respuestas[k] !== '').length;

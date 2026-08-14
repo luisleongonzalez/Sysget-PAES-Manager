@@ -976,6 +976,11 @@ function alSeleccionarClavijero(uid) {
     tituloInput.value = `Ensayo ${meta.nombre} - ${new Date().toLocaleDateString()}`;
   }
   
+  const numPregInput = document.getElementById('num-preguntas-sesion');
+  if (numPregInput && (!state.evaluacionPersonalizada || !state.evaluacionPersonalizada.activa)) {
+    numPregInput.value = Object.keys(item.claves).length;
+  }
+  
   if (infoBox && infoText) {
     const numPreguntas = Object.keys(item.claves).length;
     const numPilotos = item.pilotos.length;
@@ -1238,7 +1243,7 @@ async function crearSesionEvaluacion() {
   const sala = salaInput ? salaInput.value.trim() : 'SALA-1';
   const sesionId = 'ses_' + Math.random().toString(36).substr(2, 9);
   
-  // ── Respetar configuración personalizada del Generador de Evaluaciones ──
+  // ── Respetar configuración personalizada del Generador de Evaluaciones o input ──
   const evalPersonal = state.evaluacionPersonalizada && state.evaluacionPersonalizada.activa
     ? state.evaluacionPersonalizada
     : null;
@@ -1248,19 +1253,33 @@ async function crearSesionEvaluacion() {
     ? evalPersonal.duracionMinutos
     : (duracionInput ? (parseInt(duracionInput.value) || 0) : 150);
 
-  // Número de preguntas y claves: recortar el clavijero al subconjunto personalizado
-  let numPreguntas;
+  // Número de preguntas y claves: recortar el clavijero al subconjunto solicitado
+  const numPregInput = document.getElementById('num-preguntas-sesion');
+  let numPregDeseadas = evalPersonal 
+    ? evalPersonal.numPreguntas 
+    : (numPregInput ? parseInt(numPregInput.value) : 0);
+
+  // Si no hay input pero el título dice explícitamente "(16 preg)", extraerlo
+  if (!numPregDeseadas && titulo) {
+    const match = titulo.match(/\((\d+)\s*preg/i);
+    if (match) numPregDeseadas = parseInt(match[1]);
+  }
+
+  const maxClavesDisponibles = Object.keys(infoClave.claves).length;
+  if (!numPregDeseadas || numPregDeseadas > maxClavesDisponibles || numPregDeseadas <= 0) {
+    numPregDeseadas = maxClavesDisponibles;
+  }
+
+  const numPreguntas = numPregDeseadas;
   let clavesFinales;
 
-  if (evalPersonal && evalPersonal.numPreguntas < Object.keys(infoClave.claves).length) {
-    numPreguntas = evalPersonal.numPreguntas;
+  if (numPreguntas < maxClavesDisponibles) {
     // Ordenar claves numéricamente y tomar las primeras N
     const todasLasClaves = Object.keys(infoClave.claves).sort((a, b) => parseInt(a) - parseInt(b));
     const clavesSubset = todasLasClaves.slice(0, numPreguntas);
     clavesFinales = {};
     clavesSubset.forEach(k => { clavesFinales[k] = infoClave.claves[k]; });
   } else {
-    numPreguntas = Object.keys(infoClave.claves).length;
     clavesFinales = infoClave.claves;
   }
 
