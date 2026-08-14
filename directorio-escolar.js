@@ -516,7 +516,78 @@ function exportarAlumnosCSV() {
   a.download = `Matricula_Alumnos_PAES_${new Date().toISOString().slice(0, 10)}.csv`;
   a.click();
   URL.revokeObjectURL(url);
-  showToast('📄 Archivo CSV descargado correctamente');
+  showToast('📄 Archivo CSV de alumnos descargado');
+}
+
+async function importarDocentesCSV(event) {
+  const file = event.target.files[0];
+  if (!file) return;
+
+  const reader = new FileReader();
+  reader.onload = async function(e) {
+    const text = e.target.result;
+    const lines = text.split(/\r\n|\n/).map(l => l.trim()).filter(Boolean);
+
+    const importados = [];
+    lines.forEach((line, idx) => {
+      // Ignorar cabecera si existe
+      if (idx === 0 && (line.toLowerCase().includes('nombre') || line.toLowerCase().includes('docente') || line.toLowerCase().includes('profesor'))) return;
+
+      const cols = line.split(/[,;\t]/).map(c => c.trim().replace(/^["']|["']$/g, ''));
+      if (cols.length >= 2) {
+        let nombre = cols[0];
+        let email = cols[1];
+        let asignatura = cols[2] || 'General';
+        let rol = cols[3] || 'Profesor de Asignatura';
+        let cursos = cols[4] || 'Todos';
+
+        if (nombre) {
+          importados.push({
+            nombre: nombre,
+            email: email,
+            asignatura: asignatura,
+            rol: rol,
+            cursos: cursos
+          });
+        }
+      }
+    });
+
+    if (importados.length > 0) {
+      try {
+        await PAES_DB.importarDocentesBatch(importados);
+        await cargarDirectorioEscolar();
+        showToast(`📥 ${importados.length} docentes importados exitosamente`);
+      } catch (err) {
+        showToast(`❌ Error al importar docentes: ${err.message}`);
+      }
+    } else {
+      showToast('⚠️ No se encontraron filas válidas en el archivo CSV');
+    }
+  };
+  reader.readAsText(file, 'UTF-8');
+  event.target.value = '';
+}
+
+function exportarDocentesCSV() {
+  if (directorioState.docentes.length === 0) {
+    showToast('⚠️ No hay docentes para exportar');
+    return;
+  }
+
+  const csvRows = ['Nombre,Email,Asignatura,Rol,Cursos'];
+  directorioState.docentes.forEach(d => {
+    csvRows.push(`"${d.nombre}","${d.email || ''}","${d.asignatura || 'General'}","${d.rol || 'Docente'}","${d.cursos || ''}"`);
+  });
+
+  const blob = new Blob([csvRows.join('\n')], { type: 'text/csv;charset=utf-8;' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = `Equipo_Docente_PAES_${new Date().toISOString().slice(0, 10)}.csv`;
+  a.click();
+  URL.revokeObjectURL(url);
+  showToast('📄 Archivo CSV de docentes descargado');
 }
 
 // ──────────────────────────────────────────────────────────

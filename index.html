@@ -894,9 +894,19 @@ historia_2025 · lectora_2024 · m1_2023 ...</div>
             <div style="flex: 1; min-width: 250px;">
               <input type="text" id="input-buscar-docente" class="form-input" placeholder="🔍 Buscar docente por nombre, email o asignatura..." oninput="buscarDocentesInput(this.value)" style="margin-bottom: 0; padding: 9px 14px; font-size: 13px;">
             </div>
-            <button class="btn btn-primary" onclick="abrirModalNuevoDocente()" style="padding: 9px 16px; font-size: 13px; font-weight: 700;">
-              ➕ Nuevo Docente
-            </button>
+            
+            <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+              <button class="btn btn-primary" onclick="abrirModalNuevoDocente()" style="padding: 9px 16px; font-size: 13px; font-weight: 700;">
+                ➕ Nuevo Docente
+              </button>
+              <input type="file" id="input-csv-directorio-docentes" accept=".csv,.txt" style="display:none" onchange="importarDocentesCSV(event)">
+              <button class="btn btn-outline" onclick="document.getElementById('input-csv-directorio-docentes').click()" style="padding: 9px 14px; font-size: 13px; border-color: rgba(245,158,11,0.4); color: #f59e0b;">
+                📥 Importar CSV
+              </button>
+              <button class="btn btn-outline" onclick="exportarDocentesCSV()" style="padding: 9px 14px; font-size: 13px;">
+                📤 Exportar
+              </button>
+            </div>
           </div>
         </div>
 
