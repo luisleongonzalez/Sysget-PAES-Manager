@@ -5,49 +5,84 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>PAES Manager - Mezclador de Pruebas PAES 2023-2026</title>
   <meta name="description" content="Herramienta para descargar y mezclar pruebas PAES de múltiples años del DEMRE para tu colegio">
+  <!-- Favicon -->
+  <link rel="icon" type="image/svg+xml" href="favicon.svg">
+  <!-- Preconnects de rendimiento -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preconnect" href="https://cdn.jsdelivr.net">
+  <link rel="preconnect" href="https://cdnjs.cloudflare.com">
+  <link rel="preconnect" href="https://www.gstatic.com">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css">
-  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/pdf-lib@1.17.1/dist/pdf-lib.min.js"></script>
+  <link rel="stylesheet" href="styles.css?v=20260813_v3">
+  <!-- Scripts diferidos para mejorar el tiempo de renderizado (FCP) -->
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/pdf-lib@1.17.1/dist/pdf-lib.min.js" defer></script>
   <!-- QR Code generator -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js" defer></script>
   <!-- jsPDF for PDF reports -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.31/jspdf.plugin.autotable.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.31/jspdf.plugin.autotable.min.js" defer></script>
   <script src="email-service.js" defer></script>
-  <script src="biblioteca.js" defer></script>
+  <script src="biblioteca.js?v=20260808_v5" defer></script>
 </head>
 <body>
+
+  <!-- Accesibilidad: Skip Link -->
+  <a href="#main-content" class="skip-link">Saltar al contenido principal</a>
+
+  <noscript>
+    <div class="noscript-banner" role="alert">
+      ⚠️ PAES Manager requiere JavaScript habilitado para funcionar. Por favor, actívalo en tu navegador.
+    </div>
+  </noscript>
 
   <!-- ═══════════════════════════════════════════
        HEADER / NAVBAR
   ═══════════════════════════════════════════ -->
   <header class="header" id="main-header">
     <div class="header-inner">
-      <div class="logo">
-        <span class="logo-icon">📋</span>
+      <div class="logo" onclick="setRole('landing')" style="cursor: pointer;" title="Ir al Inicio">
+        <img src="favicon.svg" alt="SysGet PAES Logo" class="logo-img" width="36" height="36">
         <div class="logo-text">
           <span class="logo-title">PAES Manager</span>
           <span class="logo-sub">SysGet Suite · Admisión 2026</span>
         </div>
       </div>
-      <nav class="nav">
-        <a href="#descarga" class="nav-link active" id="nav-descarga" onclick="showSection('descarga')">Descargar</a>
-        <a href="#mezcla" class="nav-link" id="nav-mezcla" onclick="showSection('mezcla')">Crear Evaluación</a>
-        <a href="#ensayos" class="nav-link" id="nav-ensayos" onclick="showSection('ensayos')">Mis Evaluaciones</a>
-        <a href="#enviar" class="nav-link" id="nav-enviar" onclick="showSection('enviar')">Enviar Evaluación</a>
-        <a href="#resultados" class="nav-link" id="nav-resultados" onclick="showSection('resultados')">Resultados</a>
-        <a href="#biblioteca" class="nav-link" id="nav-biblioteca" onclick="showSection('biblioteca')">Biblioteca</a>
-        <a href="#generar" class="nav-link" id="nav-generar" onclick="showSection('generar')">Generar Evaluación</a>
-        <a href="#ayuda" class="nav-link" id="nav-ayuda" onclick="showSection('ayuda')">Ayuda</a>
+
+      <div id="header-role-indicator" style="display: none; align-items: center; gap: 8px;">
+        <span class="role-badge-nav docente" id="nav-role-badge">👨‍🏫 Docente</span>
+        <button class="btn-switch-role" onclick="setRole('landing')" title="Cambiar de perfil / Salir">
+          <span>🔄 Cambiar Rol</span>
+        </button>
+      </div>
+
+      <button type="button" class="nav-mobile-toggle" id="nav-mobile-toggle" aria-label="Abrir menú de navegación" aria-expanded="false" aria-controls="main-nav" onclick="toggleNavMobile()">
+        ☰
+      </button>
+
+      <nav class="nav" id="main-nav" role="navigation" aria-label="Navegación principal">
+        <!-- Renderizado dinámicamente según rol en app.js -->
       </nav>
+
       <div class="header-badge" id="firebase-status-badge" onclick="abrirConfigFirebase()" title="Haz clic para configurar credenciales de Firebase" style="background: rgba(245, 158, 11, 0.1); border: 1px solid rgba(245, 158, 11, 0.3); color: var(--gold); margin-right: 8px; cursor: pointer;">
         <span class="badge-dot" style="background: var(--gold);" id="firebase-status-dot"></span>
         <span id="firebase-status-text">Conexión: Local</span>
       </div>
-      <div class="header-badge">
+
+      <!-- Botón Cambio de Tema Claro / Oscuro -->
+      <button
+        id="btn-theme-toggle"
+        class="btn-theme-toggle"
+        onclick="toggleTema()"
+        title="Cambiar tema claro/oscuro"
+        aria-label="Cambiar tema"
+      >
+        <span class="icon-sun">☀️</span>
+        <span class="icon-moon">🌙</span>
+      </button>
+
+      <div class="header-badge" id="header-demre-badge">
         <span class="badge-dot"></span>
         DEMRE Oficial
       </div>
@@ -55,81 +90,116 @@
   </header>
 
   <!-- ═══════════════════════════════════════════
-       HERO
-  ═══════════════════════════════════════════ -->
-  <section class="hero">
-    <div class="hero-bg">
-      <div class="hero-orb hero-orb-1"></div>
-      <div class="hero-orb hero-orb-2"></div>
-      <div class="hero-orb hero-orb-3"></div>
-    </div>
-    <div class="hero-content">
-      <div class="hero-badge">🎓 Herramienta Educativa</div>
-      <h1 class="hero-title">
-        Gestiona tus<br>
-        <span class="gradient-text">Pruebas PAES</span>
-      </h1>
-      <p class="hero-desc">
-        Descarga las PAES de Invierno 2026 y sus clavijeros desde DEMRE,
-        luego genera ensayos mezclados sin repetir preguntas para tu colegio.
-      </p>
-      <div class="hero-actions">
-        <button class="btn btn-primary" onclick="showSection('descarga')">
-          <span>⬇ Descargar Pruebas</span>
-        </button>
-        <button class="btn btn-outline" onclick="showSection('mezcla')">
-          <span>🔀 Mezclar Ensayo</span>
-        </button>
-      </div>
-      <div class="hero-stats">
-        <div class="stat">
-          <span class="stat-num">63</span>
-          <span class="stat-label">Pruebas históricas</span>
-        </div>
-        <div class="stat-div"></div>
-        <div class="stat">
-          <span class="stat-num">4</span>
-          <span class="stat-label">Años (2023-2026)</span>
-        </div>
-        <div class="stat-div"></div>
-        <div class="stat">
-          <span class="stat-num">∞</span>
-          <span class="stat-label">Ensayos posibles</span>
-        </div>
-      </div>
-    </div>
-    <div class="hero-visual">
-      <div class="card-float card-float-1">
-        <div class="card-float-icon">📄</div>
-        <div class="card-float-text">
-          <strong>Historia y CC.SS</strong>
-          <span>50 páginas · 18-06-2025</span>
-        </div>
-        <div class="card-float-badge">PDF</div>
-      </div>
-      <div class="card-float card-float-2">
-        <div class="card-float-icon">🔀</div>
-        <div class="card-float-text">
-          <strong>Ensayo Generado</strong>
-          <span>35 páginas · mezcladas</span>
-        </div>
-        <div class="card-float-badge success">Listo</div>
-      </div>
-      <div class="card-float card-float-3">
-        <div class="card-float-icon">✅</div>
-        <div class="card-float-text">
-          <strong>Sin repeticiones</strong>
-          <span>Control inteligente</span>
-        </div>
-        <div class="card-float-badge warning">Smart</div>
-      </div>
-    </div>
-  </section>
-
-  <!-- ═══════════════════════════════════════════
        MAIN CONTENT
   ═══════════════════════════════════════════ -->
-  <main class="main">
+  <main class="main" id="main-content">
+
+    <!-- ─── SECCIÓN 0: LANDING PAGE PRINCIPAL ───────── -->
+    <section class="section" id="landing">
+      <div class="hero-bg">
+        <div class="hero-orb hero-orb-1"></div>
+        <div class="hero-orb hero-orb-2"></div>
+        <div class="hero-orb hero-orb-3"></div>
+      </div>
+
+      <div class="landing-hero">
+        <span class="landing-tagline">🎓 Suite SysGet PAES · Admisión 2026</span>
+        <h1 class="landing-title">
+          Plataforma Integral de<br>
+          <span class="gradient-text">Evaluaciones & Ensayos PAES</span>
+        </h1>
+        <p class="landing-subtitle">
+          Descarga pruebas oficiales DEMRE, crea ensayos personalizados sin repetición, y gestiona hojas de respuesta digitales con solucionarios pedagógicos en tiempo real.
+        </p>
+      </div>
+
+      <!-- Tarjetas de Acceso por Rol -->
+      <div class="roles-grid">
+        
+        <!-- Tarjeta 1: Alumno -->
+        <div class="role-card student">
+          <div>
+            <div class="role-header">
+              <div class="role-icon-box">📝</div>
+              <span class="role-badge">Estudiante</span>
+            </div>
+            <h2 class="role-card-title">Portal Estudiante</h2>
+            <p class="role-card-desc">
+              Ingresa el código o token personal que te entregó tu profesor para rendir tu evaluación y consultar tus explicaciones pedagógicas.
+            </p>
+          </div>
+          <div class="role-action-area">
+            <div class="token-input-wrapper">
+              <input type="text" id="landing-token-input" class="token-input" placeholder="Ej: PAES-tok_abc123" onkeydown="if(event.key==='Enter') irAResponderToken()">
+            </div>
+            <button class="btn-role-action student" onclick="irAResponderToken()">
+              <span>Entrar a Responder ➔</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Tarjeta 2: Profesor -->
+        <div class="role-card teacher">
+          <div>
+            <div class="role-header">
+              <div class="role-icon-box">👨‍🏫</div>
+              <span class="role-badge">Docente</span>
+            </div>
+            <h2 class="role-card-title">Portal Profesor</h2>
+            <p class="role-card-desc">
+              Mezcla pruebas DEMRE históricas, crea ensayos a medida, despacha evaluaciones por email/QR y analiza resultados en tiempo real.
+            </p>
+          </div>
+          <div class="role-action-area">
+            <button class="btn-role-action teacher" onclick="setRole('docente')">
+              <span>Ingresar al Panel Docente ➔</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Tarjeta 3: Administrador -->
+        <div class="role-card admin">
+          <div>
+            <div class="role-header">
+              <div class="role-icon-box">⚙️</div>
+              <span class="role-badge">Administrador</span>
+            </div>
+            <h2 class="role-card-title">Portal Administrador</h2>
+            <p class="role-card-desc">
+              Control integral del sistema, configuración de base de datos Firebase Firestore, credenciales EmailJS y depuración global de sesiones.
+            </p>
+          </div>
+          <div class="role-action-area">
+            <button class="btn-role-action admin" onclick="setRole('admin')">
+              <span>Panel Administrador ➔</span>
+            </button>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ─── BARRA DE SUB-PESTAÑAS DE EVALUACIONES ─── -->
+    <div id="subtabs-evaluaciones" class="subtabs-bar" style="display:none;">
+      <button class="subtab-pill active" id="subtab-mezcla" onclick="showSubModulo('mezcla')">
+        <span>🔀 Mezclador de Ensayos</span>
+      </button>
+      <button class="subtab-pill" id="subtab-descarga" onclick="showSubModulo('descarga')">
+        <span>📥 Banco DEMRE Oficial</span>
+      </button>
+      <button class="subtab-pill" id="subtab-ensayos" onclick="showSubModulo('ensayos')">
+        <span>📂 Mis Ensayos</span>
+      </button>
+      <button class="subtab-pill" id="subtab-biblioteca" onclick="showSubModulo('biblioteca')">
+        <span>📖 Biblioteca Digital</span>
+      </button>
+      <button class="subtab-pill" id="subtab-generar" onclick="showSubModulo('generar')">
+        <span>⚡ Generador Personalizado</span>
+      </button>
+      <button class="subtab-pill" id="subtab-ayuda" onclick="showSubModulo('ayuda')">
+        <span>💡 Ayuda</span>
+      </button>
+    </div>
 
     <!-- ─── SECCIÓN: DESCARGAR ─────────────────── -->
     <section class="section" id="descarga">
@@ -684,6 +754,84 @@ historia_2025 · lectora_2024 · m1_2023 ...</div>
       </div>
     </section>
 
+    <!-- ═══════════════════════════════════════════
+         SECCIÓN: PANEL ADMINISTRADOR Y SISTEMA
+    ═══════════════════════════════════════════ -->
+    <section id="admin-panel" class="section hidden">
+      <div class="section-header" style="text-align:center; margin-bottom: 30px;">
+        <span class="badge" style="background: rgba(245, 158, 11, 0.15); border: 1px solid rgba(245, 158, 11, 0.3); color: #fbbf24; padding: 6px 16px; border-radius: 20px; font-weight: 700; font-size: 12px; text-transform: uppercase; letter-spacing: 1px;">
+          Consola Central
+        </span>
+        <h2 class="section-title" style="margin-top: 8px; font-size: 28px; font-weight: 800; color: #f8fafc;">
+          Panel de Administración y Sistema
+        </h2>
+        <p class="section-desc" style="color: #94a3b8; font-size: 14px; max-width: 680px; margin: 0 auto;">
+          Administra la base de datos Firestore, credenciales de correo EmailJS, y depuración global de sesiones de prueba.
+        </p>
+      </div>
+
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 20px; max-width: 1000px; margin: 0 auto 30px;">
+        
+        <!-- Tarjeta 1: Base de Datos Firebase -->
+        <div class="config-card">
+          <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 15px;">
+            <div style="width: 44px; height: 44px; border-radius: 12px; background: rgba(245, 158, 11, 0.15); border: 1px solid rgba(245, 158, 11, 0.3); display: flex; align-items: center; justify-content: center; font-size: 22px;">
+              🔥
+            </div>
+            <div>
+              <h3 style="margin: 0; font-size: 16px; font-weight: 700; color: #fff;">Firebase Firestore</h3>
+              <span id="admin-firebase-status" style="font-size: 12px; color: #34d399; font-weight: 600;">🟢 Conexión Activa</span>
+            </div>
+          </div>
+          <p style="font-size: 13px; color: var(--text-secondary); margin-bottom: 16px; line-height: 1.5;">
+            Controla el almacenamiento en la nube de sesiones, hojas de respuesta de alumnos y puntajes en tiempo real.
+          </p>
+          <button class="btn btn-outline w-full" onclick="abrirConfigFirebase()" style="border-color: rgba(245, 158, 11, 0.4); color: #fbbf24;">
+            ⚙️ Configurar Credenciales Firebase
+          </button>
+        </div>
+
+        <!-- Tarjeta 2: Servicio de Correo EmailJS -->
+        <div class="config-card">
+          <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 15px;">
+            <div style="width: 44px; height: 44px; border-radius: 12px; background: rgba(59, 130, 246, 0.15); border: 1px solid rgba(59, 130, 246, 0.3); display: flex; align-items: center; justify-content: center; font-size: 22px;">
+              📧
+            </div>
+            <div>
+              <h3 style="margin: 0; font-size: 16px; font-weight: 700; color: #fff;">Despacho de Correos (EmailJS)</h3>
+              <span style="font-size: 12px; color: #60a5fa; font-weight: 600;">Plantillas HTML para Outlook</span>
+            </div>
+          </div>
+          <p style="font-size: 13px; color: var(--text-secondary); margin-bottom: 16px; line-height: 1.5;">
+            Permite el envío masivo de enlaces y tokens de evaluación personalizados directamente a los correos de los estudiantes.
+          </p>
+          <button class="btn btn-outline w-full" onclick="abrirConfigEmailJS()" style="border-color: rgba(59, 130, 246, 0.4); color: #60a5fa;">
+            ⚙️ Configurar Servicio EmailJS
+          </button>
+        </div>
+
+        <!-- Tarjeta 3: Gestión Global de Sesiones -->
+        <div class="config-card">
+          <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 15px;">
+            <div style="width: 44px; height: 44px; border-radius: 12px; background: rgba(239, 68, 68, 0.15); border: 1px solid rgba(239, 68, 68, 0.3); display: flex; align-items: center; justify-content: center; font-size: 22px;">
+              🗑️
+            </div>
+            <div>
+              <h3 style="margin: 0; font-size: 16px; font-weight: 700; color: #fff;">Depuración de Sesiones</h3>
+              <span style="font-size: 12px; color: #f87171; font-weight: 600;">Mantenimiento de Datos</span>
+            </div>
+          </div>
+          <p style="font-size: 13px; color: var(--text-secondary); margin-bottom: 16px; line-height: 1.5;">
+            Elimina sesiones antiguas, limpia pruebas de ensayo y libera espacio en la base de datos Firestore.
+          </p>
+          <button class="btn btn-outline w-full" onclick="showSection('resultados'); setTimeout(abrirGestionSesiones, 300);" style="border-color: rgba(239, 68, 68, 0.4); color: #f87171;">
+            🗑️ Administrar y Borrar Sesiones
+          </button>
+        </div>
+
+      </div>
+    </section>
+
   </main>
 
   <!-- ─── MODAL QR CODE ─────────────────── -->
@@ -731,7 +879,7 @@ historia_2025 · lectora_2024 · m1_2023 ...</div>
   <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
   <!-- SysGet Suite Scripts -->
   <script src="firebase-config.js"></script>
-  <script src="app.js"></script>
+  <script src="app.js?v=20260813_v3"></script>
   <script src="biblioteca.js?v=20260808_v5"></script>
   <script src="generador-evaluaciones.js"></script>
 </body>

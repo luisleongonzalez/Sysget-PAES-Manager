@@ -4,6 +4,8 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Hoja de Respuestas Digital - PAES Manager</title>
+  <!-- Favicon -->
+  <link rel="icon" type="image/svg+xml" href="favicon.svg">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
@@ -33,48 +35,61 @@
     }
 
     .container-mobile {
-      max-width: 600px;
+      max-width: 640px;
       margin: 0 auto;
-      padding: 20px 15px;
+      padding: 16px 12px;
       flex: 1;
       width: 100%;
       box-sizing: border-box;
+      transition: max-width 0.25s ease;
     }
 
     .container-mobile.split-layout-active {
-      max-width: 1400px !important;
-      padding: 15px;
+      max-width: 98vw !important;
+      padding: 10px 14px;
     }
 
     .split-flex-container {
       display: flex;
       flex-direction: column;
-      gap: 20px;
+      gap: 16px;
     }
 
-    @media (min-width: 768px) {
+    @media (min-width: 900px) {
       .split-layout-active .split-flex-container {
         flex-direction: row;
-        align-items: flex-start;
+        align-items: stretch;
+        gap: 16px;
       }
       .split-layout-active #pdf-side-panel {
-        flex: 1.2;
+        flex: 0 0 68%;
+        max-width: 68%;
         position: sticky;
-        top: 20px;
+        top: 10px;
+        height: calc(100vh - 20px);
+        display: flex;
+        flex-direction: column;
       }
       .split-layout-active #sheet-side-panel {
         flex: 1;
-        max-height: calc(100vh - 40px);
+        min-width: 0;
+        max-height: calc(100vh - 20px);
         overflow-y: auto;
-        padding-right: 5px;
-        /* scroll-padding-top igual al header para que sticky funcione dentro */
+        padding-right: 6px;
         scroll-padding-top: 0;
       }
+
+      /* Presets de Ratio personalizables */
+      .split-layout-active.ratio-75 #pdf-side-panel { flex: 0 0 74% !important; max-width: 74% !important; }
+      .split-layout-active.ratio-65 #pdf-side-panel { flex: 0 0 66% !important; max-width: 66% !important; }
+      .split-layout-active.ratio-50 #pdf-side-panel { flex: 0 0 50% !important; max-width: 50% !important; }
+
       /* En modo dividido el sticky del header es relativo al panel derecho */
       .split-layout-active #sheet-side-panel .student-header {
         top: 0;
         border-radius: 12px;
-        margin-bottom: 16px;
+        margin-bottom: 12px;
+        padding: 14px 16px;
       }
     }
 
@@ -82,37 +97,37 @@
       position: sticky;
       top: 0;
       z-index: 50;
-      background: rgba(11, 15, 25, 0.85);
+      background: rgba(11, 15, 25, 0.88);
       border: 1px solid rgba(255, 255, 255, 0.08);
       border-radius: 16px;
-      padding: 20px;
-      margin-bottom: 20px;
+      padding: 16px 18px;
+      margin-bottom: 16px;
       backdrop-filter: blur(20px);
       -webkit-backdrop-filter: blur(20px);
       box-shadow: 0 4px 30px rgba(0, 0, 0, 0.5), 0 1px 0 rgba(255,255,255,0.04) inset;
     }
 
     .student-title {
-      font-size: 20px;
+      font-size: 18px;
       font-weight: 700;
-      margin: 0 0 8px 0;
+      margin: 0 0 4px 0;
       background: linear-gradient(135deg, #a78bfa 0%, #c084fc 100%);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
     }
 
     .student-name {
-      font-size: 16px;
+      font-size: 14px;
       color: #9ca3af;
       font-weight: 500;
       margin: 0;
     }
 
     .progress-bar-container {
-      margin-top: 15px;
+      margin-top: 10px;
       background: rgba(255,255,255,0.05);
       border-radius: 8px;
-      height: 8px;
+      height: 6px;
       overflow: hidden;
     }
 
@@ -124,9 +139,9 @@
     }
 
     .progress-text {
-      font-size: 12px;
+      font-size: 11px;
       color: #9ca3af;
-      margin-top: 5px;
+      margin-top: 4px;
       text-align: right;
       display: block;
     }
@@ -134,15 +149,15 @@
     .questions-grid {
       display: flex;
       flex-direction: column;
-      gap: 12px;
-      margin-bottom: 30px;
+      gap: 8px;
+      margin-bottom: 24px;
     }
 
     .question-row {
       background: rgba(255, 255, 255, 0.02);
       border: 1px solid rgba(255, 255, 255, 0.05);
-      border-radius: 12px;
-      padding: 12px 16px;
+      border-radius: 10px;
+      padding: 8px 12px;
       display: flex;
       align-items: center;
       justify-content: space-between;
@@ -150,75 +165,82 @@
     }
 
     .question-row.answered {
-      background: rgba(124, 58, 237, 0.04);
-      border-color: rgba(124, 58, 237, 0.2);
+      background: rgba(124, 58, 237, 0.05);
+      border-color: rgba(124, 58, 237, 0.25);
     }
 
     .question-num {
       font-weight: 700;
-      font-size: 16px;
+      font-size: 14px;
       color: #e5e7eb;
-      width: 40px;
+      width: 32px;
     }
 
     .options-container {
       display: flex;
-      gap: 8px;
+      gap: 6px;
+      flex-wrap: wrap;
+      justify-content: flex-end;
     }
 
     .option-btn {
-      width: 42px;
-      height: 42px;
+      width: 36px;
+      height: 36px;
       border-radius: 50%;
-      border: 2px solid rgba(255, 255, 255, 0.15);
+      border: 1.5px solid rgba(255, 255, 255, 0.15);
       background: transparent;
       color: #d1d5db;
-      font-size: 15px;
+      font-size: 13.5px;
       font-weight: 700;
       cursor: pointer;
       display: flex;
       align-items: center;
       justify-content: center;
-      transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+      transition: all 0.15s cubic-bezier(0.4, 0, 0.2, 1);
       user-select: none;
       -webkit-tap-highlight-color: transparent;
     }
 
+    .option-btn:hover {
+      border-color: #a78bfa;
+      color: #ffffff;
+      background: rgba(124, 58, 237, 0.1);
+    }
+
     .option-btn:active {
-      transform: scale(0.9);
+      transform: scale(0.92);
     }
 
     .option-btn.selected {
       background: #7c3aed;
-      border-color: #7c3aed;
+      border-color: #a78bfa;
       color: #ffffff;
-      box-shadow: 0 0 12px rgba(124, 58, 237, 0.5);
+      box-shadow: 0 0 10px rgba(124, 58, 237, 0.5);
     }
 
     .option-btn.omit-btn {
-      border-radius: 8px;
+      border-radius: 6px;
       width: auto;
-      padding: 0 12px;
-      font-size: 12px;
+      padding: 0 8px;
+      font-size: 11px;
       font-weight: 500;
       border-color: rgba(255, 255, 255, 0.08);
       background: rgba(255, 255, 255, 0.02);
       color: #9ca3af;
     }
 
-    .option-btn.omit-btn.selected {
-      background: rgba(255, 255, 255, 0.1);
-      border-color: rgba(255, 255, 255, 0.2);
-      color: #ffffff;
-      box-shadow: none;
+    .option-btn.omit-btn:hover {
+      border-color: rgba(239, 68, 68, 0.4);
+      color: #f87171;
     }
 
     .submit-container {
       position: sticky;
       bottom: 0;
-      background: linear-gradient(to top, #0b0f19 80%, rgba(11, 15, 25, 0));
-      padding: 20px 0;
+      background: linear-gradient(to top, #0b0f19 85%, rgba(11, 15, 25, 0));
+      padding: 14px 0 6px;
       margin-top: auto;
+      z-index: 40;
     }
 
     .btn-submit-exam {
@@ -226,12 +248,12 @@
       background: linear-gradient(135deg, #7c3aed 0%, #6d28d9 100%);
       color: #ffffff;
       border: none;
-      padding: 16px;
-      border-radius: 12px;
-      font-size: 16px;
+      padding: 13px;
+      border-radius: 10px;
+      font-size: 15px;
       font-weight: 700;
       cursor: pointer;
-      box-shadow: 0 4px 20px rgba(124, 58, 237, 0.3);
+      box-shadow: 0 4px 15px rgba(124, 58, 237, 0.3);
       transition: all 0.2s;
     }
 
@@ -295,6 +317,9 @@
       <div class="status-icon">⚠️</div>
       <div class="status-title">Enlace Inválido</div>
       <div class="status-desc" id="error-message">El token de acceso no es válido o la sesión de evaluación ya no existe. Consulta con tu profesor.</div>
+      <a href="index.html" style="margin-top: 20px; display: inline-flex; align-items: center; gap: 6px; color: #a78bfa; text-decoration: none; font-size: 14px; font-weight: 600; padding: 8px 16px; border: 1px solid rgba(167, 139, 250, 0.3); border-radius: 8px; background: rgba(167, 139, 250, 0.1);">
+        🏠 Volver al Inicio
+      </a>
     </div>
 
     <!-- Pantalla de evaluación completada previamente con retroalimentación -->
@@ -347,51 +372,64 @@
         
         <!-- Panel Izquierdo: Visor de PDF (oculto por defecto o activable) -->
         <div id="pdf-side-panel" style="display: none;">
-          <div style="background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); border-radius: 16px; padding: 10px; height: 100%;">
-            <iframe id="pdf-iframe" src="" style="width: 100%; height: 75vh; min-height: 500px; border: none; border-radius: 12px; background: #1e293b;"></iframe>
+          <div style="background: rgba(15, 23, 42, 0.7); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 14px; padding: 4px; height: 100%; box-sizing: border-box; display: flex; flex-direction: column; box-shadow: 0 8px 30px rgba(0, 0, 0, 0.35);">
+            <iframe id="pdf-iframe" src="" style="width: 100%; height: 100%; min-height: 520px; border: none; border-radius: 10px; background: #0f172a; flex: 1;"></iframe>
           </div>
         </div>
 
         <!-- Panel Derecho: Hoja de Respuestas -->
         <div id="sheet-side-panel" style="flex: 1; width: 100%;">
           <header class="student-header">
-            <div style="display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 12px;">
+            <div style="display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 10px;">
               <div>
                 <h1 class="student-title" id="exam-title">Evaluación en Línea</h1>
                 <p class="student-name" id="student-display-name">Alumno: —</p>
-                <div id="student-db-badge" style="display:inline-block; font-size:10px; padding: 2px 8px; border-radius: 99px; background: rgba(245, 158, 11, 0.1); color: #f59e0b; border: 1px solid rgba(245, 158, 11, 0.3); margin-top: 8px;">
+                <div id="student-db-badge" style="display:inline-block; font-size:10px; padding: 2px 8px; border-radius: 99px; background: rgba(245, 158, 11, 0.1); color: #f59e0b; border: 1px solid rgba(245, 158, 11, 0.3); margin-top: 6px;">
                   <span style="display:inline-block; width:5px; height:5px; border-radius:50%; background:#f59e0b; margin-right:4px; vertical-align: middle;"></span>
                   <span id="student-db-text" style="vertical-align: middle;">Modo Local</span>
                 </div>
               </div>
 
               <!-- PreUNAB Style Progress Badge -->
-              <div style="background: rgba(124, 58, 237, 0.12); border: 1px solid rgba(124, 58, 237, 0.3); border-radius: 14px; padding: 10px 16px; text-align: right;">
-                <span style="font-size: 11px; color: #a78bfa; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; display: block;">Tu Progreso</span>
-                <span id="progress-percentage-badge" style="font-size: 22px; font-weight: 800; color: #c084fc; font-family: 'Inter', sans-serif;">0,00%</span>
+              <div style="background: rgba(124, 58, 237, 0.12); border: 1px solid rgba(124, 58, 237, 0.3); border-radius: 12px; padding: 8px 14px; text-align: right;">
+                <span style="font-size: 10px; color: #a78bfa; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; display: block;">Tu Progreso</span>
+                <span id="progress-percentage-badge" style="font-size: 20px; font-weight: 800; color: #c084fc; font-family: 'Inter', sans-serif;">0,00%</span>
               </div>
             </div>
             
-            <div id="btn-ver-pdf-container" style="margin-top: 14px; display: none; gap: 8px; flex-wrap: wrap; align-items: center;">
-              <button id="btn-toggle-split" onclick="toggleModoDividido()" style="display: inline-flex; align-items: center; justify-content: center; gap: 6px; background: rgba(124, 58, 237, 0.2); color: #c4b5fd; border: 1px solid rgba(124, 58, 237, 0.4); padding: 8px 14px; border-radius: 8px; font-size: 13px; font-weight: 600; cursor: pointer;">
-                📖 Ver PDF y Hoja en Misma Pantalla
-              </button>
-              <a id="link-ver-pdf" href="#" target="_blank" style="display: inline-flex; align-items: center; justify-content: center; gap: 6px; background: rgba(59, 130, 246, 0.15); color: #60a5fa; border: 1px solid rgba(59, 130, 246, 0.3); padding: 8px 14px; border-radius: 8px; font-size: 13px; font-weight: 600; text-decoration: none;">
-                ↗️ Pestaña Nueva
-              </a>
-            </div>
+            <!-- Barra de Controles y Herramientas -->
+            <div style="margin-top: 12px; display: flex; flex-wrap: wrap; gap: 8px; align-items: center; justify-content: space-between; padding-top: 10px; border-top: 1px solid rgba(255,255,255,0.06);">
+              
+              <!-- Controles PDF -->
+              <div id="btn-ver-pdf-container" style="display: none; gap: 6px; flex-wrap: wrap; align-items: center;">
+                <button id="btn-toggle-split" onclick="toggleModoDividido()" style="display: inline-flex; align-items: center; justify-content: center; gap: 6px; background: rgba(124, 58, 237, 0.2); color: #c4b5fd; border: 1px solid rgba(124, 58, 237, 0.4); padding: 6px 12px; border-radius: 8px; font-size: 12.5px; font-weight: 600; cursor: pointer; transition: all 0.2s;">
+                  📖 Ver PDF y Hoja
+                </button>
+                <a id="link-ver-pdf" href="#" target="_blank" style="display: inline-flex; align-items: center; justify-content: center; gap: 4px; background: rgba(59, 130, 246, 0.15); color: #60a5fa; border: 1px solid rgba(59, 130, 246, 0.3); padding: 6px 10px; border-radius: 8px; font-size: 12.5px; font-weight: 600; text-decoration: none;">
+                  ↗️ Pestaña
+                </a>
+              </div>
 
-            <!-- Toggle Vista: siempre visible ─────── -->
-            <div style="margin-top: 14px; display: flex; gap: 6px; align-items: center;">
-              <span style="font-size: 12px; color: #64748b; font-weight: 600; margin-right: 4px;">Vista:</span>
-              <div style="display: flex; background: rgba(0,0,0,0.3); border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; padding: 2px;">
-                <button id="btn-mode-sheet" onclick="cambiarModoVista('sheet')" style="background: transparent; color: #94a3b8; border: none; padding: 6px 14px; border-radius: 6px; font-size: 12px; font-weight: 600; cursor: pointer;">📋 Lista</button>
-                <button id="btn-mode-focus" onclick="cambiarModoVista('focus')" style="background: rgba(124,58,237,0.35); color: #fff; border: none; padding: 6px 14px; border-radius: 6px; font-size: 12px; font-weight: 600; cursor: pointer;">🔍 Enfocado</button>
+              <!-- Selector de Proporción Split (visible sólo en modo dividido) -->
+              <div id="split-ratio-controls" style="display: none; align-items: center; gap: 4px; background: rgba(0,0,0,0.3); border: 1px solid rgba(255,255,255,0.08); border-radius: 8px; padding: 2px;">
+                <span style="font-size: 11px; color: #64748b; font-weight: 600; padding: 0 6px;">Ratio:</span>
+                <button id="btn-ratio-75" class="ratio-btn" onclick="cambiarRatioSplit('ratio-75')" style="background: transparent; color: #94a3b8; border: none; padding: 4px 8px; border-radius: 6px; font-size: 11px; font-weight: 600; cursor: pointer;" title="75% PDF / 25% Hoja">75/25</button>
+                <button id="btn-ratio-65" class="ratio-btn active-ratio" onclick="cambiarRatioSplit('ratio-65')" style="background: rgba(124,58,237,0.35); color: #fff; border: none; padding: 4px 8px; border-radius: 6px; font-size: 11px; font-weight: 600; cursor: pointer;" title="66% PDF / 34% Hoja">66/34</button>
+                <button id="btn-ratio-50" class="ratio-btn" onclick="cambiarRatioSplit('ratio-50')" style="background: transparent; color: #94a3b8; border: none; padding: 4px 8px; border-radius: 6px; font-size: 11px; font-weight: 600; cursor: pointer;" title="50% PDF / 50% Hoja">50/50</button>
               </div>
+
+              <!-- Selector de Modo de Vista -->
+              <div style="display: flex; gap: 4px; align-items: center;">
+                <div style="display: flex; background: rgba(0,0,0,0.3); border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; padding: 2px;">
+                  <button id="btn-mode-sheet" onclick="cambiarModoVista('sheet')" style="background: transparent; color: #94a3b8; border: none; padding: 5px 12px; border-radius: 6px; font-size: 12px; font-weight: 600; cursor: pointer;">📋 Lista</button>
+                  <button id="btn-mode-focus" onclick="cambiarModoVista('focus')" style="background: rgba(124,58,237,0.35); color: #fff; border: none; padding: 5px 12px; border-radius: 6px; font-size: 12px; font-weight: 600; cursor: pointer;">🔍 Enfocado</button>
+                </div>
+              </div>
+
             </div>
             
-            <div id="exam-timer-box" style="display: none; margin-top: 12px; background: rgba(239, 68, 68, 0.12); border: 1px solid rgba(239, 68, 68, 0.3); border-radius: 10px; padding: 10px 16px; text-align: center; box-shadow: 0 4px 15px rgba(239, 68, 68, 0.15);">
-              <span id="exam-timer-text" style="font-size: 15px; font-weight: 700; color: #f87171; letter-spacing: 0.5px;">
+            <div id="exam-timer-box" style="display: none; margin-top: 10px; background: rgba(239, 68, 68, 0.12); border: 1px solid rgba(239, 68, 68, 0.3); border-radius: 8px; padding: 8px 12px; text-align: center; box-shadow: 0 4px 15px rgba(239, 68, 68, 0.15);">
+              <span id="exam-timer-text" style="font-size: 14px; font-weight: 700; color: #f87171; letter-spacing: 0.5px;">
                 ⏱️ Tiempo Restante: --:--:--
               </span>
             </div>
@@ -408,30 +446,30 @@
           </main>
 
           <!-- VISTA 2: Modo Enfocado Pregunta a Pregunta (Estilo PreUNAB) -->
-          <div id="focus-question-container" style="display: none; margin-bottom: 30px;">
-            <div style="background: rgba(15, 23, 42, 0.6); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 16px; padding: 24px; box-shadow: 0 10px 30px rgba(0,0,0,0.4);">
-              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; border-bottom: 1px solid rgba(255,255,255,0.08); padding-bottom: 12px;">
-                <span id="focus-question-header" style="font-size: 18px; font-weight: 800; color: #a78bfa; text-transform: uppercase; letter-spacing: 1px;">PREGUNTA 1</span>
-                <span id="focus-status-badge" style="font-size: 12px; padding: 4px 10px; border-radius: 99px; background: rgba(255,255,255,0.05); color: #94a3b8; font-weight: 600;">Sin responder</span>
+          <div id="focus-question-container" style="display: none; margin-bottom: 24px;">
+            <div style="background: rgba(15, 23, 42, 0.6); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 14px; padding: 18px; box-shadow: 0 10px 30px rgba(0,0,0,0.4);">
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px; border-bottom: 1px solid rgba(255,255,255,0.08); padding-bottom: 10px;">
+                <span id="focus-question-header" style="font-size: 16px; font-weight: 800; color: #a78bfa; text-transform: uppercase; letter-spacing: 0.8px;">PREGUNTA 1</span>
+                <span id="focus-status-badge" style="font-size: 11.5px; padding: 3px 9px; border-radius: 99px; background: rgba(255,255,255,0.05); color: #94a3b8; font-weight: 600;">Sin responder</span>
               </div>
 
               <!-- Tarjetas de Opciones A, B, C, D, E (Estilo PreUNAB) -->
-              <div id="focus-options-list" style="display: flex; flex-direction: column; gap: 12px; margin-bottom: 24px;">
+              <div id="focus-options-list" style="display: flex; flex-direction: column; gap: 8px; margin-bottom: 16px;">
                 <!-- Generado dinámicamente -->
               </div>
 
               <!-- Navegación Pregunta a Pregunta -->
-              <div style="display: flex; justify-content: space-between; align-items: center; gap: 10px; border-top: 1px solid rgba(255,255,255,0.08); padding-top: 16px;">
-                <button class="btn btn-outline" id="btn-focus-prev" onclick="navegarPreguntaFocus(-1)" style="padding: 10px 20px; font-size: 14px; border-color: rgba(255,255,255,0.15); color: #cbd5e1;">⬅️ Anterior</button>
-                <button class="btn btn-outline" onclick="marcarAlternativa(state.focusCurrentQuestion, '')" style="padding: 8px 14px; font-size: 12px; border-color: rgba(239,68,68,0.3); color: #f87171;">Borrar Respuesta</button>
-                <button class="btn btn-primary" id="btn-focus-next" onclick="navegarPreguntaFocus(1)" style="padding: 10px 20px; font-size: 14px; font-weight: 700;">Siguiente ➡️</button>
+              <div style="display: flex; justify-content: space-between; align-items: center; gap: 8px; border-top: 1px solid rgba(255,255,255,0.08); padding-top: 14px;">
+                <button class="btn btn-outline" id="btn-focus-prev" onclick="navegarPreguntaFocus(-1)" style="padding: 8px 14px; font-size: 13px; border-color: rgba(255,255,255,0.15); color: #cbd5e1;">⬅️ Ant.</button>
+                <button class="btn btn-outline" onclick="marcarAlternativa(state.focusCurrentQuestion, '')" style="padding: 6px 10px; font-size: 11px; border-color: rgba(239,68,68,0.3); color: #f87171;" title="Borrar respuesta actual">Borrar</button>
+                <button class="btn btn-primary" id="btn-focus-next" onclick="navegarPreguntaFocus(1)" style="padding: 8px 16px; font-size: 13px; font-weight: 700;">Sig. ➡️</button>
               </div>
             </div>
 
             <!-- Grilla Rápida de Selección de Pregunta -->
-            <div style="margin-top: 20px; background: rgba(15, 23, 42, 0.4); border: 1px solid rgba(255,255,255,0.06); border-radius: 14px; padding: 16px;">
-              <span style="font-size: 12px; color: #94a3b8; font-weight: 600; margin-bottom: 10px; display: block;">Navegación Rápida de Preguntas:</span>
-              <div id="focus-grid-jump" style="display: flex; flex-wrap: wrap; gap: 6px; max-height: 140px; overflow-y: auto; padding-right: 4px;">
+            <div style="margin-top: 14px; background: rgba(15, 23, 42, 0.4); border: 1px solid rgba(255,255,255,0.06); border-radius: 12px; padding: 12px;">
+              <span style="font-size: 11.5px; color: #94a3b8; font-weight: 600; margin-bottom: 8px; display: block;">Navegación Rápida de Preguntas:</span>
+              <div id="focus-grid-jump" style="display: flex; flex-wrap: wrap; gap: 5px; max-height: 120px; overflow-y: auto; padding-right: 4px;">
                 <!-- Generado dinámicamente -->
               </div>
             </div>

@@ -1,0 +1,51 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" fill="none">
+  <defs>
+    <linearGradient id="paesBgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#059669" />
+      <stop offset="50%" stop-color="#0d9488" />
+      <stop offset="100%" stop-color="#0f172a" />
+    </linearGradient>
+    <linearGradient id="paesAccentGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#34d399" />
+      <stop offset="100%" stop-color="#38bdf8" />
+    </linearGradient>
+    <linearGradient id="paesGold" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#fde047" />
+      <stop offset="100%" stop-color="#f59e0b" />
+    </linearGradient>
+    <filter id="paesShadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="12" stdDeviation="16" flood-color="#000000" flood-opacity="0.4" />
+    </filter>
+  </defs>
+
+  <!-- Rounded App Icon Background -->
+  <rect width="512" height="512" rx="128" fill="url(#paesBgGrad)" />
+  <rect x="8" y="8" width="496" height="496" rx="120" stroke="url(#paesAccentGrad)" stroke-width="4" stroke-opacity="0.4" fill="none" />
+
+  <!-- PAES Central Emblem: Shield + Bar Chart + Target Metric -->
+  <g filter="url(#paesShadow)" transform="translate(0, 5)">
+    <!-- Escudo Protector / Institucional -->
+    <path d="M256 100L380 155V270C380 345 325 405 256 425C187 405 132 345 132 270V155L256 100Z" fill="#ffffff" />
+    <path d="M256 116L364 164V265C364 332 316 386 256 404C196 386 148 332 148 265V164L256 116Z" fill="url(#paesBgGrad)" />
+
+    <!-- Analytics Bars inside Shield (PAES 100-1000 pts) -->
+    <!-- Bar 1 -->
+    <rect x="188" y="270" width="28" height="70" rx="8" fill="#34d399" />
+    <!-- Bar 2 (Higher) -->
+    <rect x="228" y="225" width="28" height="115" rx="8" fill="url(#paesAccentGrad)" />
+    <!-- Bar 3 (Max Score / 1000 pts) -->
+    <rect x="268" y="185" width="28" height="155" rx="8" fill="#ffffff" />
+    <!-- Bar 4 -->
+    <rect x="308" y="245" width="28" height="95" rx="8" fill="#38bdf8" />
+
+    <!-- Trend Arrow over bars -->
+    <path d="M192 250L242 205L282 165L325 150" stroke="url(#paesGold)" stroke-width="8" stroke-linecap="round" stroke-linejoin="round" />
+    <path d="M312 148H330V166" stroke="url(#paesGold)" stroke-width="8" stroke-linecap="round" stroke-linejoin="round" />
+
+    <!-- Top Badge Star -->
+    <circle cx="256" cy="148" r="10" fill="url(#paesGold)" />
+  </g>
+
+  <!-- PAES Label Subtitle -->
+  <text x="256" y="470" text-anchor="middle" fill="#34d399" font-family="system-ui, -apple-system, sans-serif" font-weight="900" font-size="34" letter-spacing="6">PAES</text>
+</svg>

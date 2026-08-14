@@ -300,26 +300,26 @@ function renderFocusQuestion() {
     }
   }
 
-  // Tarjetas de Opciones Estilo PreUNAB
+  // Tarjetas de Opciones Estilo PreUNAB Compactas
   const opciones = ['A', 'B', 'C', 'D', 'E'];
   if (optionsList) {
     optionsList.innerHTML = opciones.map(opt => {
       const isSelected = selectedVal === opt;
-      const bg = isSelected ? 'linear-gradient(135deg, rgba(124,58,237,0.35) 0%, rgba(109,40,217,0.45) 100%)' : 'rgba(255,255,255,0.03)';
+      const bg = isSelected ? 'linear-gradient(135deg, rgba(124,58,237,0.3) 0%, rgba(109,40,217,0.4) 100%)' : 'rgba(255,255,255,0.03)';
       const border = isSelected ? '1px solid #a78bfa' : '1px solid rgba(255,255,255,0.08)';
-      const shadow = isSelected ? 'box-shadow: 0 0 16px rgba(124, 58, 237, 0.4);' : '';
+      const shadow = isSelected ? 'box-shadow: 0 0 12px rgba(124, 58, 237, 0.35);' : '';
       const colorLetter = isSelected ? '#ffffff' : '#a78bfa';
       const bgLetter = isSelected ? '#7c3aed' : 'rgba(167,139,250,0.12)';
 
       return `
-        <div onclick="marcarAlternativa(${q}, '${opt}')" style="cursor:pointer; background:${bg}; border:${border}; ${shadow} border-radius:12px; padding:14px 18px; display:flex; align-items:center; gap:16px; transition:all 0.2s ease;">
-          <div style="width:36px; height:36px; border-radius:10px; background:${bgLetter}; color:${colorLetter}; font-weight:800; font-size:16px; display:flex; align-items:center; justify-content:center; flex-shrink:0;">
+        <div onclick="marcarAlternativa(${q}, '${opt}')" style="cursor:pointer; background:${bg}; border:${border}; ${shadow} border-radius:10px; padding:9px 12px; display:flex; align-items:center; gap:12px; transition:all 0.18s ease;" onmouseover="this.style.borderColor='#a78bfa'" onmouseout="this.style.borderColor='${isSelected ? '#a78bfa' : 'rgba(255,255,255,0.08)'}'">
+          <div style="width:30px; height:30px; border-radius:8px; background:${bgLetter}; color:${colorLetter}; font-weight:800; font-size:14px; display:flex; align-items:center; justify-content:center; flex-shrink:0;">
             ${opt}
           </div>
-          <div style="font-size:15px; font-weight:600; color:${isSelected ? '#ffffff' : '#cbd5e1'};">
+          <div style="font-size:13.5px; font-weight:600; color:${isSelected ? '#ffffff' : '#cbd5e1'};">
             Opción ${opt}
           </div>
-          ${isSelected ? '<div style="margin-left:auto; color:#34d399; font-weight:700; font-size:16px;">✓</div>' : ''}
+          ${isSelected ? '<div style="margin-left:auto; color:#34d399; font-weight:700; font-size:14px;">✓</div>' : ''}
         </div>`;
     }).join('');
   }
@@ -339,7 +339,7 @@ function renderFocusQuestion() {
       const border = isCurrent ? '1px solid #c084fc' : (isAns ? '1px solid rgba(16,185,129,0.4)' : '1px solid rgba(255,255,255,0.08)');
 
       jumpHtml += `
-        <button onclick="jumpToFocusQuestion(${i})" style="width:34px; height:34px; border-radius:8px; background:${bg}; color:${color}; border:${border}; font-size:12px; font-weight:700; cursor:pointer; display:flex; align-items:center; justify-content:center; transition:all 0.15s;">
+        <button onclick="jumpToFocusQuestion(${i})" style="width:28px; height:28px; border-radius:6px; background:${bg}; color:${color}; border:${border}; font-size:11px; font-weight:700; cursor:pointer; display:flex; align-items:center; justify-content:center; transition:all 0.15s;">
           ${i}
         </button>`;
     }
@@ -666,6 +666,7 @@ function iniciarRelojConteoRegresivo() {
 }
 
 let modoDivididoActivo = false;
+let currentRatioClass = 'ratio-65';
 
 function toggleModoDividido() {
   const container = document.getElementById('main-mobile-container');
@@ -673,6 +674,7 @@ function toggleModoDividido() {
   const iframe = document.getElementById('pdf-iframe');
   const btnToggle = document.getElementById('btn-toggle-split');
   const pdfLink = document.getElementById('link-ver-pdf');
+  const ratioControls = document.getElementById('split-ratio-controls');
   
   modoDivididoActivo = !modoDivididoActivo;
   
@@ -686,12 +688,44 @@ function toggleModoDividido() {
       if (!iframe.dataset.pdfUrl) iframe.dataset.pdfUrl = urlToLoad;
     }
     if (pdfPanel) pdfPanel.style.display = 'block';
-    if (container) container.classList.add('split-layout-active');
-    if (btnToggle) btnToggle.innerHTML = '📱 Ocultar PDF (Solo Hoja)';
+    if (container) {
+      container.classList.add('split-layout-active');
+      container.classList.add(currentRatioClass);
+    }
+    if (ratioControls) ratioControls.style.display = 'flex';
+    if (btnToggle) btnToggle.innerHTML = '📱 Ocultar PDF';
   } else {
     // Al ocultar NO borrar el src, solo ocultar el panel
     if (pdfPanel) pdfPanel.style.display = 'none';
-    if (container) container.classList.remove('split-layout-active');
-    if (btnToggle) btnToggle.innerHTML = '📖 Ver PDF y Hoja en Misma Pantalla';
+    if (container) {
+      container.classList.remove('split-layout-active');
+      container.classList.remove('ratio-75', 'ratio-65', 'ratio-50');
+    }
+    if (ratioControls) ratioControls.style.display = 'none';
+    if (btnToggle) btnToggle.innerHTML = '📖 Ver PDF y Hoja';
   }
 }
+
+function cambiarRatioSplit(ratioClass) {
+  currentRatioClass = ratioClass;
+  const container = document.getElementById('main-mobile-container');
+  if (container) {
+    container.classList.remove('ratio-75', 'ratio-65', 'ratio-50');
+    container.classList.add(ratioClass);
+  }
+
+  // Actualizar estilos activos en los botones de ratio
+  const ratioBtns = document.querySelectorAll('.ratio-btn');
+  ratioBtns.forEach(btn => {
+    btn.style.background = 'transparent';
+    btn.style.color = '#94a3b8';
+  });
+
+  const activeBtnId = ratioClass === 'ratio-75' ? 'btn-ratio-75' : (ratioClass === 'ratio-50' ? 'btn-ratio-50' : 'btn-ratio-65');
+  const activeBtn = document.getElementById(activeBtnId);
+  if (activeBtn) {
+    activeBtn.style.background = 'rgba(124,58,237,0.35)';
+    activeBtn.style.color = '#ffffff';
+  }
+}
+

@@ -17,7 +17,8 @@ const state = {
   alumnosEnSession: [],   // alumnos de la sesión en creación
   sesionActivaDocente: null,
   sesionActivaDocenteData: null,
-  enviosActivos: []
+  enviosActivos: [],
+  evaluacionPersonalizada: null  // configuración del generador: { activa, numPreguntas, duracionMinutos, uidClavijero, ... }
 };
 
 // Íconos y colores por materia
@@ -227,12 +228,162 @@ function filtrarAnioMezcla(anio, btn) {
 
 
 // ──────────────────────────────────────────────────────────
-// NAVEGACIÓN ENTRE SECCIONES
+// SISTEMA DE ROLES Y NAVEGACIÓN SIMPLIFICADA
 // ──────────────────────────────────────────────────────────
-function showSection(id) {
+
+function setRole(role) {
+  state.currentRole = role;
+  localStorage.setItem('paes_user_role', role);
+  renderNavbar();
+
+  if (role === 'landing') {
+    showSection('landing');
+    const subtabs = document.getElementById('subtabs-evaluaciones');
+    if (subtabs) subtabs.style.display = 'none';
+  } else if (role === 'docente' || role === 'admin') {
+    setAppView('evaluaciones');
+  }
+}
+
+function renderNavbar() {
+  const nav = document.getElementById('main-nav');
+  const roleIndicator = document.getElementById('header-role-indicator');
+  const roleBadge = document.getElementById('nav-role-badge');
+  const role = state.currentRole || 'landing';
+
+  if (!nav) return;
+
+  if (role === 'landing') {
+    if (roleIndicator) roleIndicator.style.display = 'none';
+    nav.innerHTML = `
+      <a href="#landing" class="nav-link active" onclick="showSection('landing')">Inicio</a>
+      <a href="#landing" class="nav-link" onclick="document.getElementById('landing-token-input')?.focus()">🎓 Alumnos</a>
+      <a href="#landing" class="nav-link" onclick="setRole('docente')">👨‍🏫 Profesores</a>
+      <a href="#landing" class="nav-link" onclick="setRole('admin')">⚙️ Admin</a>
+    `;
+  } else if (role === 'docente') {
+    if (roleIndicator) {
+      roleIndicator.style.display = 'flex';
+      if (roleBadge) {
+        roleBadge.className = 'role-badge-nav docente';
+        roleBadge.innerHTML = '👨‍🏫 Docente';
+      }
+    }
+    nav.innerHTML = `
+      <a href="#mezcla" class="nav-link active" id="nav-evaluaciones" onclick="setAppView('evaluaciones')">📚 Evaluaciones</a>
+      <a href="#enviar" class="nav-link" id="nav-enviar" onclick="setAppView('enviar')">📤 Enviar Evaluación</a>
+      <a href="#resultados" class="nav-link" id="nav-resultados" onclick="setAppView('resultados')">📊 Resultados</a>
+    `;
+  } else if (role === 'admin') {
+    if (roleIndicator) {
+      roleIndicator.style.display = 'flex';
+      if (roleBadge) {
+        roleBadge.className = 'role-badge-nav admin';
+        roleBadge.innerHTML = '⚙️ Administrador';
+      }
+    }
+    nav.innerHTML = `
+      <a href="#mezcla" class="nav-link active" id="nav-evaluaciones" onclick="setAppView('evaluaciones')">📚 Evaluaciones</a>
+      <a href="#enviar" class="nav-link" id="nav-enviar" onclick="setAppView('enviar')">📤 Enviar Evaluación</a>
+      <a href="#resultados" class="nav-link" id="nav-resultados" onclick="setAppView('resultados')">📊 Resultados</a>
+      <a href="#admin-panel" class="nav-link" id="nav-admin" onclick="setAppView('admin')">⚙️ Sistema</a>
+    `;
+  }
+}
+
+function setAppView(view) {
+  const subtabs = document.getElementById('subtabs-evaluaciones');
+  document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
+
+  if (view === 'evaluaciones') {
+    if (subtabs) subtabs.style.display = 'flex';
+    const navEval = document.getElementById('nav-evaluaciones');
+    if (navEval) navEval.classList.add('active');
+    const sub = state.currentSubModulo || 'mezcla';
+    showSubModulo(sub);
+  } else {
+    if (subtabs) subtabs.style.display = 'none';
+    if (view === 'enviar') {
+      const navEnv = document.getElementById('nav-enviar');
+      if (navEnv) navEnv.classList.add('active');
+      showSection('enviar');
+    }
+    if (view === 'resultados') {
+      const navRes = document.getElementById('nav-resultados');
+      if (navRes) navRes.classList.add('active');
+      showSection('resultados');
+    }
+    if (view === 'admin') {
+      const navAdm = document.getElementById('nav-admin');
+      if (navAdm) navAdm.classList.add('active');
+      showSection('admin-panel');
+    }
+  }
+}
+
+function showSubModulo(subId) {
+  state.currentSubModulo = subId;
+  document.querySelectorAll('.subtab-pill').forEach(btn => {
+    btn.classList.remove('active');
+  });
+  const activeBtn = document.getElementById('subtab-' + subId);
+  if (activeBtn) activeBtn.classList.add('active');
+
+  showSection(subId);
+}
+
+function irAResponderToken() {
+  const input = document.getElementById('landing-token-input');
+  if (!input) return;
+  const token = input.value.trim();
+  if (!token) {
+    input.focus();
+    if (typeof mostrarToast === 'function') {
+      mostrarToast('⚠️ Por favor ingresa tu código de evaluación o token.');
+    } else {
+      alert('Por favor ingresa tu código de evaluación o token.');
+    }
+    return;
+  }
+  window.location.href = `responder.html?token=${encodeURIComponent(token)}`;
+}
+
+// ──────────────────────────────────────────────────────────
+// NAVEGACIÓN ENTRE SECCIONES & ROUTING CON HASH
+// ──────────────────────────────────────────────────────────
+function toggleNavMobile() {
+  const nav = document.getElementById('main-nav');
+  const btn = document.getElementById('nav-mobile-toggle');
+  if (!nav || !btn) return;
+  const isOpen = nav.classList.toggle('is-open');
+  btn.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+}
+
+function showSection(id, pushState = true) {
+  const subtabs = document.getElementById('subtabs-evaluaciones');
+  const evaluacionesSections = ['mezcla', 'descarga', 'ensayos', 'biblioteca', 'generar', 'ayuda'];
+
+  if (evaluacionesSections.includes(id)) {
+    if (state.currentRole === 'landing') {
+      state.currentRole = 'docente';
+      renderNavbar();
+    }
+    if (subtabs) subtabs.style.display = 'flex';
+    document.querySelectorAll('.subtab-pill').forEach(btn => btn.classList.remove('active'));
+    const pill = document.getElementById('subtab-' + id);
+    if (pill) pill.classList.add('active');
+    
+    document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
+    const navEval = document.getElementById('nav-evaluaciones');
+    if (navEval) navEval.classList.add('active');
+  } else if (id === 'landing') {
+    if (subtabs) subtabs.style.display = 'none';
+  } else {
+    if (subtabs) subtabs.style.display = 'none';
+  }
+
   // Ocultar todas las secciones
   document.querySelectorAll('.section').forEach(s => s.classList.add('hidden'));
-  document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
 
   // Mostrar la seleccionada
   const section = document.getElementById(id);
@@ -245,7 +396,22 @@ function showSection(id) {
 
   // Activar nav link
   const navLink = document.getElementById('nav-' + id);
-  if (navLink) navLink.classList.add('active');
+  if (navLink) {
+    document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
+    navLink.classList.add('active');
+    navLink.setAttribute('aria-current', 'page');
+  }
+
+  // Cerrar menú móvil si está abierto
+  const mainNav = document.getElementById('main-nav');
+  const navToggle = document.getElementById('nav-mobile-toggle');
+  if (mainNav) mainNav.classList.remove('is-open');
+  if (navToggle) navToggle.setAttribute('aria-expanded', 'false');
+
+  // Actualizar Hash en la URL
+  if (pushState && location.hash !== '#' + id) {
+    history.pushState(null, null, '#' + id);
+  }
 
   // Acciones por sección
   if (id === 'descarga') {
@@ -259,6 +425,13 @@ function showSection(id) {
   // Scroll al contenido
   window.scrollTo({ top: 0, behavior: 'smooth' });
 }
+
+// Escuchar navegación Atrás/Adelante del navegador
+window.addEventListener('popstate', () => {
+  const section = location.hash.replace('#', '') || 'landing';
+  showSection(section, false);
+});
+
 
 // ──────────────────────────────────────────────────────────
 // MARCA DESCARGADOS
@@ -750,13 +923,16 @@ document.addEventListener('DOMContentLoaded', () => {
   // Actualizar selectores al iniciar
   actualizarSelectorSesionesActivas();
 
-  // Iniciar en sección descarga
-  showSection('descarga');
+  // Inicializar navegación y barra de roles
+  renderNavbar();
 
-  // Contadores en hero
-  setTimeout(() => {
-    // Los números del hero son estáticos en este caso
-  }, 800);
+  // Iniciar en sección correcta según hash de URL (permite compartir links directos)
+  const initialSection = location.hash.replace('#', '');
+  if (initialSection && document.getElementById(initialSection)) {
+    showSection(initialSection, false);
+  } else {
+    showSection('landing', false);
+  }
 });
 
 // ──────────────────────────────────────────────────────────
@@ -1014,11 +1190,40 @@ async function crearSesionEvaluacion() {
   }
   
   const duracionInput = document.getElementById('duracion-sesion');
-  const duracion = duracionInput ? (parseInt(duracionInput.value) || 0) : 150;
   const exigencia = exigenciaInput ? parseInt(exigenciaInput.value) || 60 : 60;
   const sala = salaInput ? salaInput.value.trim() : 'SALA-1';
   const sesionId = 'ses_' + Math.random().toString(36).substr(2, 9);
   
+  // ── Respetar configuración personalizada del Generador de Evaluaciones ──
+  const evalPersonal = state.evaluacionPersonalizada && state.evaluacionPersonalizada.activa
+    ? state.evaluacionPersonalizada
+    : null;
+
+  // Duración: si viene del generador usar la personalizada, si no usar el input
+  const duracion = evalPersonal
+    ? evalPersonal.duracionMinutos
+    : (duracionInput ? (parseInt(duracionInput.value) || 0) : 150);
+
+  // Número de preguntas y claves: recortar el clavijero al subconjunto personalizado
+  let numPreguntas;
+  let clavesFinales;
+
+  if (evalPersonal && evalPersonal.numPreguntas < Object.keys(infoClave.claves).length) {
+    numPreguntas = evalPersonal.numPreguntas;
+    // Ordenar claves numéricamente y tomar las primeras N
+    const todasLasClaves = Object.keys(infoClave.claves).sort((a, b) => parseInt(a) - parseInt(b));
+    const clavesSubset = todasLasClaves.slice(0, numPreguntas);
+    clavesFinales = {};
+    clavesSubset.forEach(k => { clavesFinales[k] = infoClave.claves[k]; });
+  } else {
+    numPreguntas = Object.keys(infoClave.claves).length;
+    clavesFinales = infoClave.claves;
+  }
+
+  // Pilotos: filtrar solo los que caen dentro del subconjunto de preguntas
+  const clavesKeys = new Set(Object.keys(clavesFinales));
+  const pilotosFinales = infoClave.pilotos.map(String).filter(p => clavesKeys.has(p));
+
   const [mat, anioStr] = uidClavijero.split('_');
   const itemPrueba = (state.catalogoRaw || []).find(x => 
     x.tipo === 'prueba' && 
@@ -1029,17 +1234,20 @@ async function crearSesionEvaluacion() {
     !x.archivo.toLowerCase().includes('marcadas')
   );
   const pdfUrl = itemPrueba ? itemPrueba.url : null;
+
+  // Limpiar la evaluación personalizada una vez consumida
+  if (evalPersonal) state.evaluacionPersonalizada.activa = false;
   
-  // Guardar la sesión
+  // Guardar la sesión con los valores correctos
   const nuevaSesion = {
     id: sesionId,
     titulo: titulo,
     materia_anio: uidClavijero,
     pdfUrl: pdfUrl,
     duracionMinutos: duracion,
-    numPreguntas: Object.keys(infoClave.claves).length,
-    claves: infoClave.claves,
-    pilotos: infoClave.pilotos.map(String),
+    numPreguntas: numPreguntas,
+    claves: clavesFinales,
+    pilotos: pilotosFinales,
     escala: infoClave.escala,
     escalaExigencia: exigencia,
     sala: sala,
@@ -1910,6 +2118,25 @@ function generarReportePDF() {
     doc.text(`Página ${i} de ${pageCount} — Sistema PAES Manager`, 105, 290, { align: 'center' });
   }
 
+
   doc.save(`reporte_PAES_${sesion.titulo.replace(/\s+/g, '_')}.pdf`);
   showToast('📄 Reporte PDF generado correctamente');
 }
+
+// ──────────────────────────────────────────────────────────
+// TOGGLE TEMA CLARO / OSCURO
+// ──────────────────────────────────────────────────────────
+
+function toggleTema() {
+  const body = document.body;
+  const isLight = body.classList.toggle('light-theme');
+  localStorage.setItem('paes_theme', isLight ? 'light' : 'dark');
+}
+
+// Aplicar tema guardado inmediatamente al cargar
+(function aplicarTemaGuardado() {
+  const savedTheme = localStorage.getItem('paes_theme');
+  if (savedTheme === 'light') {
+    document.body.classList.add('light-theme');
+  }
+})();

@@ -1,4 +1,8 @@
 pruebas_paes/
-respaldos_previo_preunab/
+respaldos_previo/
+datos_raw/
+scripts/
 *.cmd
 *.ps1
+*.bat
+

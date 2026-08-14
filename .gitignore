@@ -1,6 +1,11 @@
 # ── Directorio de PDFs descargados (demasiado pesado para Git, ~152 MB)
 pruebas_paes/
 
+# ── Carpetas de desarrollo y extracciones locales
+scripts/
+datos_raw/
+respaldos_previo/
+
 # ── Scripts Python de utilidad (solo para desarrollo local)
 descargar_paes.py
 scrape_paes.py
@@ -33,8 +38,6 @@ desktop.ini
 *.log
 npm-debug.log*
 
-# ── Vercel local
-.vercel
-
+# ── Vercel local & variables de entorno
 .vercel
 .env*

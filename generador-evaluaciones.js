@@ -306,7 +306,8 @@ function toggleMasterEje(eIdx, isChecked) {
 
 function ejecutarGeneracionEvaluacion(modo) {
   const nivelSelect = document.getElementById('gen-select-nivel');
-  const nombreNivel = nivelSelect ? nivelSelect.options[nivelSelect.selectedIndex].text : 'SysGet PAES Manager';
+  const nivelId = nivelSelect ? nivelSelect.value : 'm1_invierno';
+  const nombreNivel = nivelSelect ? nivelSelect.options[nivelSelect.selectedIndex].text : 'Competencia matemática M1';
   
   let totalPreguntas = 65;
   let totalMinutos = 140;
@@ -315,15 +316,117 @@ function ejecutarGeneracionEvaluacion(modo) {
   if (selectedPreset === '32') { totalPreguntas = 32; totalMinutos = 70; }
   else if (selectedPreset === '16') { totalPreguntas = 16; totalMinutos = 35; }
   else if (selectedPreset === 'custom') {
-    totalPreguntas = parseInt(document.getElementById('gen-input-preg')?.value || '10');
-    totalMinutos = parseInt(document.getElementById('gen-input-min')?.value || '20');
+    totalPreguntas = parseInt(document.getElementById('gen-input-preg')?.value || '10') || 10;
+    totalMinutos = parseInt(document.getElementById('gen-input-min')?.value || '20') || 20;
   }
 
+  // Recopilar ejes seleccionados
+  const ejesSeleccionados = [];
+  document.querySelectorAll('input[type="checkbox"][id^="eje-master-"]:checked').forEach(cb => {
+    const txt = cb.parentElement ? cb.parentElement.textContent.trim() : '';
+    if (txt) ejesSeleccionados.push(txt);
+  });
+
   if (modo === 'online') {
+    // 1. Mapear nivel/asignatura al uidClavijero correspondiente
+    const targetUid = mapearNivelAClavijero(asigGeneradorActual, nivelId);
+
+    // 2. Guardar evaluación personalizada activa en el estado global
+    state.evaluacionPersonalizada = {
+      activa: true,
+      asig: asigGeneradorActual,
+      nivelId: nivelId,
+      nombreNivel: nombreNivel,
+      uidClavijero: targetUid,
+      numPreguntas: totalPreguntas,
+      duracionMinutos: totalMinutos,
+      ejes: ejesSeleccionados
+    };
+
+    // 3. Cambiar a la sección Enviar
     showSection('enviar');
-    alert(`🎉 Evaluación SysGet Generada con Éxito\n\n📌 Prueba: ${nombreNivel}\n📊 Preguntas: ${totalPreguntas}\n⏱️ Tiempo: ${totalMinutos} minutos\n\nSoftware Educativo: SysGet PAES Manager`);
+
+    // 4. Configurar automáticamente los campos de la sección Enviar
+    configurarSeccionEnvioDesdeGenerador(state.evaluacionPersonalizada);
+
+    // 5. Feedback visual al docente
+    showToast(`🚀 Evaluación configurada: ${totalPreguntas} preguntas | ${totalMinutos} minutos`, 4000);
   } else {
+    // Modo PDF Imprimible
     alert(`📄 Generando PDF Imprimible (SysGet Educational Suite)...\n\nPrueba: ${nombreNivel}\nPreguntas: ${totalPreguntas}\nTiempo oficial: ${totalMinutos} min\n\nEl documento PDF con membrete SysGet se abrirá a continuación.`);
     window.open('https://sysget-paes-manager.vercel.app/#biblioteca', '_blank');
   }
 }
+
+function mapearNivelAClavijero(asig, nivelId) {
+  if (asig === 'matematica') {
+    if (nivelId === 'm2_invierno') return 'm2_2026';
+    if (nivelId === 'm1_regular') return 'm1_2026';
+    return 'm1_2026';
+  } else if (asig === 'lenguaje') {
+    return 'lectora_2026';
+  } else if (asig === 'historia') {
+    return 'historia_2026';
+  } else if (asig === 'ciencias') {
+    if (nivelId === 'cie_bio') return 'biologia_2026';
+    if (nivelId === 'cie_fis') return 'fisica_2026';
+    if (nivelId === 'cie_qui') return 'quimica_2026';
+    if (nivelId === 'cie_tp')  return 'tp_2026';
+    return 'biologia_2026';
+  }
+  return 'm1_2026';
+}
+
+function configurarSeccionEnvioDesdeGenerador(evalConfig) {
+  const selectPrueba  = document.getElementById('select-prueba-envio');
+  const tituloInput   = document.getElementById('titulo-sesion');
+  const duracionInput = document.getElementById('duracion-sesion');
+  const infoBox       = document.getElementById('info-clave-box');
+  const infoText      = document.getElementById('info-clave-text');
+
+  if (selectPrueba && evalConfig.uidClavijero) {
+    selectPrueba.value = evalConfig.uidClavijero;
+  }
+  if (tituloInput) {
+    tituloInput.value = `Control: ${evalConfig.nombreNivel} (${evalConfig.numPreguntas} preg)`;
+  }
+  if (duracionInput) {
+    duracionInput.value = evalConfig.duracionMinutos;
+  }
+
+  if (infoBox && infoText) {
+    infoBox.style.display = 'block';
+    infoBox.style.background = 'rgba(124, 58, 237, 0.15)';
+    infoBox.style.borderColor = 'rgba(124, 58, 237, 0.4)';
+    infoText.innerHTML = `
+      <div style="color:#c084fc; font-weight:700; font-size:13px; margin-bottom:4px;">
+        🎯 Evaluación Personalizada SysGet Configurada
+      </div>
+      <div style="color:var(--text-primary); font-size:12.5px; line-height:1.5;">
+        <strong>Asignatura:</strong> ${evalConfig.nombreNivel}<br>
+        <strong>Cantidad de Preguntas:</strong> <span style="color:#34d399; font-weight:700;">${evalConfig.numPreguntas} preguntas</span><br>
+        <strong>Tiempo Límite:</strong> <span style="color:#38bdf8; font-weight:700;">${evalConfig.duracionMinutos} minutos</span><br>
+        <span style="color:#94a3b8; font-size:11.5px; display:block; margin-top:3px;">
+          ✓ Los alumnos responderán exactamente estas ${evalConfig.numPreguntas} preguntas en su hoja digital.
+        </span>
+      </div>
+      <div style="margin-top:8px;">
+        <button class="btn btn-outline" onclick="cancelarPersonalizacionEvaluacion()" style="padding:4px 10px; font-size:11px; border-color:rgba(255,255,255,0.2); color:#cbd5e1;">
+          🔄 Restablecer a Clavijero Completo (65 preg)
+        </button>
+      </div>
+    `;
+  }
+}
+
+function cancelarPersonalizacionEvaluacion() {
+  if (state.evaluacionPersonalizada) {
+    state.evaluacionPersonalizada.activa = false;
+  }
+  const selectPrueba = document.getElementById('select-prueba-envio');
+  if (selectPrueba) {
+    alSeleccionarClavijero(selectPrueba.value);
+  }
+  showToast('🔄 Restablecido a clavijero completo');
+}
+
