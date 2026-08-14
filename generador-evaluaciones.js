@@ -9,9 +9,15 @@ let asigGeneradorActual = 'matematica';
 const estructuraEjesGenerador = {
   matematica: {
     niveles: [
-      { id: 'm1_invierno', nombre: 'Competencia matemática M1 - Invierno 2026' },
-      { id: 'm1_regular', nombre: 'Competencia matemática M1 - Regular 2026' },
-      { id: 'm2_invierno', nombre: 'Competencia matemática M2 - Avanzada' }
+      { id: 'm1_2026', nombre: 'Competencia matemática M1 - Proceso 2026 (Regular)' },
+      { id: 'm1_invierno_2026', nombre: 'Competencia matemática M1 - Invierno 2026' },
+      { id: 'm2_2026', nombre: 'Competencia matemática M2 - Avanzada 2026' },
+      { id: 'm1_2025', nombre: 'Competencia matemática M1 - Proceso 2025' },
+      { id: 'm2_2025', nombre: 'Competencia matemática M2 - Proceso 2025' },
+      { id: 'm1_2024', nombre: 'Competencia matemática M1 - Proceso 2024' },
+      { id: 'm2_2024', nombre: 'Competencia matemática M2 - Proceso 2024' },
+      { id: 'm1_2023', nombre: 'Competencia matemática M1 - Proceso 2023' },
+      { id: 'm2_2023', nombre: 'Competencia matemática M2 - Proceso 2023' }
     ],
     ejes: [
       {
@@ -59,8 +65,11 @@ const estructuraEjesGenerador = {
 
   lenguaje: {
     niveles: [
-      { id: 'leng_regular', nombre: 'Competencia Lectora PAES 2026' },
-      { id: 'leng_intensivo', nombre: 'Competencia Lectora - Módulo Intensivo' }
+      { id: 'lectora_2026', nombre: 'Competencia Lectora PAES - Proceso 2026 (Regular)' },
+      { id: 'lectora_invierno_2026', nombre: 'Competencia Lectora PAES - Invierno 2026' },
+      { id: 'lectora_2025', nombre: 'Competencia Lectora PAES - Proceso 2025' },
+      { id: 'lectora_2024', nombre: 'Competencia Lectora PAES - Proceso 2024' },
+      { id: 'lectora_2023', nombre: 'Comprensión Lectora PDT/PAES - Proceso 2023' }
     ],
     ejes: [
       {
@@ -94,7 +103,10 @@ const estructuraEjesGenerador = {
 
   historia: {
     niveles: [
-      { id: 'his_regular', nombre: 'Historia y Ciencias Sociales PAES 2026' }
+      { id: 'historia_2026', nombre: 'Historia y Ciencias Sociales PAES - Proceso 2026' },
+      { id: 'historia_2025', nombre: 'Historia y Ciencias Sociales PAES - Proceso 2025' },
+      { id: 'historia_2024', nombre: 'Historia y Ciencias Sociales PAES - Proceso 2024' },
+      { id: 'historia_2023', nombre: 'Historia y Ciencias Sociales PAES - Proceso 2023' }
     ],
     ejes: [
       {
@@ -120,10 +132,22 @@ const estructuraEjesGenerador = {
 
   ciencias: {
     niveles: [
-      { id: 'cie_bio', nombre: 'Ciencias común + Biología electivo' },
-      { id: 'cie_fis', nombre: 'Ciencias común + Física electivo' },
-      { id: 'cie_qui', nombre: 'Ciencias común + Química electivo' },
-      { id: 'cie_tp',  nombre: 'Ciencias módulo Técnico Profesional (TP)' }
+      { id: 'biologia_2026', nombre: 'Ciencias - Módulo Biología Electivo (Proceso 2026)' },
+      { id: 'fisica_2026',   nombre: 'Ciencias - Módulo Física Electivo (Proceso 2026)' },
+      { id: 'quimica_2026',  nombre: 'Ciencias - Módulo Química Electivo (Proceso 2026)' },
+      { id: 'tp_2026',       nombre: 'Ciencias - Módulo Técnico Profesional TP (Proceso 2026)' },
+      { id: 'biologia_2025', nombre: 'Ciencias - Módulo Biología Electivo (Proceso 2025)' },
+      { id: 'fisica_2025',   nombre: 'Ciencias - Módulo Física Electivo (Proceso 2025)' },
+      { id: 'quimica_2025',  nombre: 'Ciencias - Módulo Química Electivo (Proceso 2025)' },
+      { id: 'tp_2025',       nombre: 'Ciencias - Módulo Técnico Profesional TP (Proceso 2025)' },
+      { id: 'biologia_2024', nombre: 'Ciencias - Módulo Biología Electivo (Proceso 2024)' },
+      { id: 'fisica_2024',   nombre: 'Ciencias - Módulo Física Electivo (Proceso 2024)' },
+      { id: 'quimica_2024',  nombre: 'Ciencias - Módulo Química Electivo (Proceso 2024)' },
+      { id: 'tp_2024',       nombre: 'Ciencias - Módulo Técnico Profesional TP (Proceso 2024)' },
+      { id: 'biologia_2023', nombre: 'Ciencias - Módulo Biología Electivo (Proceso 2023)' },
+      { id: 'fisica_2023',   nombre: 'Ciencias - Módulo Física Electivo (Proceso 2023)' },
+      { id: 'quimica_2023',  nombre: 'Ciencias - Módulo Química Electivo (Proceso 2023)' },
+      { id: 'tp_2023',       nombre: 'Ciencias - Módulo Técnico Profesional TP (Proceso 2023)' }
     ],
     ejes: [
       {
@@ -359,19 +383,31 @@ function ejecutarGeneracionEvaluacion(modo) {
 }
 
 function mapearNivelAClavijero(asig, nivelId) {
-  if (asig === 'matematica') {
-    if (nivelId === 'm2_invierno') return 'm2_2026';
-    if (nivelId === 'm1_regular') return 'm1_2026';
-    return 'm1_2026';
-  } else if (asig === 'lenguaje') {
-    return 'lectora_2026';
-  } else if (asig === 'historia') {
-    return 'historia_2026';
-  } else if (asig === 'ciencias') {
-    if (nivelId === 'cie_bio') return 'biologia_2026';
-    if (nivelId === 'cie_fis') return 'fisica_2026';
-    if (nivelId === 'cie_qui') return 'quimica_2026';
-    if (nivelId === 'cie_tp')  return 'tp_2026';
+  if (!nivelId) return 'm1_2026';
+  
+  // Normalizar casos de invierno
+  if (nivelId === 'm1_invierno_2026' || nivelId === 'm1_invierno' || nivelId === 'm1_regular') return 'm1_2026';
+  if (nivelId === 'm2_invierno') return 'm2_2026';
+  if (nivelId === 'lectora_invierno_2026' || nivelId === 'leng_regular' || nivelId === 'leng_intensivo') return 'lectora_2026';
+  if (nivelId === 'his_regular') return 'historia_2026';
+  if (nivelId === 'cie_bio') return 'biologia_2026';
+  if (nivelId === 'cie_fis') return 'fisica_2026';
+  if (nivelId === 'cie_qui') return 'quimica_2026';
+  if (nivelId === 'cie_tp')  return 'tp_2026';
+
+  // Si el id coincide directamente con una clave en el catálogo de clavijeros (ej: 'm1_2025', 'biologia_2024', etc.)
+  if (typeof state !== 'undefined' && state.clavesYEscalas && state.clavesYEscalas[nivelId]) {
+    return nivelId;
+  }
+
+  // Fallbacks por asignatura
+  if (asig === 'matematica') return nivelId.startsWith('m2') ? 'm2_2026' : 'm1_2026';
+  if (asig === 'lenguaje') return 'lectora_2026';
+  if (asig === 'historia') return 'historia_2026';
+  if (asig === 'ciencias') {
+    if (nivelId.startsWith('fisica')) return 'fisica_2026';
+    if (nivelId.startsWith('quimica')) return 'quimica_2026';
+    if (nivelId.startsWith('tp')) return 'tp_2026';
     return 'biologia_2026';
   }
   return 'm1_2026';
