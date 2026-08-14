@@ -93,9 +93,67 @@ body.light-theme .form-input:focus {
   box-shadow: 0 0 0 3px rgba(37,99,235,0.12);
 }
 
+body.light-theme .gradient-text {
+  background: linear-gradient(135deg, #1d4ed8 0%, #6d28d9 50%, #be185d 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+body.light-theme .landing-tagline {
+  background: rgba(16, 185, 129, 0.12);
+  border-color: rgba(16, 185, 129, 0.35);
+  color: #047857;
+}
+
+body.light-theme .role-card {
+  background: #ffffff;
+  border-color: rgba(0, 0, 0, 0.08);
+  box-shadow: 0 10px 30px rgba(37, 99, 235, 0.08), 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+body.light-theme .role-card.student {
+  border-color: rgba(16, 185, 129, 0.3);
+  box-shadow: 0 10px 30px rgba(16, 185, 129, 0.08);
+}
+body.light-theme .role-card.teacher {
+  border-color: rgba(99, 102, 241, 0.3);
+  box-shadow: 0 10px 30px rgba(99, 102, 241, 0.08);
+}
+body.light-theme .role-card.admin {
+  border-color: rgba(245, 158, 11, 0.3);
+  box-shadow: 0 10px 30px rgba(245, 158, 11, 0.08);
+}
+
+body.light-theme .token-input {
+  background: #ffffff;
+  border-color: rgba(16, 185, 129, 0.4);
+  color: #0f172a;
+}
+body.light-theme .token-input::placeholder {
+  color: #94a3b8;
+}
+
+body.light-theme .hero-orb {
+  opacity: 0.18;
+}
+
+body.light-theme .subtabs-bar {
+  background: rgba(255, 255, 255, 0.8);
+  border-color: rgba(37, 99, 235, 0.12);
+}
+body.light-theme .subtab-pill {
+  color: var(--text-secondary);
+}
+body.light-theme .subtab-pill.active {
+  background: #2563eb;
+  color: #ffffff;
+}
+
 body.light-theme .mixer-config,
 body.light-theme .mixer-result {
-  background: #f7faff;
+  background: #ffffff;
+  border-color: rgba(37, 99, 235, 0.12);
 }
 
 /* ── THEME TRANSITION ────────────────────────────── */
@@ -345,7 +403,7 @@ body {
   font-weight: 900;
   line-height: 1.15;
   letter-spacing: -1px;
-  color: #ffffff;
+  color: var(--text-primary);
   margin-bottom: 1rem;
 }
 
@@ -372,17 +430,17 @@ body {
 
 .role-card {
   position: relative;
-  background: rgba(17, 29, 48, 0.7);
+  background: var(--bg-card);
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  border: 1px solid var(--border);
   border-radius: var(--radius-xl);
   padding: 2rem;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.35);
+  box-shadow: var(--shadow-card);
 }
 
 .role-card:hover {
@@ -458,23 +516,23 @@ body {
 
 .role-card.student .role-badge {
   background: rgba(16, 185, 129, 0.15);
-  color: #34d399;
+  color: #10b981;
 }
 
 .role-card.teacher .role-badge {
   background: rgba(99, 102, 241, 0.15);
-  color: #a5b4fc;
+  color: #6366f1;
 }
 
 .role-card.admin .role-badge {
   background: rgba(245, 158, 11, 0.15);
-  color: #fbbf24;
+  color: #f59e0b;
 }
 
 .role-card-title {
   font-size: 1.35rem;
   font-weight: 800;
-  color: #ffffff;
+  color: var(--text-primary);
   margin-bottom: 0.5rem;
 }
 
@@ -497,12 +555,12 @@ body {
 
 .token-input {
   flex: 1;
-  background: rgba(0, 0, 0, 0.35);
+  background: rgba(0, 0, 0, 0.25);
   border: 1px solid rgba(16, 185, 129, 0.3);
   border-radius: var(--radius-md);
   padding: 10px 14px;
   font-size: 14px;
-  color: #ffffff;
+  color: var(--text-primary);
   font-family: monospace;
   outline: none;
   transition: var(--transition);
