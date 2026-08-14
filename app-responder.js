@@ -75,8 +75,14 @@ async function inicializarHoja() {
       return;
     }
     
-    // Cargar estado
-    state.numPreguntas = state.sesion.numPreguntas;
+    // Cargar estado con número exacto de preguntas según claves
+    if (state.sesion.claves && Object.keys(state.sesion.claves).length > 0) {
+      state.numPreguntas = Object.keys(state.sesion.claves).length;
+    } else if (state.sesion.numPreguntas) {
+      state.numPreguntas = parseInt(state.sesion.numPreguntas) || 65;
+    } else {
+      state.numPreguntas = 65;
+    }
     state.respuestas = state.envio.respuestas || {};
 
     const prevCount = Object.keys(state.respuestas).filter(k => state.respuestas[k] !== '').length;
@@ -89,6 +95,12 @@ async function inicializarHoja() {
     // Configurar interfaz
     document.getElementById('exam-title').textContent = state.sesion.titulo;
     document.getElementById('student-display-name').textContent = `Alumno: ${state.envio.alumnoNombre}`;
+    
+    // Indicador en el visor PDF
+    const pdfNumIndic = document.getElementById('pdf-num-preg-indicator');
+    if (pdfNumIndic) {
+      pdfNumIndic.textContent = `Preguntas 1 a ${state.numPreguntas}`;
+    }
     
     // Obtener URL del PDF de la prueba (de la sesión o desde el catálogo)
     let pdfUrl = state.sesion.pdfUrl;
@@ -307,19 +319,19 @@ function renderFocusQuestion() {
       const isSelected = selectedVal === opt;
       const bg = isSelected ? 'linear-gradient(135deg, rgba(124,58,237,0.3) 0%, rgba(109,40,217,0.4) 100%)' : 'rgba(255,255,255,0.03)';
       const border = isSelected ? '1px solid #a78bfa' : '1px solid rgba(255,255,255,0.08)';
-      const shadow = isSelected ? 'box-shadow: 0 0 12px rgba(124, 58, 237, 0.35);' : '';
+      const shadow = isSelected ? 'box-shadow: 0 0 10px rgba(124, 58, 237, 0.3);' : '';
       const colorLetter = isSelected ? '#ffffff' : '#a78bfa';
       const bgLetter = isSelected ? '#7c3aed' : 'rgba(167,139,250,0.12)';
 
       return `
-        <div onclick="marcarAlternativa(${q}, '${opt}')" style="cursor:pointer; background:${bg}; border:${border}; ${shadow} border-radius:10px; padding:9px 12px; display:flex; align-items:center; gap:12px; transition:all 0.18s ease;" onmouseover="this.style.borderColor='#a78bfa'" onmouseout="this.style.borderColor='${isSelected ? '#a78bfa' : 'rgba(255,255,255,0.08)'}'">
-          <div style="width:30px; height:30px; border-radius:8px; background:${bgLetter}; color:${colorLetter}; font-weight:800; font-size:14px; display:flex; align-items:center; justify-content:center; flex-shrink:0;">
+        <div onclick="marcarAlternativa(${q}, '${opt}')" style="cursor:pointer; background:${bg}; border:${border}; ${shadow} border-radius:8px; padding:7px 10px; display:flex; align-items:center; gap:10px; transition:all 0.15s ease;" onmouseover="this.style.borderColor='#a78bfa'" onmouseout="this.style.borderColor='${isSelected ? '#a78bfa' : 'rgba(255,255,255,0.08)'}'">
+          <div style="width:26px; height:26px; border-radius:6px; background:${bgLetter}; color:${colorLetter}; font-weight:800; font-size:13px; display:flex; align-items:center; justify-content:center; flex-shrink:0;">
             ${opt}
           </div>
-          <div style="font-size:13.5px; font-weight:600; color:${isSelected ? '#ffffff' : '#cbd5e1'};">
+          <div style="font-size:12.5px; font-weight:600; color:${isSelected ? '#ffffff' : '#cbd5e1'};">
             Opción ${opt}
           </div>
-          ${isSelected ? '<div style="margin-left:auto; color:#34d399; font-weight:700; font-size:14px;">✓</div>' : ''}
+          ${isSelected ? '<div style="margin-left:auto; color:#34d399; font-weight:700; font-size:13px;">✓</div>' : ''}
         </div>`;
     }).join('');
   }
@@ -339,7 +351,7 @@ function renderFocusQuestion() {
       const border = isCurrent ? '1px solid #c084fc' : (isAns ? '1px solid rgba(16,185,129,0.4)' : '1px solid rgba(255,255,255,0.08)');
 
       jumpHtml += `
-        <button onclick="jumpToFocusQuestion(${i})" style="width:28px; height:28px; border-radius:6px; background:${bg}; color:${color}; border:${border}; font-size:11px; font-weight:700; cursor:pointer; display:flex; align-items:center; justify-content:center; transition:all 0.15s;">
+        <button onclick="jumpToFocusQuestion(${i})" style="width:25px; height:25px; border-radius:5px; background:${bg}; color:${color}; border:${border}; font-size:10.5px; font-weight:700; cursor:pointer; display:flex; align-items:center; justify-content:center; transition:all 0.15s;">
           ${i}
         </button>`;
     }
@@ -666,7 +678,7 @@ function iniciarRelojConteoRegresivo() {
 }
 
 let modoDivididoActivo = false;
-let currentRatioClass = 'ratio-65';
+let currentRatioClass = 'ratio-75';
 
 function toggleModoDividido() {
   const container = document.getElementById('main-mobile-container');

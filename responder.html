@@ -59,11 +59,11 @@
       .split-layout-active .split-flex-container {
         flex-direction: row;
         align-items: stretch;
-        gap: 16px;
+        gap: 12px;
       }
       .split-layout-active #pdf-side-panel {
-        flex: 0 0 68%;
-        max-width: 68%;
+        flex: 0 0 74%;
+        max-width: 74%;
         position: sticky;
         top: 10px;
         height: calc(100vh - 20px);
@@ -72,24 +72,25 @@
       }
       .split-layout-active #sheet-side-panel {
         flex: 1;
-        min-width: 0;
+        min-width: 270px;
+        max-width: 360px;
         max-height: calc(100vh - 20px);
         overflow-y: auto;
-        padding-right: 6px;
+        padding-right: 4px;
         scroll-padding-top: 0;
       }
 
       /* Presets de Ratio personalizables */
-      .split-layout-active.ratio-75 #pdf-side-panel { flex: 0 0 74% !important; max-width: 74% !important; }
-      .split-layout-active.ratio-65 #pdf-side-panel { flex: 0 0 66% !important; max-width: 66% !important; }
+      .split-layout-active.ratio-75 #pdf-side-panel { flex: 0 0 76% !important; max-width: 76% !important; }
+      .split-layout-active.ratio-65 #pdf-side-panel { flex: 0 0 68% !important; max-width: 68% !important; }
       .split-layout-active.ratio-50 #pdf-side-panel { flex: 0 0 50% !important; max-width: 50% !important; }
 
-      /* En modo dividido el sticky del header es relativo al panel derecho */
+      /* En modo dividido el header es super compacto */
       .split-layout-active #sheet-side-panel .student-header {
         top: 0;
-        border-radius: 12px;
-        margin-bottom: 12px;
-        padding: 14px 16px;
+        border-radius: 10px;
+        margin-bottom: 8px;
+        padding: 8px 12px;
       }
     }
 
@@ -373,7 +374,11 @@
         <!-- Panel Izquierdo: Visor de PDF (oculto por defecto o activable) -->
         <div id="pdf-side-panel" style="display: none;">
           <div style="background: rgba(15, 23, 42, 0.7); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 14px; padding: 4px; height: 100%; box-sizing: border-box; display: flex; flex-direction: column; box-shadow: 0 8px 30px rgba(0, 0, 0, 0.35);">
-            <iframe id="pdf-iframe" src="" style="width: 100%; height: 100%; min-height: 520px; border: none; border-radius: 10px; background: #0f172a; flex: 1;"></iframe>
+            <div id="pdf-header-bar" style="padding: 5px 12px; background: rgba(30,41,59,0.85); border-bottom: 1px solid rgba(255,255,255,0.08); display: flex; align-items: center; justify-content: space-between; font-size: 11.5px; color: #94a3b8; border-radius: 10px 10px 0 0;">
+              <span>📄 <strong>Cuadernillo:</strong> <span id="pdf-num-preg-indicator" style="color: #34d399; font-weight: 700;">Preguntas de la evaluación</span></span>
+              <span style="color:#38bdf8; font-size:11px;">🔍 Desplázate para responder cada pregunta</span>
+            </div>
+            <iframe id="pdf-iframe" src="" style="width: 100%; height: 100%; min-height: 520px; border: none; border-radius: 0 0 10px 10px; background: #0f172a; flex: 1;"></iframe>
           </div>
         </div>
 
@@ -391,38 +396,38 @@
               </div>
 
               <!-- PreUNAB Style Progress Badge -->
-              <div style="background: rgba(124, 58, 237, 0.12); border: 1px solid rgba(124, 58, 237, 0.3); border-radius: 12px; padding: 8px 14px; text-align: right;">
-                <span style="font-size: 10px; color: #a78bfa; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; display: block;">Tu Progreso</span>
-                <span id="progress-percentage-badge" style="font-size: 20px; font-weight: 800; color: #c084fc; font-family: 'Inter', sans-serif;">0,00%</span>
+              <div style="background: rgba(124, 58, 237, 0.12); border: 1px solid rgba(124, 58, 237, 0.3); border-radius: 12px; padding: 6px 12px; text-align: right;">
+                <span style="font-size: 9.5px; color: #a78bfa; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; display: block;">Tu Progreso</span>
+                <span id="progress-percentage-badge" style="font-size: 17px; font-weight: 800; color: #c084fc; font-family: 'Inter', sans-serif;">0,00%</span>
               </div>
             </div>
             
             <!-- Barra de Controles y Herramientas -->
-            <div style="margin-top: 12px; display: flex; flex-wrap: wrap; gap: 8px; align-items: center; justify-content: space-between; padding-top: 10px; border-top: 1px solid rgba(255,255,255,0.06);">
+            <div style="margin-top: 10px; display: flex; flex-wrap: wrap; gap: 6px; align-items: center; justify-content: space-between; padding-top: 8px; border-top: 1px solid rgba(255,255,255,0.06);">
               
               <!-- Controles PDF -->
               <div id="btn-ver-pdf-container" style="display: none; gap: 6px; flex-wrap: wrap; align-items: center;">
-                <button id="btn-toggle-split" onclick="toggleModoDividido()" style="display: inline-flex; align-items: center; justify-content: center; gap: 6px; background: rgba(124, 58, 237, 0.2); color: #c4b5fd; border: 1px solid rgba(124, 58, 237, 0.4); padding: 6px 12px; border-radius: 8px; font-size: 12.5px; font-weight: 600; cursor: pointer; transition: all 0.2s;">
+                <button id="btn-toggle-split" onclick="toggleModoDividido()" style="display: inline-flex; align-items: center; justify-content: center; gap: 6px; background: rgba(124, 58, 237, 0.2); color: #c4b5fd; border: 1px solid rgba(124, 58, 237, 0.4); padding: 5px 10px; border-radius: 8px; font-size: 12px; font-weight: 600; cursor: pointer; transition: all 0.2s;">
                   📖 Ver PDF y Hoja
                 </button>
-                <a id="link-ver-pdf" href="#" target="_blank" style="display: inline-flex; align-items: center; justify-content: center; gap: 4px; background: rgba(59, 130, 246, 0.15); color: #60a5fa; border: 1px solid rgba(59, 130, 246, 0.3); padding: 6px 10px; border-radius: 8px; font-size: 12.5px; font-weight: 600; text-decoration: none;">
+                <a id="link-ver-pdf" href="#" target="_blank" style="display: inline-flex; align-items: center; justify-content: center; gap: 4px; background: rgba(59, 130, 246, 0.15); color: #60a5fa; border: 1px solid rgba(59, 130, 246, 0.3); padding: 5px 8px; border-radius: 8px; font-size: 12px; font-weight: 600; text-decoration: none;">
                   ↗️ Pestaña
                 </a>
               </div>
 
               <!-- Selector de Proporción Split (visible sólo en modo dividido) -->
-              <div id="split-ratio-controls" style="display: none; align-items: center; gap: 4px; background: rgba(0,0,0,0.3); border: 1px solid rgba(255,255,255,0.08); border-radius: 8px; padding: 2px;">
-                <span style="font-size: 11px; color: #64748b; font-weight: 600; padding: 0 6px;">Ratio:</span>
-                <button id="btn-ratio-75" class="ratio-btn" onclick="cambiarRatioSplit('ratio-75')" style="background: transparent; color: #94a3b8; border: none; padding: 4px 8px; border-radius: 6px; font-size: 11px; font-weight: 600; cursor: pointer;" title="75% PDF / 25% Hoja">75/25</button>
-                <button id="btn-ratio-65" class="ratio-btn active-ratio" onclick="cambiarRatioSplit('ratio-65')" style="background: rgba(124,58,237,0.35); color: #fff; border: none; padding: 4px 8px; border-radius: 6px; font-size: 11px; font-weight: 600; cursor: pointer;" title="66% PDF / 34% Hoja">66/34</button>
-                <button id="btn-ratio-50" class="ratio-btn" onclick="cambiarRatioSplit('ratio-50')" style="background: transparent; color: #94a3b8; border: none; padding: 4px 8px; border-radius: 6px; font-size: 11px; font-weight: 600; cursor: pointer;" title="50% PDF / 50% Hoja">50/50</button>
+              <div id="split-ratio-controls" style="display: none; align-items: center; gap: 3px; background: rgba(0,0,0,0.3); border: 1px solid rgba(255,255,255,0.08); border-radius: 8px; padding: 2px;">
+                <span style="font-size: 10px; color: #64748b; font-weight: 600; padding: 0 4px;">Ratio:</span>
+                <button id="btn-ratio-75" class="ratio-btn active-ratio" onclick="cambiarRatioSplit('ratio-75')" style="background: rgba(124,58,237,0.35); color: #fff; border: none; padding: 3px 7px; border-radius: 6px; font-size: 10.5px; font-weight: 600; cursor: pointer;" title="76% PDF / 24% Hoja">75/25</button>
+                <button id="btn-ratio-65" class="ratio-btn" onclick="cambiarRatioSplit('ratio-65')" style="background: transparent; color: #94a3b8; border: none; padding: 3px 7px; border-radius: 6px; font-size: 10.5px; font-weight: 600; cursor: pointer;" title="68% PDF / 32% Hoja">66/34</button>
+                <button id="btn-ratio-50" class="ratio-btn" onclick="cambiarRatioSplit('ratio-50')" style="background: transparent; color: #94a3b8; border: none; padding: 3px 7px; border-radius: 6px; font-size: 10.5px; font-weight: 600; cursor: pointer;" title="50% PDF / 50% Hoja">50/50</button>
               </div>
 
               <!-- Selector de Modo de Vista -->
               <div style="display: flex; gap: 4px; align-items: center;">
                 <div style="display: flex; background: rgba(0,0,0,0.3); border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; padding: 2px;">
-                  <button id="btn-mode-sheet" onclick="cambiarModoVista('sheet')" style="background: transparent; color: #94a3b8; border: none; padding: 5px 12px; border-radius: 6px; font-size: 12px; font-weight: 600; cursor: pointer;">📋 Lista</button>
-                  <button id="btn-mode-focus" onclick="cambiarModoVista('focus')" style="background: rgba(124,58,237,0.35); color: #fff; border: none; padding: 5px 12px; border-radius: 6px; font-size: 12px; font-weight: 600; cursor: pointer;">🔍 Enfocado</button>
+                  <button id="btn-mode-sheet" onclick="cambiarModoVista('sheet')" style="background: transparent; color: #94a3b8; border: none; padding: 4px 10px; border-radius: 6px; font-size: 11.5px; font-weight: 600; cursor: pointer;">📋 Lista</button>
+                  <button id="btn-mode-focus" onclick="cambiarModoVista('focus')" style="background: rgba(124,58,237,0.35); color: #fff; border: none; padding: 4px 10px; border-radius: 6px; font-size: 11.5px; font-weight: 600; cursor: pointer;">🔍 Enfocado</button>
                 </div>
               </div>
 
