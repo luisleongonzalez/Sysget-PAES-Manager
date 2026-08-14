@@ -272,6 +272,7 @@ function renderNavbar() {
     nav.innerHTML = `
       <a href="#mezcla" class="nav-link active" id="nav-evaluaciones" onclick="setAppView('evaluaciones')">📚 Evaluaciones</a>
       <a href="#enviar" class="nav-link" id="nav-enviar" onclick="setAppView('enviar')">📤 Enviar Evaluación</a>
+      <a href="#directorio" class="nav-link" id="nav-directorio" onclick="setAppView('directorio')">👥 Directorio Escolar</a>
       <a href="#resultados" class="nav-link" id="nav-resultados" onclick="setAppView('resultados')">📊 Resultados</a>
     `;
   } else if (role === 'admin') {
@@ -285,6 +286,7 @@ function renderNavbar() {
     nav.innerHTML = `
       <a href="#mezcla" class="nav-link active" id="nav-evaluaciones" onclick="setAppView('evaluaciones')">📚 Evaluaciones</a>
       <a href="#enviar" class="nav-link" id="nav-enviar" onclick="setAppView('enviar')">📤 Enviar Evaluación</a>
+      <a href="#directorio" class="nav-link" id="nav-directorio" onclick="setAppView('directorio')">👥 Directorio Escolar</a>
       <a href="#resultados" class="nav-link" id="nav-resultados" onclick="setAppView('resultados')">📊 Resultados</a>
       <a href="#admin-panel" class="nav-link" id="nav-admin" onclick="setAppView('admin')">⚙️ Sistema</a>
     `;
@@ -307,6 +309,12 @@ function setAppView(view) {
       const navEnv = document.getElementById('nav-enviar');
       if (navEnv) navEnv.classList.add('active');
       showSection('enviar');
+    }
+    if (view === 'directorio') {
+      const navDir = document.getElementById('nav-directorio');
+      if (navDir) navDir.classList.add('active');
+      showSection('directorio');
+      if (typeof cargarDirectorioEscolar === 'function') cargarDirectorioEscolar();
     }
     if (view === 'resultados') {
       const navRes = document.getElementById('nav-resultados');

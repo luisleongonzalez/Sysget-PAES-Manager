@@ -351,6 +351,139 @@
         localStorage.setItem('paes_envios_locales', JSON.stringify(envios));
         window.dispatchEvent(new Event('paes_local_update'));
       }
+    },
+
+    // ──────────────────────────────────────────────────────────
+    // GESTIÓN DE ALUMNOS MATRICULADOS
+    // ──────────────────────────────────────────────────────────
+
+    async obtenerAlumnosMatriculados() {
+      if (isFirebaseActive && firestoreDb) {
+        try {
+          const snapshot = await firestoreDb.collection("alumnos_matriculados")
+            .orderBy("nombre", "asc").get();
+          return snapshot.docs.map(doc => doc.data());
+        } catch (e) {
+          console.warn("[PAES] Error al cargar alumnos de Firestore:", e.message);
+          const fallback = JSON.parse(localStorage.getItem('paes_colegio_alumnos') || '[]');
+          return fallback;
+        }
+      } else {
+        return JSON.parse(localStorage.getItem('paes_colegio_alumnos') || '[]');
+      }
+    },
+
+    async guardarAlumnoMatriculado(alumno) {
+      if (!alumno.id) alumno.id = 'alm_' + Math.random().toString(36).substr(2, 9);
+      if (!alumno.fechaCreacion) alumno.fechaCreacion = new Date().toISOString();
+
+      if (isFirebaseActive && firestoreDb) {
+        await firestoreDb.collection("alumnos_matriculados").doc(alumno.id).set(alumno);
+      }
+      
+      // Siempre sincronizar con fallback local
+      let lista = JSON.parse(localStorage.getItem('paes_colegio_alumnos') || '[]');
+      const idx = lista.findIndex(a => a.id === alumno.id);
+      if (idx >= 0) lista[idx] = alumno;
+      else lista.push(alumno);
+      localStorage.setItem('paes_colegio_alumnos', JSON.stringify(lista));
+      return alumno;
+    },
+
+    async eliminarAlumnoMatriculado(alumnoId) {
+      if (isFirebaseActive && firestoreDb) {
+        await firestoreDb.collection("alumnos_matriculados").doc(alumnoId).delete();
+      }
+      let lista = JSON.parse(localStorage.getItem('paes_colegio_alumnos') || '[]');
+      lista = lista.filter(a => a.id !== alumnoId);
+      localStorage.setItem('paes_colegio_alumnos', JSON.stringify(lista));
+    },
+
+    async importarAlumnosBatch(alumnos) {
+      if (isFirebaseActive && firestoreDb) {
+        const batch = firestoreDb.batch();
+        alumnos.forEach(al => {
+          if (!al.id) al.id = 'alm_' + Math.random().toString(36).substr(2, 9);
+          if (!al.fechaCreacion) al.fechaCreacion = new Date().toISOString();
+          const ref = firestoreDb.collection("alumnos_matriculados").doc(al.id);
+          batch.set(ref, al);
+        });
+        await batch.commit();
+      }
+      let lista = JSON.parse(localStorage.getItem('paes_colegio_alumnos') || '[]');
+      alumnos.forEach(al => {
+        if (!al.id) al.id = 'alm_' + Math.random().toString(36).substr(2, 9);
+        if (!al.fechaCreacion) al.fechaCreacion = new Date().toISOString();
+        const idx = lista.findIndex(x => x.rut && al.rut && x.rut.toUpperCase() === al.rut.toUpperCase());
+        if (idx >= 0) lista[idx] = al;
+        else lista.push(al);
+      });
+      localStorage.setItem('paes_colegio_alumnos', JSON.stringify(lista));
+    },
+
+    // ──────────────────────────────────────────────────────────
+    // GESTIÓN DE EQUIPO DOCENTE
+    // ──────────────────────────────────────────────────────────
+
+    async obtenerDocentes() {
+      if (isFirebaseActive && firestoreDb) {
+        try {
+          const snapshot = await firestoreDb.collection("equipo_docente")
+            .orderBy("nombre", "asc").get();
+          return snapshot.docs.map(doc => doc.data());
+        } catch (e) {
+          console.warn("[PAES] Error al cargar docentes de Firestore:", e.message);
+          return JSON.parse(localStorage.getItem('paes_colegio_docentes') || '[]');
+        }
+      } else {
+        return JSON.parse(localStorage.getItem('paes_colegio_docentes') || '[]');
+      }
+    },
+
+    async guardarDocente(docente) {
+      if (!docente.id) docente.id = 'doc_' + Math.random().toString(36).substr(2, 9);
+      if (!docente.fechaCreacion) docente.fechaCreacion = new Date().toISOString();
+
+      if (isFirebaseActive && firestoreDb) {
+        await firestoreDb.collection("equipo_docente").doc(docente.id).set(docente);
+      }
+      let lista = JSON.parse(localStorage.getItem('paes_colegio_docentes') || '[]');
+      const idx = lista.findIndex(d => d.id === docente.id);
+      if (idx >= 0) lista[idx] = docente;
+      else lista.push(docente);
+      localStorage.setItem('paes_colegio_docentes', JSON.stringify(lista));
+      return docente;
+    },
+
+    async eliminarDocente(docenteId) {
+      if (isFirebaseActive && firestoreDb) {
+        await firestoreDb.collection("equipo_docente").doc(docenteId).delete();
+      }
+      let lista = JSON.parse(localStorage.getItem('paes_colegio_docentes') || '[]');
+      lista = lista.filter(d => d.id !== docenteId);
+      localStorage.setItem('paes_colegio_docentes', JSON.stringify(lista));
+    },
+
+    async importarDocentesBatch(docentes) {
+      if (isFirebaseActive && firestoreDb) {
+        const batch = firestoreDb.batch();
+        docentes.forEach(d => {
+          if (!d.id) d.id = 'doc_' + Math.random().toString(36).substr(2, 9);
+          if (!d.fechaCreacion) d.fechaCreacion = new Date().toISOString();
+          const ref = firestoreDb.collection("equipo_docente").doc(d.id);
+          batch.set(ref, d);
+        });
+        await batch.commit();
+      }
+      let lista = JSON.parse(localStorage.getItem('paes_colegio_docentes') || '[]');
+      docentes.forEach(d => {
+        if (!d.id) d.id = 'doc_' + Math.random().toString(36).substr(2, 9);
+        if (!d.fechaCreacion) d.fechaCreacion = new Date().toISOString();
+        const idx = lista.findIndex(x => x.email && d.email && x.email.toLowerCase() === d.email.toLowerCase());
+        if (idx >= 0) lista[idx] = d;
+        else lista.push(d);
+      });
+      localStorage.setItem('paes_colegio_docentes', JSON.stringify(lista));
     }
   };
 

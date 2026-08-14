@@ -509,6 +509,22 @@ historia_2025 · lectora_2024 · m1_2023 ...</div>
           <div class="result-card">
             <h3 class="config-title">👥 Lista de Alumnos</h3>
             
+            <!-- Cargar Nómina desde Directorio Escolar -->
+            <div style="background: rgba(37,99,235,0.08); border: 1px solid rgba(37,99,235,0.25); border-radius: 10px; padding: 10px 12px; margin-bottom: 14px;">
+              <div style="margin-bottom: 6px; font-size: 12px; color: var(--blue-light); display: flex; align-items: center; justify-content: space-between;">
+                <span>👥 <strong>Cargar Curso Matriculado:</strong></span>
+                <a href="#directorio" onclick="setAppView('directorio')" style="color: #a78bfa; font-size: 11px; text-decoration: none; font-weight: 600;">⚙️ Administrar Matrícula ➔</a>
+              </div>
+              <div style="display: flex; gap: 8px;">
+                <select id="select-curso-rapido-envio" class="form-input" style="flex: 1; margin-bottom: 0; font-size: 12.5px; padding: 8px 10px;">
+                  <option value="">Cargando cursos...</option>
+                </select>
+                <button class="btn btn-primary" onclick="cargarAlumnosDeCursoEnSesion()" style="padding: 8px 14px; font-size: 12px; font-weight: 700; white-space: nowrap;">
+                  ⬇️ Cargar
+                </button>
+              </div>
+            </div>
+
             <div class="form-row" style="align-items: flex-end; gap: 8px; display: flex;">
               <div class="form-group" style="flex: 2; margin-bottom: 0;">
                 <label class="form-label" for="nombre-alumno">Nombre Completo</label>
@@ -755,6 +771,160 @@ historia_2025 · lectora_2024 · m1_2023 ...</div>
     </section>
 
     <!-- ═══════════════════════════════════════════
+         SECCIÓN: DIRECTORIO ESCOLAR & COMUNIDAD EDUCATIVA
+    ═══════════════════════════════════════════ -->
+    <section id="directorio" class="section hidden">
+      <div class="section-header" style="text-align:center; margin-bottom: 24px;">
+        <span class="badge" style="background: rgba(37, 99, 235, 0.15); border: 1px solid rgba(37, 99, 235, 0.35); color: #60a5fa; padding: 6px 16px; border-radius: 20px; font-weight: 700; font-size: 12px; text-transform: uppercase; letter-spacing: 1px;">
+          Comunidad Educativa
+        </span>
+        <h2 class="section-title" style="margin-top: 8px; font-size: 28px; font-weight: 800; color: var(--text-primary);">
+          Directorio Escolar
+        </h2>
+        <p class="section-desc" style="color: var(--text-secondary); font-size: 14px; max-width: 680px; margin: 0 auto;">
+          Administra la nómina de alumnos matriculados por curso y el equipo docente para asignación rápida en evaluaciones.
+        </p>
+      </div>
+
+      <!-- Stat Cards / KPIs -->
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 16px; max-width: 1100px; margin: 0 auto 24px;">
+        <div class="config-card" style="display: flex; align-items: center; gap: 16px; padding: 18px;">
+          <div style="width: 48px; height: 48px; border-radius: 14px; background: rgba(37, 99, 235, 0.15); border: 1px solid rgba(37, 99, 235, 0.3); display: flex; align-items: center; justify-content: center; font-size: 24px;">
+            🎓
+          </div>
+          <div>
+            <span style="font-size: 11px; font-weight: 700; color: var(--text-secondary); text-transform: uppercase; letter-spacing: 0.5px;">Alumnos Matriculados</span>
+            <div id="kpi-total-alumnos" style="font-size: 26px; font-weight: 800; color: var(--text-primary); line-height: 1.1;">0</div>
+          </div>
+        </div>
+
+        <div class="config-card" style="display: flex; align-items: center; gap: 16px; padding: 18px;">
+          <div style="width: 48px; height: 48px; border-radius: 14px; background: rgba(16, 185, 129, 0.15); border: 1px solid rgba(16, 185, 129, 0.3); display: flex; align-items: center; justify-content: center; font-size: 24px;">
+            📚
+          </div>
+          <div>
+            <span style="font-size: 11px; font-weight: 700; color: var(--text-secondary); text-transform: uppercase; letter-spacing: 0.5px;">Cursos / Niveles</span>
+            <div id="kpi-cursos-activos" style="font-size: 26px; font-weight: 800; color: #10b981; line-height: 1.1;">0</div>
+          </div>
+        </div>
+
+        <div class="config-card" style="display: flex; align-items: center; gap: 16px; padding: 18px;">
+          <div style="width: 48px; height: 48px; border-radius: 14px; background: rgba(245, 158, 11, 0.15); border: 1px solid rgba(245, 158, 11, 0.3); display: flex; align-items: center; justify-content: center; font-size: 24px;">
+            👨‍🏫
+          </div>
+          <div>
+            <span style="font-size: 11px; font-weight: 700; color: var(--text-secondary); text-transform: uppercase; letter-spacing: 0.5px;">Equipo Docente</span>
+            <div id="kpi-total-docentes" style="font-size: 26px; font-weight: 800; color: #f59e0b; line-height: 1.1;">0</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Selector de Sub-pestañas: Alumnos vs Docentes -->
+      <div style="display: flex; justify-content: center; gap: 8px; margin-bottom: 24px;">
+        <div style="display: inline-flex; background: rgba(0,0,0,0.25); border: 1px solid var(--border); border-radius: 12px; padding: 4px;">
+          <button id="tab-btn-alumnos" class="subtab-pill active" onclick="cambiarTabDirectorio('alumnos')" style="padding: 8px 20px; font-size: 13px; font-weight: 700;">
+            🎓 Alumnos Matriculados
+          </button>
+          <button id="tab-btn-docentes" class="subtab-pill" onclick="cambiarTabDirectorio('docentes')" style="padding: 8px 20px; font-size: 13px; font-weight: 700;">
+            👨‍🏫 Equipo Docente
+          </button>
+        </div>
+      </div>
+
+      <!-- SUB-SECCIÓN 1: ALUMNOS MATRICULADOS -->
+      <div id="directorio-alumnos-sec" style="max-width: 1100px; margin: 0 auto;">
+        
+        <!-- Barra de Herramientas y Filtros -->
+        <div class="config-card" style="margin-bottom: 16px; padding: 16px;">
+          <div style="display: flex; flex-wrap: wrap; gap: 10px; align-items: center; justify-content: space-between;">
+            
+            <!-- Búsqueda y Filtro de Curso -->
+            <div style="display: flex; flex-wrap: wrap; gap: 10px; flex: 1; min-width: 280px;">
+              <input type="text" id="input-buscar-alumno" class="form-input" placeholder="🔍 Buscar por nombre, RUT o email..." oninput="buscarAlumnosInput(this.value)" style="flex: 1; min-width: 200px; margin-bottom: 0; padding: 9px 14px; font-size: 13px;">
+              <select id="select-filtro-curso" class="form-input" onchange="filtrarPorCurso(this.value)" style="width: auto; min-width: 180px; margin-bottom: 0; font-size: 13px; padding: 9px 12px;">
+                <option value="all">📚 Todos los Cursos</option>
+              </select>
+            </div>
+
+            <!-- Botones de Acción -->
+            <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+              <button class="btn btn-primary" onclick="abrirModalNuevoAlumno()" style="padding: 9px 16px; font-size: 13px; font-weight: 700;">
+                ➕ Nuevo Alumno
+              </button>
+              <input type="file" id="input-csv-directorio-alumnos" accept=".csv,.txt" style="display:none" onchange="importarAlumnosMatriculadosCSV(event)">
+              <button class="btn btn-outline" onclick="document.getElementById('input-csv-directorio-alumnos').click()" style="padding: 9px 14px; font-size: 13px; border-color: rgba(16,185,129,0.4); color: #10b981;">
+                📥 Importar CSV
+              </button>
+              <button class="btn btn-outline" onclick="exportarAlumnosCSV()" style="padding: 9px 14px; font-size: 13px;">
+                📤 Exportar
+              </button>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- Tabla de Alumnos -->
+        <div class="config-card" style="padding: 0; overflow: hidden;">
+          <div style="overflow-x: auto;">
+            <table style="width: 100%; border-collapse: collapse; font-size: 13px; text-align: left;">
+              <thead>
+                <tr style="background: rgba(0,0,0,0.15); border-bottom: 1px solid var(--border); color: var(--text-secondary); text-transform: uppercase; font-size: 11px; letter-spacing: 0.5px;">
+                  <th style="padding: 12px 14px; width: 15%;">RUT / ID</th>
+                  <th style="padding: 12px 14px; width: 35%;">Estudiante</th>
+                  <th style="padding: 12px 14px; width: 20%;">Curso</th>
+                  <th style="padding: 12px 14px; width: 15%;">Estado</th>
+                  <th style="padding: 12px 14px; width: 15%; text-align: right;">Acciones</th>
+                </tr>
+              </thead>
+              <tbody id="tabla-alumnos-tbody">
+                <!-- Dinámico -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- SUB-SECCIÓN 2: EQUIPO DOCENTE -->
+      <div id="directorio-docentes-sec" style="max-width: 1100px; margin: 0 auto; display: none;">
+        
+        <!-- Barra de Herramientas Docentes -->
+        <div class="config-card" style="margin-bottom: 16px; padding: 16px;">
+          <div style="display: flex; flex-wrap: wrap; gap: 10px; align-items: center; justify-content: space-between;">
+            <div style="flex: 1; min-width: 250px;">
+              <input type="text" id="input-buscar-docente" class="form-input" placeholder="🔍 Buscar docente por nombre, email o asignatura..." oninput="buscarDocentesInput(this.value)" style="margin-bottom: 0; padding: 9px 14px; font-size: 13px;">
+            </div>
+            <button class="btn btn-primary" onclick="abrirModalNuevoDocente()" style="padding: 9px 16px; font-size: 13px; font-weight: 700;">
+              ➕ Nuevo Docente
+            </button>
+          </div>
+        </div>
+
+        <!-- Tabla de Docentes -->
+        <div class="config-card" style="padding: 0; overflow: hidden;">
+          <div style="overflow-x: auto;">
+            <table style="width: 100%; border-collapse: collapse; font-size: 13px; text-align: left;">
+              <thead>
+                <tr style="background: rgba(0,0,0,0.15); border-bottom: 1px solid var(--border); color: var(--text-secondary); text-transform: uppercase; font-size: 11px; letter-spacing: 0.5px;">
+                  <th style="padding: 12px 14px; width: 35%;">Docente</th>
+                  <th style="padding: 12px 14px; width: 20%;">Asignatura</th>
+                  <th style="padding: 12px 14px; width: 20%;">Rol Institucional</th>
+                  <th style="padding: 12px 14px; width: 15%;">Cursos</th>
+                  <th style="padding: 12px 14px; width: 10%; text-align: right;">Acciones</th>
+                </tr>
+              </thead>
+              <tbody id="tabla-docentes-tbody">
+                <!-- Dinámico -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+      </div>
+
+    </section>
+
+    <!-- ═══════════════════════════════════════════
          SECCIÓN: PANEL ADMINISTRADOR Y SISTEMA
     ═══════════════════════════════════════════ -->
     <section id="admin-panel" class="section hidden">
@@ -762,10 +932,10 @@ historia_2025 · lectora_2024 · m1_2023 ...</div>
         <span class="badge" style="background: rgba(245, 158, 11, 0.15); border: 1px solid rgba(245, 158, 11, 0.3); color: #fbbf24; padding: 6px 16px; border-radius: 20px; font-weight: 700; font-size: 12px; text-transform: uppercase; letter-spacing: 1px;">
           Consola Central
         </span>
-        <h2 class="section-title" style="margin-top: 8px; font-size: 28px; font-weight: 800; color: #f8fafc;">
+        <h2 class="section-title" style="margin-top: 8px; font-size: 28px; font-weight: 800; color: var(--text-primary);">
           Panel de Administración y Sistema
         </h2>
-        <p class="section-desc" style="color: #94a3b8; font-size: 14px; max-width: 680px; margin: 0 auto;">
+        <p class="section-desc" style="color: var(--text-secondary); font-size: 14px; max-width: 680px; margin: 0 auto;">
           Administra la base de datos Firestore, credenciales de correo EmailJS, y depuración global de sesiones de prueba.
         </p>
       </div>
@@ -779,7 +949,7 @@ historia_2025 · lectora_2024 · m1_2023 ...</div>
               🔥
             </div>
             <div>
-              <h3 style="margin: 0; font-size: 16px; font-weight: 700; color: #fff;">Firebase Firestore</h3>
+              <h3 style="margin: 0; font-size: 16px; font-weight: 700; color: var(--text-primary);">Firebase Firestore</h3>
               <span id="admin-firebase-status" style="font-size: 12px; color: #34d399; font-weight: 600;">🟢 Conexión Activa</span>
             </div>
           </div>
@@ -798,7 +968,7 @@ historia_2025 · lectora_2024 · m1_2023 ...</div>
               📧
             </div>
             <div>
-              <h3 style="margin: 0; font-size: 16px; font-weight: 700; color: #fff;">Despacho de Correos (EmailJS)</h3>
+              <h3 style="margin: 0; font-size: 16px; font-weight: 700; color: var(--text-primary);">Despacho de Correos (EmailJS)</h3>
               <span style="font-size: 12px; color: #60a5fa; font-weight: 600;">Plantillas HTML para Outlook</span>
             </div>
           </div>
@@ -817,7 +987,7 @@ historia_2025 · lectora_2024 · m1_2023 ...</div>
               🗑️
             </div>
             <div>
-              <h3 style="margin: 0; font-size: 16px; font-weight: 700; color: #fff;">Depuración de Sesiones</h3>
+              <h3 style="margin: 0; font-size: 16px; font-weight: 700; color: var(--text-primary);">Depuración de Sesiones</h3>
               <span style="font-size: 12px; color: #f87171; font-weight: 600;">Mantenimiento de Datos</span>
             </div>
           </div>
@@ -834,10 +1004,93 @@ historia_2025 · lectora_2024 · m1_2023 ...</div>
 
   </main>
 
+  <!-- ─── MODAL ALUMNO (REGISTRAR / EDITAR) ─────────────────── -->
+  <div id="modal-alumno" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.8); z-index:9999; align-items:center; justify-content:center; backdrop-filter:blur(8px);">
+    <div style="background:var(--bg-card); border:1px solid var(--border-glow); border-radius:18px; padding:24px; max-width:440px; width:90%; position:relative; box-shadow:var(--shadow-card);">
+      <button onclick="cerrarModalAlumno()" style="position:absolute; top:14px; right:16px; background:none; border:none; color:var(--text-muted); font-size:22px; cursor:pointer;">✕</button>
+      <h3 id="modal-alumno-title" style="margin:0 0 16px; font-size:18px; font-weight:700; color:var(--text-primary);">➕ Registrar Nuevo Alumno</h3>
+      <input type="hidden" id="modal-alumno-id">
+      
+      <div class="form-group" style="margin-bottom:12px;">
+        <label class="form-label">RUT / Identificador</label>
+        <input type="text" id="modal-alumno-rut" class="form-input" placeholder="Ej: 21.345.678-9">
+      </div>
+
+      <div class="form-group" style="margin-bottom:12px;">
+        <label class="form-label">Nombre Completo *</label>
+        <input type="text" id="modal-alumno-nombre" class="form-input" placeholder="Ej: Valentina Morales Soto">
+      </div>
+
+      <div class="form-group" style="margin-bottom:12px;">
+        <label class="form-label">Curso / Nivel *</label>
+        <input type="text" id="modal-alumno-curso" class="form-input" placeholder="Ej: 4° Medio A">
+      </div>
+
+      <div class="form-group" style="margin-bottom:20px;">
+        <label class="form-label">Correo Electrónico (Opcional)</label>
+        <input type="email" id="modal-alumno-email" class="form-input" placeholder="alumno@colegio.cl">
+      </div>
+
+      <div style="display:flex; gap:10px; justify-content:flex-end;">
+        <button class="btn btn-outline" onclick="cerrarModalAlumno()" style="padding:8px 16px;">Cancelar</button>
+        <button class="btn btn-primary" onclick="guardarAlumnoDesdeModal()" style="padding:8px 20px; font-weight:700;">💾 Guardar</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ─── MODAL DOCENTE (REGISTRAR / EDITAR) ─────────────────── -->
+  <div id="modal-docente" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.8); z-index:9999; align-items:center; justify-content:center; backdrop-filter:blur(8px);">
+    <div style="background:var(--bg-card); border:1px solid var(--border-glow); border-radius:18px; padding:24px; max-width:440px; width:90%; position:relative; box-shadow:var(--shadow-card);">
+      <button onclick="cerrarModalDocente()" style="position:absolute; top:14px; right:16px; background:none; border:none; color:var(--text-muted); font-size:22px; cursor:pointer;">✕</button>
+      <h3 id="modal-docente-title" style="margin:0 0 16px; font-size:18px; font-weight:700; color:var(--text-primary);">➕ Registrar Nuevo Docente</h3>
+      <input type="hidden" id="modal-docente-id">
+      
+      <div class="form-group" style="margin-bottom:12px;">
+        <label class="form-label">Nombre del Docente *</label>
+        <input type="text" id="modal-docente-nombre" class="form-input" placeholder="Ej: Prof. Andrea Guzmán">
+      </div>
+
+      <div class="form-group" style="margin-bottom:12px;">
+        <label class="form-label">Correo Electrónico</label>
+        <input type="email" id="modal-docente-email" class="form-input" placeholder="profesor@colegio.cl">
+      </div>
+
+      <div class="form-group" style="margin-bottom:12px;">
+        <label class="form-label">Asignatura Principal</label>
+        <select id="modal-docente-asig" class="form-input">
+          <option value="Matemática">Matemática (M1 / M2)</option>
+          <option value="Competencia Lectora">Competencia Lectora</option>
+          <option value="Historia">Historia y Ciencias Sociales</option>
+          <option value="Ciencias">Ciencias (Bio / Fís / Quím)</option>
+          <option value="General">General / Varias</option>
+        </select>
+      </div>
+
+      <div class="form-group" style="margin-bottom:12px;">
+        <label class="form-label">Rol Institucional</label>
+        <select id="modal-docente-rol" class="form-input">
+          <option value="Profesor de Asignatura">Profesor de Asignatura</option>
+          <option value="Profesor Jefe">Profesor Jefe</option>
+          <option value="Coordinador UTP">Coordinador UTP / Dirección</option>
+        </select>
+      </div>
+
+      <div class="form-group" style="margin-bottom:20px;">
+        <label class="form-label">Cursos Asignados</label>
+        <input type="text" id="modal-docente-cursos" class="form-input" placeholder="Ej: 4° Medio A, 4° Medio B">
+      </div>
+
+      <div style="display:flex; gap:10px; justify-content:flex-end;">
+        <button class="btn btn-outline" onclick="cerrarModalDocente()" style="padding:8px 16px;">Cancelar</button>
+        <button class="btn btn-primary" onclick="guardarDocenteDesdeModal()" style="padding:8px 20px; font-weight:700;">💾 Guardar</button>
+      </div>
+    </div>
+  </div>
+
   <!-- ─── MODAL QR CODE ─────────────────── -->
   <div id="modal-qr" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.85); z-index:9999; align-items:center; justify-content:center; backdrop-filter:blur(8px);">
     <div style="background:#0f172a; border:1px solid rgba(255,255,255,0.12); border-radius:20px; padding:32px; max-width:440px; width:90%; text-align:center; position:relative; box-shadow:0 25px 60px rgba(0,0,0,0.6);">
-      <button onclick="cerrarModalQR()" style="position:absolute;top:14px;right:16px;background:none;border:none;color:#94a3b8;font-size:22px;cursor:pointer;line-height:1;">✕</button>
+      <button onclick="cerrarModalQR()" style="position:absolute;top:14px;right:16px;background:none;border:none;color:#94a3b8;font-size:22px;cursor:line;line-height:1;">✕</button>
       <div style="font-size:28px; margin-bottom:4px;">📱</div>
       <h3 id="qr-sesion-titulo" style="margin:0 0 4px; font-size:18px; font-weight:700; color:#f1f5f9;">QR de Acceso a la Sesión</h3>
       <p style="font-size:12px; color:#64748b; margin:0 0 20px;">Los alumnos escanean este código para acceder a su evaluación</p>
@@ -882,5 +1135,6 @@ historia_2025 · lectora_2024 · m1_2023 ...</div>
   <script src="app.js?v=20260813_v3"></script>
   <script src="biblioteca.js?v=20260808_v5"></script>
   <script src="generador-evaluaciones.js"></script>
+  <script src="directorio-escolar.js"></script>
 </body>
 </html>
