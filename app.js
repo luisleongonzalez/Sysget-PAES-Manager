@@ -232,6 +232,17 @@ function filtrarAnioMezcla(anio, btn) {
 // ──────────────────────────────────────────────────────────
 
 function setRole(role) {
+  // Proteger acceso a perfiles docentes y administradores
+  if (role === 'docente' || role === 'admin') {
+    const sesion = (typeof obtenerSesionActual === 'function') ? obtenerSesionActual() : null;
+    if (!sesion || (sesion.role !== role && sesion.role !== 'admin')) {
+      if (typeof abrirModalLogin === 'function') {
+        abrirModalLogin(role);
+        return;
+      }
+    }
+  }
+
   state.currentRole = role;
   localStorage.setItem('paes_user_role', role);
   renderNavbar();
@@ -250,6 +261,7 @@ function renderNavbar() {
   const roleIndicator = document.getElementById('header-role-indicator');
   const roleBadge = document.getElementById('nav-role-badge');
   const role = state.currentRole || 'landing';
+  const sesion = (typeof obtenerSesionActual === 'function') ? obtenerSesionActual() : null;
 
   if (!nav) return;
 
@@ -258,15 +270,15 @@ function renderNavbar() {
     nav.innerHTML = `
       <a href="#landing" class="nav-link active" onclick="showSection('landing')">Inicio</a>
       <a href="#landing" class="nav-link" onclick="document.getElementById('landing-token-input')?.focus()">🎓 Alumnos</a>
-      <a href="#landing" class="nav-link" onclick="setRole('docente')">👨‍🏫 Profesores</a>
-      <a href="#landing" class="nav-link" onclick="setRole('admin')">⚙️ Admin</a>
+      <a href="#landing" class="nav-link" onclick="abrirModalLogin('docente')">👨‍🏫 Profesores</a>
+      <a href="#landing" class="nav-link" onclick="abrirModalLogin('admin')">⚙️ Admin</a>
     `;
   } else if (role === 'docente') {
     if (roleIndicator) {
       roleIndicator.style.display = 'flex';
       if (roleBadge) {
         roleBadge.className = 'role-badge-nav docente';
-        roleBadge.innerHTML = '👨‍🏫 Docente';
+        roleBadge.innerHTML = `👨‍🏫 ${sesion && sesion.nombre ? sesion.nombre : 'Docente'}`;
       }
     }
     nav.innerHTML = `
@@ -280,7 +292,7 @@ function renderNavbar() {
       roleIndicator.style.display = 'flex';
       if (roleBadge) {
         roleBadge.className = 'role-badge-nav admin';
-        roleBadge.innerHTML = '⚙️ Administrador';
+        roleBadge.innerHTML = `⚙️ ${sesion && sesion.nombre ? sesion.nombre : 'Administrador'}`;
       }
     }
     nav.innerHTML = `

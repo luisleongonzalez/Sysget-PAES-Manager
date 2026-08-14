@@ -1,0 +1,107 @@
+{
+  "title": "PuntajeNacional.cl",
+  "navLinks": [
+    "",
+    "Conoce Puntaje Nacional",
+    "Nuestra Misión",
+    "Blog",
+    "SOY DOCENTE",
+    "INICIAR SESIÓN"
+  ],
+  "subjectTabs": [],
+  "cardsCount": 16,
+  "sampleHeadings": [
+    {
+      "text": "La PAES se viene.\nPrepárate en serio.",
+      "fontSize": "48px",
+      "fontWeight": "300",
+      "color": "rgb(255, 255, 255)"
+    },
+    {
+      "text": "No pierdas tiempo buscando material suelto. Acá tienes ensayos, clases y la comunidad más grande de Chile para lograr el puntaje que buscas.",
+      "fontSize": "19.2px",
+      "fontWeight": "600",
+      "color": "rgb(255, 255, 255)"
+    },
+    {
+      "text": "Confían en nosotros para preparar a sus estudiantes",
+      "fontSize": "24px",
+      "fontWeight": "500",
+      "color": "rgb(51, 51, 51)"
+    },
+    {
+      "text": "Así preparamos tu éxito",
+      "fontSize": "32px",
+      "fontWeight": "300",
+      "color": "rgb(51, 51, 51)"
+    },
+    {
+      "text": "Nuevos Manuales 2026:\nPotencia tu estudio",
+      "fontSize": "32px",
+      "fontWeight": "300",
+      "color": "rgb(255, 255, 255)"
+    },
+    {
+      "text": "Entrenamiento estratégico (TestTAC)",
+      "fontSize": "19.2px",
+      "fontWeight": "600",
+      "color": "rgb(252, 181, 51)"
+    },
+    {
+      "text": "Ecosistema completo",
+      "fontSize": "19.2px",
+      "fontWeight": "600",
+      "color": "rgb(252, 181, 51)"
+    },
+    {
+      "text": "La estructura completa de un Preu condensada en un sistema inteligente. Papel + App + IA.",
+      "fontSize": "19.2px",
+      "fontWeight": "700",
+      "color": "rgb(51, 51, 51)"
+    },
+    {
+      "text": "Hablemos claro:\nQuienes somos",
+      "fontSize": "32px",
+      "fontWeight": "300",
+      "color": "rgb(51, 51, 51)"
+    },
+    {
+      "text": "Experiencias reales, resultados reales",
+      "fontSize": "24px",
+      "fontWeight": "500",
+      "color": "rgb(255, 255, 255)"
+    },
+    {
+      "text": "Lo que necesitas saber",
+      "fontSize": "32px",
+      "fontWeight": "300",
+      "color": "rgb(51, 51, 51)"
+    },
+    {
+      "text": "¿Cómo activar mi Manual PAES?",
+      "fontSize": "19.2px",
+      "fontWeight": "600",
+      "color": "rgb(48, 119, 197)"
+    },
+    {
+      "text": "El DEMRE soltó los nuevos temarios PAES 2027 y aquí te contamos qué onda",
+      "fontSize": "19.2px",
+      "fontWeight": "600",
+      "color": "rgb(48, 119, 197)"
+    },
+    {
+      "text": "PAES de Invierno 2026: Lo que necesitas saber",
+      "fontSize": "19.2px",
+      "fontWeight": "600",
+      "color": "rgb(48, 119, 197)"
+    },
+    {
+      "text": "Mantente al día",
+      "fontSize": "32px",
+      "fontWeight": "300",
+      "color": "rgb(255, 255, 255)"
+    }
+  ],
+  "bodyFont": "Lato, Roboto, Arial, sans-serif",
+  "bodyBg": "rgb(241, 241, 243)"
+}

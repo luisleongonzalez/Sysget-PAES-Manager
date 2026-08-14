@@ -1,0 +1,157 @@
+{
+  "ciclos": [
+    {
+      "id": 3490,
+      "created_at": "2025-05-29T11:19:10.000Z",
+      "updated_at": "2025-05-29T11:19:10.000Z",
+      "evaluacion": null,
+      "orden": 0,
+      "clasificaciones": null,
+      "metadata": null,
+      "plan_personal_id": 3220,
+      "evaluacion_id": null
+    }
+  ],
+  "sesiones_sample": [
+    {
+      "id": 10441,
+      "created_at": "2025-03-31T17:47:25.000Z",
+      "updated_at": "2025-03-31T19:53:12.000Z",
+      "clasificacion_id": null,
+      "orden": 1,
+      "seguimiento": null,
+      "clasificaciones": null,
+      "plan_personal_sesion": "Introducción PAES",
+      "fecha_pauta": "2025-03-31T17:47:17.000Z",
+      "fecha_inicial": "2025-03-16T00:00:00.000Z",
+      "fecha_final": "2025-03-31T17:47:17.000Z",
+      "actual": null,
+      "plan_personal_ciclo_id": 3490,
+      "plan_personal_sesion_grupo_usuarios": []
+    },
+    {
+      "id": 10442,
+      "created_at": "2025-03-31T17:47:25.000Z",
+      "updated_at": "2025-03-31T19:53:12.000Z",
+      "clasificacion_id": null,
+      "orden": 2,
+      "seguimiento": null,
+      "clasificaciones": null,
+      "plan_personal_sesion": "Textos literarios : Claves de lectura en textos literarios",
+      "fecha_pauta": "2025-03-31T17:47:17.000Z",
+      "fecha_inicial": "2025-03-16T00:00:00.000Z",
+      "fecha_final": "2025-03-31T17:47:17.000Z",
+      "actual": null,
+      "plan_personal_ciclo_id": 3490,
+      "plan_personal_sesion_grupo_usuarios": []
+    },
+    {
+      "id": 10443,
+      "created_at": "2025-03-31T17:47:25.000Z",
+      "updated_at": "2025-03-31T19:53:12.000Z",
+      "clasificacion_id": null,
+      "orden": 3,
+      "seguimiento": null,
+      "clasificaciones": null,
+      "plan_personal_sesion": "Textos literarios : Análisis de personajes en la literatura",
+      "fecha_pauta": "2025-03-31T17:47:17.000Z",
+      "fecha_inicial": "2025-03-16T00:00:00.000Z",
+      "fecha_final": "2025-03-31T17:47:17.000Z",
+      "actual": null,
+      "plan_personal_ciclo_id": 3490,
+      "plan_personal_sesion_grupo_usuarios": []
+    }
+  ],
+  "contenidos_sample": [
+    {
+      "id": 20392,
+      "created_at": "2025-04-02T14:19:41.000Z",
+      "updated_at": "2025-04-02T14:19:41.000Z",
+      "tipo": "Material",
+      "tipo_id": "56175",
+      "orden": 2,
+      "plus": null,
+      "plan_personal_sesion_id": 10441
+    },
+    {
+      "id": 20393,
+      "created_at": "2025-04-02T14:19:41.000Z",
+      "updated_at": "2025-04-02T14:19:41.000Z",
+      "tipo": "Material",
+      "tipo_id": "56257",
+      "orden": 3,
+      "plus": null,
+      "plan_personal_sesion_id": 10441
+    },
+    {
+      "id": 20394,
+      "created_at": "2025-04-02T14:19:41.000Z",
+      "updated_at": "2025-04-02T14:19:41.000Z",
+      "tipo": "Material",
+      "tipo_id": "56205",
+      "orden": 1,
+      "plus": null,
+      "plan_personal_sesion_id": 10442
+    },
+    {
+      "id": 20395,
+      "created_at": "2025-04-02T14:19:41.000Z",
+      "updated_at": "2025-04-02T14:19:41.000Z",
+      "tipo": "Material",
+      "tipo_id": "56256",
+      "orden": 2,
+      "plus": null,
+      "plan_personal_sesion_id": 10442
+    },
+    {
+      "id": 20396,
+      "created_at": "2025-04-02T14:19:41.000Z",
+      "updated_at": "2025-04-02T14:19:41.000Z",
+      "tipo": "Material",
+      "tipo_id": "54490",
+      "orden": 3,
+      "plus": null,
+      "plan_personal_sesion_id": 10442
+    },
+    {
+      "id": 20397,
+      "created_at": "2025-04-02T14:19:41.000Z",
+      "updated_at": "2025-04-02T14:19:41.000Z",
+      "tipo": "Material",
+      "tipo_id": "56206",
+      "orden": 1,
+      "plus": null,
+      "plan_personal_sesion_id": 10443
+    },
+    {
+      "id": 20398,
+      "created_at": "2025-04-02T14:19:41.000Z",
+      "updated_at": "2025-04-02T14:19:41.000Z",
+      "tipo": "Material",
+      "tipo_id": "56258",
+      "orden": 2,
+      "plus": null,
+      "plan_personal_sesion_id": 10443
+    },
+    {
+      "id": 20399,
+      "created_at": "2025-04-02T14:19:41.000Z",
+      "updated_at": "2025-04-02T14:19:41.000Z",
+      "tipo": "Material",
+      "tipo_id": "54491",
+      "orden": 3,
+      "plus": null,
+      "plan_personal_sesion_id": 10443
+    },
+    {
+      "id": 20400,
+      "created_at": "2025-04-02T14:19:41.000Z",
+      "updated_at": "2025-04-02T14:19:41.000Z",
+      "tipo": "Material",
+      "tipo_id": "55065",
+      "orden": 4,
+      "plus": null,
+      "plan_personal_sesion_id": 10443
+    }
+  ]
+}

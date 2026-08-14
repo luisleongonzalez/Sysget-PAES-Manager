@@ -1,0 +1,839 @@
+[
+  {
+    "id": "ua-matematica-001",
+    "asignatura": "matematica",
+    "eje": "Álgebra y Funciones",
+    "titulo": "PAES | Competencia Matemática M1 | Introducción a la PAES",
+    "tipo": "video",
+    "descripcion": "Video clase oficial UAutónoma PAES · PAES | Competencia Matemática M1 | Introducción a la PAES",
+    "url": "https://www.youtube.com/embed/JkiGE_hXAME"
+  },
+  {
+    "id": "ua-matematica-002",
+    "asignatura": "matematica",
+    "eje": "Álgebra y Funciones",
+    "titulo": "PAES | Competencia Matemática M1 | Porcentaje",
+    "tipo": "video",
+    "descripcion": "Video clase oficial UAutónoma PAES · PAES | Competencia Matemática M1 | Porcentaje",
+    "url": "https://www.youtube.com/embed/Mwh_h7M2eD8"
+  },
+  {
+    "id": "ua-matematica-003",
+    "asignatura": "matematica",
+    "eje": "Números",
+    "titulo": "PAES | Competencia Matemática M1 | Potencias",
+    "tipo": "video",
+    "descripcion": "Video clase oficial UAutónoma PAES · PAES | Competencia Matemática M1 | Potencias",
+    "url": "https://www.youtube.com/embed/i6e_79u21ZA"
+  },
+  {
+    "id": "ua-matematica-004",
+    "asignatura": "matematica",
+    "eje": "Álgebra y Funciones",
+    "titulo": "PAES | Competencia Matemática M1 | Raíces enésimas",
+    "tipo": "video",
+    "descripcion": "Video clase oficial UAutónoma PAES · PAES | Competencia Matemática M1 | Raíces enésimas",
+    "url": "https://www.youtube.com/embed/VrPO2kNqRTk"
+  },
+  {
+    "id": "ua-matematica-005",
+    "asignatura": "matematica",
+    "eje": "Números",
+    "titulo": "PAES | Competencia Matemática M1 | Resumen eje: Números",
+    "tipo": "video",
+    "descripcion": "Video clase oficial UAutónoma PAES · PAES | Competencia Matemática M1 | Resumen eje: Números",
+    "url": "https://www.youtube.com/embed/z9neiq3ysuE"
+  },
+  {
+    "id": "ua-matematica-006",
+    "asignatura": "matematica",
+    "eje": "Álgebra y Funciones",
+    "titulo": "PAES | Competencia Matemática M1 | Proporcionalidad",
+    "tipo": "video",
+    "descripcion": "Video clase oficial UAutónoma PAES · PAES | Competencia Matemática M1 | Proporcionalidad",
+    "url": "https://www.youtube.com/embed/qMBSyhWcC8I"
+  },
+  {
+    "id": "ua-matematica-007",
+    "asignatura": "matematica",
+    "eje": "Álgebra y Funciones",
+    "titulo": "PAES | Competencia Matemática M1 | Ecuaciones lineales",
+    "tipo": "video",
+    "descripcion": "Video clase oficial UAutónoma PAES · PAES | Competencia Matemática M1 | Ecuaciones lineales",
+    "url": "https://www.youtube.com/embed/vnjowqDBGB8"
+  },
+  {
+    "id": "ua-matematica-008",
+    "asignatura": "matematica",
+    "eje": "Álgebra y Funciones",
+    "titulo": "PAES | Competencia Matemática M1 | Inecuaciones lineales",
+    "tipo": "video",
+    "descripcion": "Video clase oficial UAutónoma PAES · PAES | Competencia Matemática M1 | Inecuaciones lineales",
+    "url": "https://www.youtube.com/embed/7nYAXhZTH0Q"
+  },
+  {
+    "id": "ua-matematica-009",
+    "asignatura": "matematica",
+    "eje": "Álgebra y Funciones",
+    "titulo": "PAES | Competencia Matemática M1 | Función lineal y afín",
+    "tipo": "video",
+    "descripcion": "Video clase oficial UAutónoma PAES · PAES | Competencia Matemática M1 | Función lineal y afín",
+    "url": "https://www.youtube.com/embed/xRcm1VCQA4c"
+  },
+  {
+    "id": "ua-matematica-010",
+    "asignatura": "matematica",
+    "eje": "Álgebra y Funciones",
+    "titulo": "PAES | Competencia Matemática M1 | Función cuadrática Parte I",
+    "tipo": "video",
+    "descripcion": "Video clase oficial UAutónoma PAES · PAES | Competencia Matemática M1 | Función cuadrática Parte ",
+    "url": "https://www.youtube.com/embed/l9q4K_mFL-k"
+  },
+  {
+    "id": "ua-matematica-011",
+    "asignatura": "matematica",
+    "eje": "Álgebra y Funciones",
+    "titulo": "PAES | Competencia Matemática M1 | Función cuadrática Parte II",
+    "tipo": "video",
+    "descripcion": "Video clase oficial UAutónoma PAES · PAES | Competencia Matemática M1 | Función cuadrática Parte ",
+    "url": "https://www.youtube.com/embed/tdlsOI6bZ-k"
+  },
+  {
+    "id": "ua-matematica-012",
+    "asignatura": "matematica",
+    "eje": "Álgebra y Funciones",
+    "titulo": "PAES | Competencia Matemática M1 | Resumen eje: Álgebra y funciones",
+    "tipo": "video",
+    "descripcion": "Video clase oficial UAutónoma PAES · PAES | Competencia Matemática M1 | Resumen eje: Álgebra y fu",
+    "url": "https://www.youtube.com/embed/zOteQzfaIQQ"
+  },
+  {
+    "id": "ua-matematica-013",
+    "asignatura": "matematica",
+    "eje": "Álgebra y Funciones",
+    "titulo": "PAES | Competencia Matemática M1 | Figuras geométricas",
+    "tipo": "video",
+    "descripcion": "Video clase oficial UAutónoma PAES · PAES | Competencia Matemática M1 | Figuras geométricas",
+    "url": "https://www.youtube.com/embed/wXvBjsDVitc"
+  },
+  {
+    "id": "ua-matematica-014",
+    "asignatura": "matematica",
+    "eje": "Álgebra y Funciones",
+    "titulo": "PAES | Competencia Matemática M1 | Figuras geométricas Parte II",
+    "tipo": "video",
+    "descripcion": "Video clase oficial UAutónoma PAES · PAES | Competencia Matemática M1 | Figuras geométricas Parte",
+    "url": "https://www.youtube.com/embed/wpeVx8OrCmk"
+  },
+  {
+    "id": "ua-matematica-015",
+    "asignatura": "matematica",
+    "eje": "Álgebra y Funciones",
+    "titulo": "PAES | Competencia Matemática M1 | Cuerpos Geométricos",
+    "tipo": "video",
+    "descripcion": "Video clase oficial UAutónoma PAES · PAES | Competencia Matemática M1 | Cuerpos Geométricos",
+    "url": "https://www.youtube.com/embed/JcAxHhZPHHY"
+  },
+  {
+    "id": "ua-matematica-016",
+    "asignatura": "matematica",
+    "eje": "Álgebra y Funciones",
+    "titulo": "PAES | Competencia Matemática M1 | Transformaciones isométricas",
+    "tipo": "video",
+    "descripcion": "Video clase oficial UAutónoma PAES · PAES | Competencia Matemática M1 | Transformaciones isométri",
+    "url": "https://www.youtube.com/embed/WUdgKMfX9Hg"
+  },
+  {
+    "id": "ua-matematica-017",
+    "asignatura": "matematica",
+    "eje": "Álgebra y Funciones",
+    "titulo": "PAES | Competencia Matemática M1 | Transformaciones isométricas Parte II",
+    "tipo": "video",
+    "descripcion": "Video clase oficial UAutónoma PAES · PAES | Competencia Matemática M1 | Transformaciones isométri",
+    "url": "https://www.youtube.com/embed/UlzkLO-iwoE"
+  },
+  {
+    "id": "ua-matematica-018",
+    "asignatura": "matematica",
+    "eje": "Geometría",
+    "titulo": "PAES | Competencia Matemática M1 | Resumen eje: Geometría",
+    "tipo": "video",
+    "descripcion": "Video clase oficial UAutónoma PAES · PAES | Competencia Matemática M1 | Resumen eje: Geometría",
+    "url": "https://www.youtube.com/embed/gGtnu3jMjCo"
+  },
+  {
+    "id": "ua-matematica-019",
+    "asignatura": "matematica",
+    "eje": "Datos y Azar",
+    "titulo": "PAES | Competencia Matemática M1 |  Representación de datos a través de tablas y gráficos",
+    "tipo": "ppt",
+    "descripcion": "Video clase oficial UAutónoma PAES · PAES | Competencia Matemática M1 |  Representación de datos ",
+    "url": "https://www.youtube.com/embed/ybPsS2fNX6g"
+  },
+  {
+    "id": "ua-matematica-020",
+    "asignatura": "matematica",
+    "eje": "Álgebra y Funciones",
+    "titulo": "PAES | Competencia Matemática M1 | Medidas de posición",
+    "tipo": "video",
+    "descripcion": "Video clase oficial UAutónoma PAES · PAES | Competencia Matemática M1 | Medidas de posición",
+    "url": "https://www.youtube.com/embed/jCfQjycgwdM"
+  },
+  {
+    "id": "ua-matematica-021",
+    "asignatura": "matematica",
+    "eje": "Datos y Azar",
+    "titulo": "PAES | Competencia Matemática M1 | Reglas de las probabilidades - Parte 1",
+    "tipo": "video",
+    "descripcion": "Video clase oficial UAutónoma PAES · PAES | Competencia Matemática M1 | Reglas de las probabilida",
+    "url": "https://www.youtube.com/embed/04pEXdco3Jc"
+  },
+  {
+    "id": "ua-matematica-022",
+    "asignatura": "matematica",
+    "eje": "Datos y Azar",
+    "titulo": "PAES | Competencia Matemática M1 | Reglas de las probabilidades - Parte 2",
+    "tipo": "video",
+    "descripcion": "Video clase oficial UAutónoma PAES · PAES | Competencia Matemática M1 | Reglas de las probabilida",
+    "url": "https://www.youtube.com/embed/JR8Gm9LsIt8"
+  },
+  {
+    "id": "ua-matematica-023",
+    "asignatura": "matematica",
+    "eje": "Datos y Azar",
+    "titulo": "PAES | Competencia Matemática M1 | Resumen eje: Probabilidad y estadística",
+    "tipo": "video",
+    "descripcion": "Video clase oficial UAutónoma PAES · PAES | Competencia Matemática M1 | Resumen eje: Probabilidad",
+    "url": "https://www.youtube.com/embed/dDSV2aAKFNw"
+  },
+  {
+    "id": "ua-matematica-024",
+    "asignatura": "matematica",
+    "eje": "Números",
+    "titulo": "PAES | Competencia Matemática M1 | Ejercitación Potencias y Raíces",
+    "tipo": "video",
+    "descripcion": "Video clase oficial UAutónoma PAES · PAES | Competencia Matemática M1 | Ejercitación Potencias y ",
+    "url": "https://www.youtube.com/embed/UEDXXaqkxDY"
+  },
+  {
+    "id": "ua-matematica-025",
+    "asignatura": "matematica",
+    "eje": "Álgebra y Funciones",
+    "titulo": "PAES | Competencia Matemática M2 | Introducción a la PAES",
+    "tipo": "video",
+    "descripcion": "Video clase oficial UAutónoma PAES · PAES | Competencia Matemática M2 | Introducción a la PAES",
+    "url": "https://www.youtube.com/embed/8Dh6xPf9h_w"
+  },
+  {
+    "id": "ua-matematica-026",
+    "asignatura": "matematica",
+    "eje": "Números",
+    "titulo": "PAES | Competencia Matemática M2 | Operaciones en el conjunto de los números reales",
+    "tipo": "video",
+    "descripcion": "Video clase oficial UAutónoma PAES · PAES | Competencia Matemática M2 | Operaciones en el conjunt",
+    "url": "https://www.youtube.com/embed/qOYpG-SYf5Q"
+  },
+  {
+    "id": "ua-matematica-027",
+    "asignatura": "matematica",
+    "eje": "Álgebra y Funciones",
+    "titulo": "PAES | Competencia Matemática M2 | Porcentaje",
+    "tipo": "video",
+    "descripcion": "Video clase oficial UAutónoma PAES · PAES | Competencia Matemática M2 | Porcentaje",
+    "url": "https://www.youtube.com/embed/mQLmG1nuJ5U"
+  },
+  {
+    "id": "ua-matematica-028",
+    "asignatura": "matematica",
+    "eje": "Números",
+    "titulo": "PAES | Competencia Matemática M2 | Potencias y raíces enésimas",
+    "tipo": "video",
+    "descripcion": "Video clase oficial UAutónoma PAES · PAES | Competencia Matemática M2 | Potencias y raíces enésim",
+    "url": "https://www.youtube.com/embed/S2Wo2OU-rZg"
+  },
+  {
+    "id": "ua-matematica-029",
+    "asignatura": "matematica",
+    "eje": "Álgebra y Funciones",
+    "titulo": "PAES | Competencia Matemática M2 | Logaritmos",
+    "tipo": "video",
+    "descripcion": "Video clase oficial UAutónoma PAES · PAES | Competencia Matemática M2 | Logaritmos",
+    "url": "https://www.youtube.com/embed/ClrsUaQzPrA"
+  },
+  {
+    "id": "ua-matematica-030",
+    "asignatura": "matematica",
+    "eje": "Álgebra y Funciones",
+    "titulo": "PAES | Competencia Matemática M2 | Matemática financiera",
+    "tipo": "video",
+    "descripcion": "Video clase oficial UAutónoma PAES · PAES | Competencia Matemática M2 | Matemática financiera",
+    "url": "https://www.youtube.com/embed/fXHJ6VOoEsM"
+  },
+  {
+    "id": "ua-matematica-031",
+    "asignatura": "matematica",
+    "eje": "Álgebra y Funciones",
+    "titulo": "PAES | Competencia Matemática M2 | Expresiones Algebraicas",
+    "tipo": "video",
+    "descripcion": "Video clase oficial UAutónoma PAES · PAES | Competencia Matemática M2 | Expresiones Algebraicas",
+    "url": "https://www.youtube.com/embed/JTgIHfnR7Tk"
+  },
+  {
+    "id": "ua-matematica-032",
+    "asignatura": "matematica",
+    "eje": "Álgebra y Funciones",
+    "titulo": "PAES | Competencia Matemática M2 | Proporcionalidad",
+    "tipo": "video",
+    "descripcion": "Video clase oficial UAutónoma PAES · PAES | Competencia Matemática M2 | Proporcionalidad",
+    "url": "https://www.youtube.com/embed/rUqwkiDmuJ4"
+  },
+  {
+    "id": "ua-matematica-033",
+    "asignatura": "matematica",
+    "eje": "Álgebra y Funciones",
+    "titulo": "PAES | Competencia Matemática M2 | Ecuaciones e inecuaciones de primer grado",
+    "tipo": "video",
+    "descripcion": "Video clase oficial UAutónoma PAES · PAES | Competencia Matemática M2 | Ecuaciones e inecuaciones",
+    "url": "https://www.youtube.com/embed/2PIcGyAqi6Q"
+  },
+  {
+    "id": "ua-matematica-034",
+    "asignatura": "matematica",
+    "eje": "Álgebra y Funciones",
+    "titulo": "PAES | Competencia Matemática M2 | Sistemas de ecuaciones lineales (2x2)",
+    "tipo": "video",
+    "descripcion": "Video clase oficial UAutónoma PAES · PAES | Competencia Matemática M2 | Sistemas de ecuaciones li",
+    "url": "https://www.youtube.com/embed/pbCmGwpP2zM"
+  },
+  {
+    "id": "ua-matematica-035",
+    "asignatura": "matematica",
+    "eje": "Álgebra y Funciones",
+    "titulo": "PAES | Competencia Matemática M2 | Función lineal y afín",
+    "tipo": "video",
+    "descripcion": "Video clase oficial UAutónoma PAES · PAES | Competencia Matemática M2 | Función lineal y afín",
+    "url": "https://www.youtube.com/embed/jze-7tVvvLg"
+  },
+  {
+    "id": "ua-matematica-036",
+    "asignatura": "matematica",
+    "eje": "Álgebra y Funciones",
+    "titulo": "PAES | Competencia Matemática M2 | Función cuadrática Parte I",
+    "tipo": "video",
+    "descripcion": "Video clase oficial UAutónoma PAES · PAES | Competencia Matemática M2 | Función cuadrática Parte ",
+    "url": "https://www.youtube.com/embed/pbkQaVpCw3A"
+  },
+  {
+    "id": "ua-matematica-037",
+    "asignatura": "matematica",
+    "eje": "Álgebra y Funciones",
+    "titulo": "PAES | Competencia Matemática M2 | Función cuadrática Parte II",
+    "tipo": "video",
+    "descripcion": "Video clase oficial UAutónoma PAES · PAES | Competencia Matemática M2 | Función cuadrática Parte ",
+    "url": "https://www.youtube.com/embed/PmdWire7D7I"
+  },
+  {
+    "id": "ua-matematica-038",
+    "asignatura": "matematica",
+    "eje": "Álgebra y Funciones",
+    "titulo": "PAES | Competencia Matemática M2 | Figuras Geométricas",
+    "tipo": "video",
+    "descripcion": "Video clase oficial UAutónoma PAES · PAES | Competencia Matemática M2 | Figuras Geométricas",
+    "url": "https://www.youtube.com/embed/PrXFU82hrR0"
+  },
+  {
+    "id": "ua-matematica-039",
+    "asignatura": "matematica",
+    "eje": "Álgebra y Funciones",
+    "titulo": "PAES | Competencia Matemática M2 | Cuerpos geométricos",
+    "tipo": "video",
+    "descripcion": "Video clase oficial UAutónoma PAES · PAES | Competencia Matemática M2 | Cuerpos geométricos",
+    "url": "https://www.youtube.com/embed/8h0621NZjKg"
+  },
+  {
+    "id": "ua-matematica-040",
+    "asignatura": "matematica",
+    "eje": "Álgebra y Funciones",
+    "titulo": "PAES | Competencia Matemática M2 | Transformaciones isométricas",
+    "tipo": "video",
+    "descripcion": "Video clase oficial UAutónoma PAES · PAES | Competencia Matemática M2 | Transformaciones isométri",
+    "url": "https://www.youtube.com/embed/4lZ2TAKkHXw"
+  },
+  {
+    "id": "ua-matematica-041",
+    "asignatura": "matematica",
+    "eje": "Álgebra y Funciones",
+    "titulo": "PAES | Competencia Matemática M2 | Homotecia de figuras planas",
+    "tipo": "video",
+    "descripcion": "Video clase oficial UAutónoma PAES · PAES | Competencia Matemática M2 | Homotecia de figuras plan",
+    "url": "https://www.youtube.com/embed/XXl06Drh0mI"
+  },
+  {
+    "id": "ua-matematica-042",
+    "asignatura": "matematica",
+    "eje": "Geometría",
+    "titulo": "PAES | Competencia Matemática M2 | Razones trigonométricas en triángulos rectángulos",
+    "tipo": "video",
+    "descripcion": "Video clase oficial UAutónoma PAES · PAES | Competencia Matemática M2 | Razones trigonométricas e",
+    "url": "https://www.youtube.com/embed/Mm2e0o6H5S8"
+  },
+  {
+    "id": "ua-matematica-043",
+    "asignatura": "matematica",
+    "eje": "Álgebra y Funciones",
+    "titulo": "PAES | Competencia Matemática M2 | Funciones trigonométricas",
+    "tipo": "video",
+    "descripcion": "Video clase oficial UAutónoma PAES · PAES | Competencia Matemática M2 | Funciones trigonométricas",
+    "url": "https://www.youtube.com/embed/KRsnBRzMGGk"
+  },
+  {
+    "id": "ua-matematica-044",
+    "asignatura": "matematica",
+    "eje": "Datos y Azar",
+    "titulo": "PAES | Competencia Matemática M2 | Representación de datos a través de tablas y gráficos",
+    "tipo": "ppt",
+    "descripcion": "Video clase oficial UAutónoma PAES · PAES | Competencia Matemática M2 | Representación de datos a",
+    "url": "https://www.youtube.com/embed/xVaxE1nbpHA"
+  },
+  {
+    "id": "ua-matematica-045",
+    "asignatura": "matematica",
+    "eje": "Datos y Azar",
+    "titulo": "PAES | Competencia Matemática M2 | Reglas de las probabilidades",
+    "tipo": "video",
+    "descripcion": "Video clase oficial UAutónoma PAES · PAES | Competencia Matemática M2 | Reglas de las probabilida",
+    "url": "https://www.youtube.com/embed/VTzFvXTBFpA"
+  },
+  {
+    "id": "ua-matematica-046",
+    "asignatura": "matematica",
+    "eje": "Álgebra y Funciones",
+    "titulo": "PAES | Competencia Matemática M2 | Medidas de dispersión",
+    "tipo": "video",
+    "descripcion": "Video clase oficial UAutónoma PAES · PAES | Competencia Matemática M2 | Medidas de dispersión",
+    "url": "https://www.youtube.com/embed/KYEEohUxFsg"
+  },
+  {
+    "id": "ua-matematica-047",
+    "asignatura": "matematica",
+    "eje": "Álgebra y Funciones",
+    "titulo": "PAES | Competencia Matemática M2 | Permutación y combinatoria",
+    "tipo": "video",
+    "descripcion": "Video clase oficial UAutónoma PAES · PAES | Competencia Matemática M2 | Permutación y combinatori",
+    "url": "https://www.youtube.com/embed/bMjA-WjZaXE"
+  },
+  {
+    "id": "ua-matematica-048",
+    "asignatura": "matematica",
+    "eje": "Solución y Mezclas",
+    "titulo": "PAES | Competencia Matemática M2 | Resolución Súper ensayo final PAES - Parte I",
+    "tipo": "ejercicio",
+    "descripcion": "Video clase oficial UAutónoma PAES · PAES | Competencia Matemática M2 | Resolución Súper ensayo f",
+    "url": "https://www.youtube.com/embed/HqruvX6sqbE"
+  },
+  {
+    "id": "ua-lenguaje-049",
+    "asignatura": "lenguaje",
+    "eje": "Comprensión Lectora",
+    "titulo": "PAES | Competencia Lectora | Introducción a la PAES",
+    "tipo": "video",
+    "descripcion": "Video clase oficial UAutónoma PAES · PAES | Competencia Lectora | Introducción a la PAES",
+    "url": "https://www.youtube.com/embed/AuwpaJbMZsg"
+  },
+  {
+    "id": "ua-lenguaje-050",
+    "asignatura": "lenguaje",
+    "eje": "Textos Literarios",
+    "titulo": "PAES | Competencia Lectora | Claves de lectura en textos literarios",
+    "tipo": "video",
+    "descripcion": "Video clase oficial UAutónoma PAES · PAES | Competencia Lectora | Claves de lectura en textos lit",
+    "url": "https://www.youtube.com/embed/FojjT2d_vMU"
+  },
+  {
+    "id": "ua-lenguaje-051",
+    "asignatura": "lenguaje",
+    "eje": "Textos Literarios",
+    "titulo": "PAES | Competencia Lectora | Textos literarios: Análisis de personajes en la literatura",
+    "tipo": "video",
+    "descripcion": "Video clase oficial UAutónoma PAES · PAES | Competencia Lectora | Textos literarios: Análisis de ",
+    "url": "https://www.youtube.com/embed/VOp3JCTjFNY"
+  },
+  {
+    "id": "ua-lenguaje-052",
+    "asignatura": "lenguaje",
+    "eje": "Textos Literarios",
+    "titulo": "PAES | Competencia Lectora | Textos literarios: Conflictos y creencias en la literatura",
+    "tipo": "video",
+    "descripcion": "Video clase oficial UAutónoma PAES · PAES | Competencia Lectora | Textos literarios: Conflictos y",
+    "url": "https://www.youtube.com/embed/6rwbS71X5q8"
+  },
+  {
+    "id": "ua-lenguaje-053",
+    "asignatura": "lenguaje",
+    "eje": "Textos Literarios",
+    "titulo": "PAES | Competencia Lectora | Textos literarios: Generalidades",
+    "tipo": "video",
+    "descripcion": "Video clase oficial UAutónoma PAES · PAES | Competencia Lectora | Textos literarios: Generalidade",
+    "url": "https://www.youtube.com/embed/w3aDIRGyjAw"
+  },
+  {
+    "id": "ua-lenguaje-054",
+    "asignatura": "lenguaje",
+    "eje": "Textos Literarios",
+    "titulo": "PAES | Competencia Lectora | Textos literarios : Del fragmento al significado global",
+    "tipo": "video",
+    "descripcion": "Video clase oficial UAutónoma PAES · PAES | Competencia Lectora | Textos literarios : Del fragmen",
+    "url": "https://www.youtube.com/embed/1F1FsChLAVs"
+  },
+  {
+    "id": "ua-lenguaje-055",
+    "asignatura": "lenguaje",
+    "eje": "Textos Literarios",
+    "titulo": "PAES | Competencia Lectora | Textos literarios: Recursos, símbolos y sentido en la obra",
+    "tipo": "video",
+    "descripcion": "Video clase oficial UAutónoma PAES · PAES | Competencia Lectora | Textos literarios: Recursos, sí",
+    "url": "https://www.youtube.com/embed/qQzM4lS9wTQ"
+  },
+  {
+    "id": "ua-lenguaje-056",
+    "asignatura": "lenguaje",
+    "eje": "Textos Literarios",
+    "titulo": "PAES | Competencia Lectora | Textos literarios : Narrador y estereotipos en la literatura",
+    "tipo": "video",
+    "descripcion": "Video clase oficial UAutónoma PAES · PAES | Competencia Lectora | Textos literarios : Narrador y ",
+    "url": "https://www.youtube.com/embed/Y2G03I0oddM"
+  },
+  {
+    "id": "ua-lenguaje-057",
+    "asignatura": "lenguaje",
+    "eje": "Textos Literarios",
+    "titulo": "PAES | Competencia Lectora | Textos literarios: Temas y perspectivas en la obra",
+    "tipo": "video",
+    "descripcion": "Video clase oficial UAutónoma PAES · PAES | Competencia Lectora | Textos literarios: Temas y pers",
+    "url": "https://www.youtube.com/embed/Cgsgitx3nSY"
+  },
+  {
+    "id": "ua-lenguaje-058",
+    "asignatura": "lenguaje",
+    "eje": "Textos Literarios",
+    "titulo": "PAES | Competencia Lectora | Textos literarios : Generalidades",
+    "tipo": "video",
+    "descripcion": "Video clase oficial UAutónoma PAES · PAES | Competencia Lectora | Textos literarios : Generalidad",
+    "url": "https://www.youtube.com/embed/ymPQPy_faBM"
+  },
+  {
+    "id": "ua-historia-059",
+    "asignatura": "historia",
+    "eje": "Historia de Chile",
+    "titulo": "PAES | Historia | Introducción a la PAES",
+    "tipo": "video",
+    "descripcion": "Video clase oficial UAutónoma PAES · PAES | Historia | Introducción a la PAES",
+    "url": "https://www.youtube.com/embed/ZG4l7jINAnI"
+  },
+  {
+    "id": "ua-historia-060",
+    "asignatura": "historia",
+    "eje": "Historia de Chile",
+    "titulo": "PAES | Historia | El surgimiento del Estado nación",
+    "tipo": "video",
+    "descripcion": "Video clase oficial UAutónoma PAES · PAES | Historia | El surgimiento del Estado nación",
+    "url": "https://www.youtube.com/embed/x1rOymhMHdE"
+  },
+  {
+    "id": "ua-historia-061",
+    "asignatura": "historia",
+    "eje": "Historia de Chile",
+    "titulo": "PAES | Historia | Formación de la república en Chile 1830-1860",
+    "tipo": "video",
+    "descripcion": "Video clase oficial UAutónoma PAES · PAES | Historia | Formación de la república en Chile 1830-18",
+    "url": "https://www.youtube.com/embed/NwPUbdgO5Rc"
+  },
+  {
+    "id": "ua-historia-062",
+    "asignatura": "historia",
+    "eje": "Historia de Chile",
+    "titulo": "PAES | Historia | Transformaciones políticas de la segunda mitad del siglo XIX en Chile",
+    "tipo": "video",
+    "descripcion": "Video clase oficial UAutónoma PAES · PAES | Historia | Transformaciones políticas de la segunda m",
+    "url": "https://www.youtube.com/embed/WEb61CTUkeQ"
+  },
+  {
+    "id": "ua-historia-063",
+    "asignatura": "historia",
+    "eje": "Historia de Chile",
+    "titulo": "PAES | Historia | Transformaciones de la sociedad chilena en el siglo XIX al siglo XX, Parte II",
+    "tipo": "video",
+    "descripcion": "Video clase oficial UAutónoma PAES · PAES | Historia | Transformaciones de la sociedad chilena en",
+    "url": "https://www.youtube.com/embed/GbZ9HokHzhY"
+  },
+  {
+    "id": "ua-biologia-064",
+    "asignatura": "biologia",
+    "eje": "Biología Celular",
+    "titulo": "PAES | Biología | Introducción a la PAES",
+    "tipo": "video",
+    "descripcion": "Video clase oficial UAutónoma PAES · PAES | Biología | Introducción a la PAES",
+    "url": "https://www.youtube.com/embed/d6aj_oQU_WE"
+  },
+  {
+    "id": "ua-biologia-065",
+    "asignatura": "biologia",
+    "eje": "Biología Celular",
+    "titulo": "PAES | Biología | Método científico",
+    "tipo": "video",
+    "descripcion": "Video clase oficial UAutónoma PAES · PAES | Biología | Método científico",
+    "url": "https://www.youtube.com/embed/fpJcNtdpFsM"
+  },
+  {
+    "id": "ua-biologia-066",
+    "asignatura": "biologia",
+    "eje": "Biología Celular",
+    "titulo": "PAES | Biología | Trabajo con variables",
+    "tipo": "video",
+    "descripcion": "Video clase oficial UAutónoma PAES · PAES | Biología | Trabajo con variables",
+    "url": "https://www.youtube.com/embed/GNIGz98R6JM"
+  },
+  {
+    "id": "ua-biologia-067",
+    "asignatura": "biologia",
+    "eje": "Biología Celular",
+    "titulo": "PAES | Biología | Macromoléculas",
+    "tipo": "video",
+    "descripcion": "Video clase oficial UAutónoma PAES · PAES | Biología | Macromoléculas",
+    "url": "https://www.youtube.com/embed/vfCnAmtyAYA"
+  },
+  {
+    "id": "ua-biologia-068",
+    "asignatura": "biologia",
+    "eje": "Biología Celular",
+    "titulo": "PAES | Biología | Macromoléculas II",
+    "tipo": "video",
+    "descripcion": "Video clase oficial UAutónoma PAES · PAES | Biología | Macromoléculas II",
+    "url": "https://www.youtube.com/embed/rl7gxJ5YALw"
+  },
+  {
+    "id": "ua-biologia-069",
+    "asignatura": "biologia",
+    "eje": "Biología Celular",
+    "titulo": "PAES | Biología | Generalidades de la célula",
+    "tipo": "video",
+    "descripcion": "Video clase oficial UAutónoma PAES · PAES | Biología | Generalidades de la célula",
+    "url": "https://www.youtube.com/embed/NNcWs9tr_ik"
+  },
+  {
+    "id": "ua-biologia-070",
+    "asignatura": "biologia",
+    "eje": "Biología Celular",
+    "titulo": "PAES | Biología | Características de la célula eucarionte",
+    "tipo": "video",
+    "descripcion": "Video clase oficial UAutónoma PAES · PAES | Biología | Características de la célula eucarionte",
+    "url": "https://www.youtube.com/embed/AH0XrcnSgcg"
+  },
+  {
+    "id": "ua-biologia-071",
+    "asignatura": "biologia",
+    "eje": "Biología Celular",
+    "titulo": "PAES | Biología | Características de la célula procarionte",
+    "tipo": "video",
+    "descripcion": "Video clase oficial UAutónoma PAES · PAES | Biología | Características de la célula procarionte",
+    "url": "https://www.youtube.com/embed/0hcFt79TcyU"
+  },
+  {
+    "id": "ua-biologia-072",
+    "asignatura": "biologia",
+    "eje": "Álgebra y Funciones",
+    "titulo": "PAES | Biología | Relación entre estructura y función. Casos de células especiales",
+    "tipo": "video",
+    "descripcion": "Video clase oficial UAutónoma PAES · PAES | Biología | Relación entre estructura y función. Casos",
+    "url": "https://www.youtube.com/embed/-jUfbofjx04"
+  },
+  {
+    "id": "ua-biologia-073",
+    "asignatura": "biologia",
+    "eje": "Biología Celular",
+    "titulo": "Cápsula de Habilidades PAES - Características de las barreras defensivas del cuerpo humano",
+    "tipo": "video",
+    "descripcion": "Video clase oficial UAutónoma PAES · Cápsula de Habilidades PAES - Características de las barrera",
+    "url": "https://www.youtube.com/embed/2iKaE69PsYU"
+  },
+  {
+    "id": "ua-biologia-074",
+    "asignatura": "biologia",
+    "eje": "Genética y Evolución",
+    "titulo": "Cápsula de Habilidades PAES - Manipulación genética",
+    "tipo": "video",
+    "descripcion": "Video clase oficial UAutónoma PAES · Cápsula de Habilidades PAES - Manipulación genética",
+    "url": "https://www.youtube.com/embed/vWwCEkvQfEw"
+  },
+  {
+    "id": "ua-biologia-075",
+    "asignatura": "biologia",
+    "eje": "Genética y Evolución",
+    "titulo": "Cápsula de Habilidades PAES - Evidencias a favor de la evolución",
+    "tipo": "video",
+    "descripcion": "Video clase oficial UAutónoma PAES · Cápsula de Habilidades PAES - Evidencias a favor de la evolu",
+    "url": "https://www.youtube.com/embed/F3CQ_cwWoSM"
+  },
+  {
+    "id": "ua-biologia-076",
+    "asignatura": "biologia",
+    "eje": "Química Orgánica",
+    "titulo": "Cápsula de Habilidades PAES - Obtención de energía y síntesis de moléculas orgánicas",
+    "tipo": "video",
+    "descripcion": "Video clase oficial UAutónoma PAES · Cápsula de Habilidades PAES - Obtención de energía y síntesi",
+    "url": "https://www.youtube.com/embed/cBxsjINDxgo"
+  },
+  {
+    "id": "ua-fisica-077",
+    "asignatura": "fisica",
+    "eje": "Mecánica",
+    "titulo": "PAES | Física | Introducción a la PAES",
+    "tipo": "video",
+    "descripcion": "Video clase oficial UAutónoma PAES · PAES | Física | Introducción a la PAES",
+    "url": "https://www.youtube.com/embed/0XSW7OGwJm4"
+  },
+  {
+    "id": "ua-fisica-078",
+    "asignatura": "fisica",
+    "eje": "Óptica y Ondas",
+    "titulo": "PAES | Física | Elementos de las ondas electromagnéticas",
+    "tipo": "video",
+    "descripcion": "Video clase oficial UAutónoma PAES · PAES | Física | Elementos de las ondas electromagnéticas",
+    "url": "https://www.youtube.com/embed/fIS71jFC5p8"
+  },
+  {
+    "id": "ua-fisica-079",
+    "asignatura": "fisica",
+    "eje": "Óptica y Ondas",
+    "titulo": "PAES | Física | Propiedades de las ondas electromagnéticas",
+    "tipo": "video",
+    "descripcion": "Video clase oficial UAutónoma PAES · PAES | Física | Propiedades de las ondas electromagnéticas",
+    "url": "https://www.youtube.com/embed/SDg0uJQlSJ8"
+  },
+  {
+    "id": "ua-fisica-080",
+    "asignatura": "fisica",
+    "eje": "Mecánica",
+    "titulo": "PAES | Física | Espectro Electromagnético",
+    "tipo": "video",
+    "descripcion": "Video clase oficial UAutónoma PAES · PAES | Física | Espectro Electromagnético",
+    "url": "https://www.youtube.com/embed/1h0Hc3k2Lyk"
+  },
+  {
+    "id": "ua-fisica-081",
+    "asignatura": "fisica",
+    "eje": "Mecánica",
+    "titulo": "PAES | Física | Análisis de Gráficos (Habilidades de Pensamiento Científico)",
+    "tipo": "video",
+    "descripcion": "Video clase oficial UAutónoma PAES · PAES | Física | Análisis de Gráficos (Habilidades de Pensami",
+    "url": "https://www.youtube.com/embed/b0EA2QHDzyQ"
+  },
+  {
+    "id": "ua-fisica-082",
+    "asignatura": "fisica",
+    "eje": "Mecánica",
+    "titulo": "PAES | Física | Análisis y creación de tablas (habilidades de pensamiento científico)",
+    "tipo": "video",
+    "descripcion": "Video clase oficial UAutónoma PAES · PAES | Física | Análisis y creación de tablas (habilidades d",
+    "url": "https://www.youtube.com/embed/gFMELYufY5w"
+  },
+  {
+    "id": "ua-fisica-083",
+    "asignatura": "fisica",
+    "eje": "Mecánica",
+    "titulo": "PAES | Física | Comportamiento de la Luz en Espejos y Lentes. Parte I",
+    "tipo": "video",
+    "descripcion": "Video clase oficial UAutónoma PAES · PAES | Física | Comportamiento de la Luz en Espejos y Lentes",
+    "url": "https://www.youtube.com/embed/1UnhqkoSRzE"
+  },
+  {
+    "id": "ua-fisica-084",
+    "asignatura": "fisica",
+    "eje": "Mecánica",
+    "titulo": "PAES | Física | Comportamiento de la Luz en Espejos y Lentes. Parte II",
+    "tipo": "video",
+    "descripcion": "Video clase oficial UAutónoma PAES · PAES | Física | Comportamiento de la Luz en Espejos y Lentes",
+    "url": "https://www.youtube.com/embed/wAgZ3TMudjg"
+  },
+  {
+    "id": "ua-quimica-085",
+    "asignatura": "quimica",
+    "eje": "Materia y sus Transformaciones",
+    "titulo": "PAES | Química | Introducción a la PAES",
+    "tipo": "video",
+    "descripcion": "Video clase oficial UAutónoma PAES · PAES | Química | Introducción a la PAES",
+    "url": "https://www.youtube.com/embed/1HK0o1hwgz4"
+  },
+  {
+    "id": "ua-quimica-086",
+    "asignatura": "quimica",
+    "eje": "Materia y sus Transformaciones",
+    "titulo": "PAES | Química | Clasificación de la materia",
+    "tipo": "video",
+    "descripcion": "Video clase oficial UAutónoma PAES · PAES | Química | Clasificación de la materia",
+    "url": "https://www.youtube.com/embed/RSDRuhGI424"
+  },
+  {
+    "id": "ua-quimica-087",
+    "asignatura": "quimica",
+    "eje": "Solución y Mezclas",
+    "titulo": "PAES | Química | Técnicas de Separación de Mezclas",
+    "tipo": "video",
+    "descripcion": "Video clase oficial UAutónoma PAES · PAES | Química | Técnicas de Separación de Mezclas",
+    "url": "https://www.youtube.com/embed/TGYABXq5aL8"
+  },
+  {
+    "id": "ua-quimica-088",
+    "asignatura": "quimica",
+    "eje": "Materia y sus Transformaciones",
+    "titulo": "PAES | Química | Propiedades físicas de los elementos",
+    "tipo": "video",
+    "descripcion": "Video clase oficial UAutónoma PAES · PAES | Química | Propiedades físicas de los elementos",
+    "url": "https://www.youtube.com/embed/jEXwNoT6iTc"
+  },
+  {
+    "id": "ua-quimica-089",
+    "asignatura": "quimica",
+    "eje": "Materia y sus Transformaciones",
+    "titulo": "PAES | Química | Teorías y modelos atómicos",
+    "tipo": "video",
+    "descripcion": "Video clase oficial UAutónoma PAES · PAES | Química | Teorías y modelos atómicos",
+    "url": "https://www.youtube.com/embed/02afiBwKsPc"
+  },
+  {
+    "id": "ua-quimica-090",
+    "asignatura": "quimica",
+    "eje": "Materia y sus Transformaciones",
+    "titulo": "PAES | Química | Subparticulas atómicas; A y Z",
+    "tipo": "video",
+    "descripcion": "Video clase oficial UAutónoma PAES · PAES | Química | Subparticulas atómicas; A y Z",
+    "url": "https://www.youtube.com/embed/Sx3eLsTjAcA"
+  },
+  {
+    "id": "ua-quimica-091",
+    "asignatura": "quimica",
+    "eje": "Materia y sus Transformaciones",
+    "titulo": "PAES | Química | Bohr en átomos neutros e iones",
+    "tipo": "video",
+    "descripcion": "Video clase oficial UAutónoma PAES · PAES | Química | Bohr en átomos neutros e iones",
+    "url": "https://www.youtube.com/embed/Y3ba_qfQC1g"
+  },
+  {
+    "id": "ua-quimica-092",
+    "asignatura": "quimica",
+    "eje": "Materia y sus Transformaciones",
+    "titulo": "PAES | Química | Clase resumen - Estructura atómica",
+    "tipo": "video",
+    "descripcion": "Video clase oficial UAutónoma PAES · PAES | Química | Clase resumen - Estructura atómica",
+    "url": "https://www.youtube.com/embed/T3FOBBfx3As"
+  },
+  {
+    "id": "ua-quimica-093",
+    "asignatura": "quimica",
+    "eje": "Materia y sus Transformaciones",
+    "titulo": "PAES | Química | Ejemplo de investigación y preguntas PAES",
+    "tipo": "video",
+    "descripcion": "Video clase oficial UAutónoma PAES · PAES | Química | Ejemplo de investigación y preguntas PAES",
+    "url": "https://www.youtube.com/embed/bdi3vZpIfno"
+  }
+]

@@ -52,8 +52,8 @@
 
       <div id="header-role-indicator" style="display: none; align-items: center; gap: 8px;">
         <span class="role-badge-nav docente" id="nav-role-badge">👨‍🏫 Docente</span>
-        <button class="btn-switch-role" onclick="setRole('landing')" title="Cambiar de perfil / Salir">
-          <span>🔄 Cambiar Rol</span>
+        <button class="btn-switch-role" onclick="cerrarSesion()" title="Cerrar Sesión">
+          <span>🚪 Cerrar Sesión</span>
         </button>
       </div>
 
@@ -151,7 +151,7 @@
             </p>
           </div>
           <div class="role-action-area">
-            <button class="btn-role-action teacher" onclick="setRole('docente')">
+            <button class="btn-role-action teacher" onclick="abrirModalLogin('docente')">
               <span>Ingresar al Panel Docente ➔</span>
             </button>
           </div>
@@ -170,7 +170,7 @@
             </p>
           </div>
           <div class="role-action-area">
-            <button class="btn-role-action admin" onclick="setRole('admin')">
+            <button class="btn-role-action admin" onclick="abrirModalLogin('admin')">
               <span>Panel Administrador ➔</span>
             </button>
           </div>
@@ -1137,14 +1137,72 @@ historia_2025 · lectora_2024 · m1_2023 ...</div>
     </div>
   </footer>
 
+  <!-- ═══════════════════════════════════════════
+       MODAL: LOGIN / AUTENTICACIÓN
+  ═══════════════════════════════════════════ -->
+  <div id="modal-auth-login" style="display:none; position:fixed; inset:0; z-index:9999; background:rgba(0,0,0,0.7); backdrop-filter:blur(6px); align-items:center; justify-content:center; padding:20px;">
+    <div class="auth-modal-card">
+      <!-- Encabezado -->
+      <div class="auth-modal-header">
+        <div style="display:flex; align-items:center; gap:12px; flex-wrap:wrap;">
+          <span id="auth-modal-role-badge" class="role-badge-nav docente">👨‍🏫 Docente</span>
+          <div>
+            <h2 id="auth-modal-title" style="margin:0; font-size:1.25rem; font-weight:700; color:var(--text);">Portal Docente</h2>
+            <p id="auth-modal-desc" style="margin:4px 0 0; font-size:0.8rem; color:var(--text-secondary);">Ingresa tus credenciales institucionales.</p>
+          </div>
+        </div>
+        <button onclick="cerrarModalLogin()" style="background:none; border:none; cursor:pointer; font-size:1.4rem; color:var(--text-secondary); padding:4px 8px; border-radius:6px; transition:color 0.2s;" onmouseover="this.style.color='var(--text)'" onmouseout="this.style.color='var(--text-secondary)'">✕</button>
+      </div>
+
+      <!-- Cuerpo -->
+      <div class="auth-modal-body">
+        <!-- Error box -->
+        <div id="auth-error-msg" style="display:none; background:rgba(239,68,68,0.12); border:1px solid rgba(239,68,68,0.4); color:#f87171; padding:10px 14px; border-radius:8px; font-size:13px; margin-bottom:14px;"></div>
+
+        <!-- Correo -->
+        <div class="auth-field-group">
+          <label class="form-label" for="auth-email-input">📧 Correo institucional / Usuario</label>
+          <input type="email" id="auth-email-input" class="form-input" placeholder="usuario@colegio.cl" autocomplete="username"
+            onkeydown="if(event.key==='Enter') document.getElementById('auth-password-input').focus()"
+            style="margin-bottom:0;">
+        </div>
+
+        <!-- Contraseña -->
+        <div class="auth-field-group">
+          <label class="form-label" for="auth-password-input">🔑 Contraseña</label>
+          <div style="position:relative;">
+            <input type="password" id="auth-password-input" class="form-input" placeholder="••••••••" autocomplete="current-password"
+              onkeydown="if(event.key==='Enter') procesarLogin()"
+              style="margin-bottom:0; padding-right:46px;">
+            <button type="button" onclick="toggleMostrarPassword('auth-password-input', this)"
+              style="position:absolute; right:10px; top:50%; transform:translateY(-50%); background:none; border:none; cursor:pointer; font-size:16px; color:var(--text-secondary); padding:4px;">👁️</button>
+          </div>
+        </div>
+
+        <!-- Botón principal -->
+        <button id="btn-auth-submit" class="btn btn-primary" onclick="procesarLogin()"
+          style="width:100%; padding:12px; font-size:14px; font-weight:700; margin-top:6px; letter-spacing:0.4px;">
+          Ingresar al Sistema ➔
+        </button>
+
+        <!-- Hint de credenciales -->
+        <div style="margin-top:14px; padding:10px 14px; background:rgba(99,102,241,0.08); border:1px solid rgba(99,102,241,0.2); border-radius:8px; font-size:12px; color:var(--text-secondary); text-align:center;">
+          💡 Credenciales demo: <strong>docente@colegio.cl</strong> / <strong>docente2026</strong>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <!-- Firebase SDK (Compat Version) -->
   <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
   <!-- SysGet Suite Scripts -->
   <script src="firebase-config.js"></script>
-  <script src="app.js?v=20260813_v3"></script>
+  <script src="auth-service.js"></script>
+  <script src="app.js?v=20260813_v4"></script>
   <script src="biblioteca.js?v=20260808_v5"></script>
   <script src="generador-evaluaciones.js"></script>
   <script src="directorio-escolar.js"></script>
 </body>
+
 </html>
