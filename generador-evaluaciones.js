@@ -394,6 +394,18 @@ function configurarSeccionEnvioDesdeGenerador(evalConfig) {
     duracionInput.value = evalConfig.duracionMinutos;
   }
 
+  // Si ya habían alumnos en la lista, regenerar sus tokens para que correspondan a esta nueva evaluación
+  if (state.alumnosEnSession && state.alumnosEnSession.length > 0) {
+    state.alumnosEnSession.forEach(al => {
+      al.token = 'tok_' + Math.random().toString(36).substr(2, 9) + '_' + Date.now().toString(36).slice(-4);
+      al.estado = 'pendiente';
+      al.respuestas = {};
+    });
+    if (typeof renderAlumnosLista === 'function') {
+      renderAlumnosLista();
+    }
+  }
+
   if (infoBox && infoText) {
     infoBox.style.display = 'block';
     infoBox.style.background = 'rgba(124, 58, 237, 0.15)';

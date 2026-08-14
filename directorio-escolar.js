@@ -631,30 +631,26 @@ function cargarAlumnosDeCursoEnSesion() {
   }
 
   if (alumnosACargar.length === 0) {
-    showToast('⚠️ No hay alumnos en el curso seleccionado');
+    showToast('⚠️ No hay alumnos matriculados en el curso seleccionado');
     return;
   }
 
-  let agregados = 0;
-  alumnosACargar.forEach(a => {
-    const token = 'tok_' + Math.random().toString(36).substr(2, 9);
-    // Evitar duplicar si ya existe el mismo email o nombre en la sesión
-    const yaExiste = state.alumnosEnSession.some(x => 
-      (a.email && x.email && x.email.toLowerCase() === a.email.toLowerCase()) || 
-      (x.nombre.toLowerCase() === a.nombre.toLowerCase())
-    );
+  // Reemplazar la lista para garantizar tokens 100% nuevos e independientes por evaluación
+  state.alumnosEnSession = [];
 
-    if (!yaExiste) {
-      state.alumnosEnSession.push({
-        nombre: a.nombre,
-        email: a.email || '',
-        curso: a.curso || '',
-        token: token
-      });
-      agregados++;
-    }
+  alumnosACargar.forEach(a => {
+    const token = 'tok_' + Math.random().toString(36).substr(2, 9) + '_' + Date.now().toString(36).slice(-4);
+    state.alumnosEnSession.push({
+      nombre: a.nombre,
+      email: a.email || '',
+      curso: a.curso || '',
+      token: token,
+      estado: 'pendiente',
+      respuestas: {}
+    });
   });
 
   renderAlumnosLista();
-  showToast(`✅ Se cargaron ${agregados} alumnos del curso ${valor === '__all__' ? 'general' : valor}`);
+  const nombreCurso = valor === '__all__' ? 'general' : valor;
+  showToast(`✅ Se cargaron ${state.alumnosEnSession.length} alumnos del curso ${nombreCurso} con nuevos enlaces de acceso`);
 }

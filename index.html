@@ -507,7 +507,17 @@ historia_2025 · lectora_2024 · m1_2023 ...</div>
         <!-- Panel derecho: Gestión de Alumnos -->
         <div class="mixer-result">
           <div class="result-card">
-            <h3 class="config-title">👥 Lista de Alumnos</h3>
+            <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; flex-wrap: wrap; gap: 8px;">
+              <h3 class="config-title" style="margin-bottom: 0;">👥 Lista de Alumnos</h3>
+              <div style="display: flex; gap: 6px;">
+                <button class="btn btn-outline" onclick="regenerarTokensAlumnos()" title="Generar nuevos enlaces y tokens para todos los alumnos" style="padding: 4px 10px; font-size: 11px; color: #a5b4fc; border-color: rgba(99,102,241,0.3); font-weight: 600;">
+                  🔄 Nuevos Enlaces
+                </button>
+                <button class="btn btn-outline" onclick="limpiarListaAlumnos()" title="Vaciar la lista de alumnos" style="padding: 4px 10px; font-size: 11px; color: #fca5a5; border-color: rgba(239,68,68,0.3); font-weight: 600;">
+                  🗑️ Limpiar Lista
+                </button>
+              </div>
+            </div>
             
             <!-- Cargar Nómina desde Directorio Escolar -->
             <div style="background: rgba(37,99,235,0.08); border: 1px solid rgba(37,99,235,0.25); border-radius: 10px; padding: 10px 12px; margin-bottom: 14px;">

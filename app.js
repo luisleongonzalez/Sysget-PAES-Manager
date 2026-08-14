@@ -1009,8 +1009,8 @@ function agregarAlumnoLista() {
     return;
   }
   
-  // Generar token único local
-  const token = 'tok_' + Math.random().toString(36).substr(2, 9);
+  // Generar token único con timestamp para evitar colisiones
+  const token = 'tok_' + Math.random().toString(36).substr(2, 9) + '_' + Date.now().toString(36).slice(-4);
   
   state.alumnosEnSession.push({
     nombre,
@@ -1025,6 +1025,30 @@ function agregarAlumnoLista() {
   
   renderAlumnosLista();
   showToast('👤 Alumno agregado a la lista');
+}
+
+function limpiarListaAlumnos() {
+  if (!state.alumnosEnSession || state.alumnosEnSession.length === 0) {
+    showToast('La lista de alumnos ya está vacía');
+    return;
+  }
+  state.alumnosEnSession = [];
+  renderAlumnosLista();
+  showToast('🗑️ Lista de alumnos limpiada');
+}
+
+function regenerarTokensAlumnos() {
+  if (!state.alumnosEnSession || state.alumnosEnSession.length === 0) {
+    showToast('⚠️ No hay alumnos en la lista para regenerar tokens');
+    return;
+  }
+  state.alumnosEnSession.forEach(al => {
+    al.token = 'tok_' + Math.random().toString(36).substr(2, 9) + '_' + Date.now().toString(36).slice(-4);
+    al.estado = 'pendiente';
+    al.respuestas = {};
+  });
+  renderAlumnosLista();
+  showToast('🔄 Nuevos enlaces y tokens generados para todos los alumnos');
 }
 
 function renderAlumnosLista() {
@@ -1258,6 +1282,16 @@ async function crearSesionEvaluacion() {
   // Limpiar la evaluación personalizada una vez consumida
   if (evalPersonal) state.evaluacionPersonalizada.activa = false;
   
+  // Generar tokens 100% únicos y limpios para cada alumno en esta nueva sesión
+  if (state.alumnosEnSession && state.alumnosEnSession.length > 0) {
+    state.alumnosEnSession.forEach(al => {
+      al.token = 'tok_' + Math.random().toString(36).substr(2, 9) + '_' + Date.now().toString(36).slice(-4);
+      al.estado = 'pendiente';
+      al.respuestas = {};
+    });
+    renderAlumnosLista();
+  }
+
   // Guardar la sesión con los valores correctos
   const nuevaSesion = {
     id: sesionId,
@@ -1284,7 +1318,7 @@ async function crearSesionEvaluacion() {
     
     showToast(PAES_DB.isFirebase() ? '🔑 Sesión habilitada en Firebase con éxito!' : '🔑 Sesión creada localmente!');
     
-    // Mostrar banner de éxito con acciones rápidas sin borrar la lista de alumnos
+    // Mostrar banner de éxito con acciones rápidas
     const infoBox = document.getElementById('info-clave-box');
     const infoText = document.getElementById('info-clave-text');
     if (infoBox && infoText) {
@@ -1293,10 +1327,11 @@ async function crearSesionEvaluacion() {
       infoBox.style.borderColor = 'rgba(16, 185, 129, 0.4)';
       infoText.innerHTML = `
         <div style="color: #34d399; font-weight: 700; font-size: 14px; margin-bottom: 4px;">🎉 ¡Sesión Habilitada con Éxito en Firebase!</div>
-        <div style="color: var(--text-primary); font-size: 13px;">La sesión <strong>"${titulo}"</strong> ya está activa. Usa la tabla de la derecha para copiar los links o enviar correos a los alumnos.</div>
+        <div style="color: var(--text-primary); font-size: 13px;">La sesión <strong>"${titulo}"</strong> ya está activa con nuevos enlaces únicos para cada estudiante. Usa la tabla de la derecha para copiar los links o enviar correos a los alumnos.</div>
         <div style="margin-top: 10px; display: flex; gap: 8px; flex-wrap: wrap;">
           <button class="btn btn-outline" onclick="mostrarQRSesion('${sesionId}', '${titulo.replace(/'/g, "\\'")}')" style="padding: 8px 14px; font-size: 12px; border-color: rgba(99,102,241,0.4); color: #a5b4fc; font-weight: 600;">📱 Ver Código QR de Sala</button>
           <button class="btn btn-primary" onclick="irAResultadosSesion('${sesionId}')" style="padding: 8px 14px; font-size: 12px; font-weight: 600;">📊 Ir a Ver Resultados en Tiempo Real ➡️</button>
+          <button class="btn btn-outline" onclick="limpiarListaAlumnos()" style="padding: 8px 14px; font-size: 12px; color: #fca5a5; border-color: rgba(239,68,68,0.4);">🗑️ Limpiar Lista de Alumnos</button>
           <button class="btn btn-outline" onclick="nuevaListaEvaluacion()" style="padding: 8px 14px; font-size: 12px;">➕ Crear Otra Sesión</button>
         </div>
       `;
@@ -1904,7 +1939,7 @@ function importarAlumnosCSV(event) {
       const email = partes[1] ? partes[1].trim().replace(/^["']|["']$/g, '') : '';
 
       if (nombre && nombre.length >= 2) {
-        const token = 'tok_' + Math.random().toString(36).substr(2, 9);
+        const token = 'tok_' + Math.random().toString(36).substr(2, 9) + '_' + Date.now().toString(36).slice(-4);
         state.alumnosEnSession.push({
           nombre: nombre,
           email: email,
