@@ -165,12 +165,33 @@
       const result = await this.send({ toEmail: al.email, toName: formatNombrePropio(al.nombre), subject, htmlBody });
       return Object.assign({}, result, { nombre: al.nombre });
     },
+    clear() {
+      localStorage.removeItem(CFG_KEYS.pub);
+      localStorage.removeItem(CFG_KEYS.svc);
+      localStorage.removeItem(CFG_KEYS.tpl);
+      localStorage.removeItem(CFG_KEYS.from);
+    },
   };
 
   window.EmailService = EmailService;
 
   // ─── Config UI ────────────────────────────────────────────
   window.abrirConfigEmailJS = function () {
+    if (EmailService.isConfigured()) {
+      const opcion = confirm(
+        "EmailJS está actualmente CONFIGURADO en este navegador.\n\n" +
+        "• Presiona [Aceptar] si deseas MODIFICAR las credenciales.\n" +
+        "• Presiona [Cancelar] si deseas BORRAR las credenciales y desactivar el envío."
+      );
+      if (!opcion) {
+        if (confirm("¿Confirmas que deseas BORRAR las credenciales y desactivar el envío automático?")) {
+          EmailService.clear();
+          showToast("🗑️ Credenciales de correo eliminadas correctamente");
+        }
+        return;
+      }
+    }
+
     const pk  = prompt("Paso 1/4 - Public Key de EmailJS\n(emailjs.com > Account > General > Public Key):", EmailService.publicKey);
     if (pk === null) return;
     const sid = prompt("Paso 2/4 - Service ID\n(Email Services > tu servicio Gmail > Service ID):", EmailService.serviceId);
@@ -180,26 +201,32 @@
     const fn  = prompt("Paso 4/4 - Nombre del Remitente (aparece en De:):", EmailService.fromName);
     if (fn === null) return;
     EmailService.save(pk, sid, tid, fn);
-    showToast("Configuracion de correos guardada correctamente");
+    showToast("✅ Configuración de correos guardada correctamente");
   };
 
   // ─── Enviar a un alumno individual ────────────────────────
   window.enviarEmailAlumnoDirecto = async function (idx) {
     const al = state.alumnosEnSession[idx];
     if (!al) return;
+    const nombreFormat = formatNombrePropio(al.nombre);
+    
+    if (!confirm(`¿Deseas enviar el correo con la citación y enlace de evaluación a ${nombreFormat}?`)) {
+      return;
+    }
+
     const sesionData = _getSesionDatosParaEmail();
-    showToast("Enviando correo a " + formatNombrePropio(al.nombre) + "...");
+    showToast("Enviando correo a " + nombreFormat + "...");
     const result = await EmailService.enviarAlumno(al, sesionData);
     if (result.ok === true) {
-      showToast("Correo enviado a " + result.nombre);
+      showToast("✅ Correo enviado a " + result.nombre);
     } else if (result.ok === "mailto") {
-      showToast("Sin email - abriendo cliente de correo para " + result.nombre);
+      showToast("📧 Abriendo borrador de correo para " + result.nombre);
     } else if (result.reason === "not_configured") {
-      if (confirm("EmailJS no esta configurado.\nDeseas configurarlo ahora para enviar correos HTML directamente desde la app?")) {
+      if (confirm("EmailJS no está configurado.\n¿Deseas configurarlo ahora para enviar correos directamente desde la app?")) {
         abrirConfigEmailJS();
       }
     } else {
-      showToast("Error al enviar a " + result.nombre + ": " + result.reason);
+      showToast("❌ Error al enviar a " + result.nombre + ": " + result.reason);
     }
   };
 
@@ -209,17 +236,21 @@
       showToast("No hay alumnos en la lista");
       return;
     }
+    
     if (!EmailService.isConfigured()) {
-      if (confirm("EmailJS no esta configurado.\nDeseas configurarlo ahora?\n\n(Si cancelas se abrira tu cliente de correo normal)")) {
+      if (confirm("EmailJS no está configurado en este navegador.\n\n¿Deseas configurarlo ahora para enviar correos automáticos?\n(Si presionas Cancelar, NO se enviará ningún correo)")) {
         abrirConfigEmailJS();
-        return;
-      } else {
-        abrirDraftCorreosTodos();
-        return;
       }
+      return;
     }
+
+    const totalAlumnos = state.alumnosEnSession.length;
+    if (!confirm(`¿Confirmas el envío de correos de citación a los ${totalAlumnos} alumnos de la lista?`)) {
+      return;
+    }
+
     const sesionData = _getSesionDatosParaEmail();
-    showToast("Enviando " + state.alumnosEnSession.length + " correos...");
+    showToast("Enviando " + totalAlumnos + " correos...");
     let ok = 0, err = 0, sinEmail = 0;
     for (const al of state.alumnosEnSession) {
       const result = await EmailService.enviarAlumno(al, sesionData);
@@ -230,7 +261,7 @@
     }
     const partes = [];
     if (ok > 0)       partes.push(ok + " enviado(s)");
-    if (sinEmail > 0) partes.push(sinEmail + " sin email (abrio cliente de correo)");
+    if (sinEmail > 0) partes.push(sinEmail + " sin email");
     if (err > 0)      partes.push(err + " con error");
     showToast(partes.join(" / "));
   };

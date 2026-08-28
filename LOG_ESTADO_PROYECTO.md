@@ -1,6 +1,6 @@
 # 📌 Registro de Estado y Continuación — Proyecto PAES WEB (Sysget-PAES-Manager)
 
-**Fecha de Última Actualización:** 13 de Agosto, 2026  
+**Fecha de Última Actualización:** 16 de Agosto, 2026  
 **Ubicación Local del Proyecto:** `C:\Proyectos\Proyecto PAES WEB`  
 **Repositorio GitHub:** `https://github.com/leontestvirtual1-sketch/Sysget-PAES-Manager`  
 **Despliegue Producción (Vercel):** `https://sysget-paes-manager.vercel.app`  
@@ -8,7 +8,13 @@
 
 ---
 
-## 🚀 Novedades de la Versión Actual (2026-08-13)
+## 🚀 Novedades de la Versión Actual (2026-08-16)
+
+### 8. 🛡️ Control y Seguridad en Envío de Correos (NUEVO)
+- **Confirmación Obligatoria:** Se añadieron cuadros de confirmación explícita con conteo de alumnos antes de enviar correos masivos o individuales en `email-service.js` y `app.js`.
+- **Cancelación Segura:** Presionar "Cancelar" en cualquier advertencia detiene la acción por completo y evita abrir el cliente de correo (`mailto:`) involuntariamente.
+- **Gestor de Credenciales EmailJS:** Diálogo interactivo al pulsar el icono de engranaje ⚙️ que permite ver el estado, modificar o **borrar las credenciales de EmailJS de `localStorage`** para desactivar envíos automáticos.
+- **Validación de Sintaxis:** Código verificado y validado contra errores en tiempo de ejecución.
 
 ### 7. 🔐 Sistema de Autenticación con Contraseña (NUEVO)
 - **Módulo `auth-service.js`:** Login con credenciales institucionales para perfiles Docente y Administrador.

@@ -66,7 +66,7 @@ async function cargarClavesYEscalas() {
   }
 }
 
-// Rellenar el selector de pruebas en la pestaña 'Enviar'
+// Rellenar el selector de pruebas en la pestaña 'Enviar' (agrupado por asignatura)
 function rellenarSelectorClavijeros() {
   const select = document.getElementById('select-prueba-envio');
   if (!select) return;
@@ -75,15 +75,58 @@ function rellenarSelectorClavijeros() {
     select.innerHTML = '<option value="">No hay clavijeros disponibles</option>';
     return;
   }
-  
-  let html = '<option value="">-- Seleccionar Prueba --</option>';
+
+  // Orden y etiquetas de grupos
+  const GRUPOS = [
+    { materia: 'm1',        label: '📐 Competencia Matemática M1' },
+    { materia: 'm2',        label: '🧮 Competencia Matemática M2' },
+    { materia: 'matematica',label: '📐 Matemática (PDT)' },
+    { materia: 'lectora',   label: '📖 Competencia Lectora' },
+    { materia: 'historia',  label: '📜 Historia y CC.SS' },
+    { materia: 'biologia',  label: '🧬 Ciencias – Biología' },
+    { materia: 'fisica',    label: '⚡ Ciencias – Física' },
+    { materia: 'quimica',   label: '⚗️ Ciencias – Química' },
+    { materia: 'tp',        label: '🔧 Ciencias – T.P.' },
+  ];
+
+  // Agrupar clavijeros por materia
+  const porMateria = {};
   for (const uid in state.clavesYEscalas) {
     const item = state.clavesYEscalas[uid];
-    const meta = getMeta(item.materia);
-    html += `<option value="${uid}">${meta.nombre} (Proceso ${item.anio})</option>`;
+    if (!porMateria[item.materia]) porMateria[item.materia] = [];
+    porMateria[item.materia].push({ uid, item });
   }
+
+  let html = '<option value="">-- Seleccionar Prueba / Clavijero --</option>';
+  
+  for (const grupo of GRUPOS) {
+    const entries = porMateria[grupo.materia];
+    if (!entries || entries.length === 0) continue;
+    // Ordenar por año descendente dentro del grupo
+    entries.sort((a, b) => (b.item.anio || 0) - (a.item.anio || 0));
+    html += `<optgroup label="${grupo.label}">`;
+    for (const { uid, item } of entries) {
+      html += `<option value="${uid}">Proceso ${item.anio}</option>`;
+    }
+    html += `</optgroup>`;
+  }
+
+  // Agregar cualquier materia no listada en GRUPOS como fallback
+  const materiasCubiertas = new Set(GRUPOS.map(g => g.materia));
+  for (const mat in porMateria) {
+    if (!materiasCubiertas.has(mat)) {
+      const meta = getMeta(mat);
+      html += `<optgroup label="${meta.icon || '📄'} ${meta.nombre}">`;
+      for (const { uid, item } of porMateria[mat]) {
+        html += `<option value="${uid}">Proceso ${item.anio}</option>`;
+      }
+      html += `</optgroup>`;
+    }
+  }
+
   select.innerHTML = html;
 }
+
 
 function getPruebas(anio = 'all') {
   return state.catalogoRaw.filter(x => {
@@ -1107,6 +1150,11 @@ function enviarEmailAlumno(idx) {
   const al = state.alumnosEnSession[idx];
   if (!al) return;
   
+  const nombreFormateado = formatNombrePropio(al.nombre);
+  if (!confirm(`¿Deseas abrir tu cliente de correo para enviar la citación individual a ${nombreFormateado}?`)) {
+    return;
+  }
+  
   const baseUrl = window.location.href.split('#')[0].replace('index.html', '') + 'responder.html';
   const link = `${baseUrl}?token=${al.token}`;
   
@@ -1123,7 +1171,6 @@ function enviarEmailAlumno(idx) {
   const duracion = duracionInput ? (duracionInput.value || '150') : '150';
   const sala = salaInput ? (salaInput.value.trim() || 'SALA-1') : 'SALA-1';
   const fechaStr = new Date().toLocaleDateString('es-CL');
-  const nombreFormateado = formatNombrePropio(al.nombre);
   
   const subject = encodeURIComponent(`🎓 [PAES] Citación a Evaluación en Línea: ${titulo}`);
   const body = encodeURIComponent(
@@ -1154,6 +1201,10 @@ function enviarEmailAlumno(idx) {
 
 function abrirDraftCorreosTodos() {
   if (state.alumnosEnSession.length === 0) return;
+  
+  if (!confirm(`¿Deseas abrir tu cliente de correo con un borrador para los ${state.alumnosEnSession.length} alumnos?`)) {
+    return;
+  }
   
   const baseUrl = window.location.href.split('#')[0].replace('index.html', '') + 'responder.html';
   

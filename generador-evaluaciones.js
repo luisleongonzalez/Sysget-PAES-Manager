@@ -482,3 +482,10 @@ function cancelarPersonalizacionEvaluacion() {
   showToast('🔄 Restablecido a clavijero completo');
 }
 
+/* ── Exponer funciones globalmente para onclick inline en HTML ── */
+window.cambiarAsignaturaGenerador    = cambiarAsignaturaGenerador;
+window.renderGeneradorEvaluacion     = renderGeneradorEvaluacion;
+window.ejecutarGeneracionEvaluacion  = ejecutarGeneracionEvaluacion;
+window.toggleCustomTime              = toggleCustomTime;
+window.toggleMasterEje               = toggleMasterEje;
+window.cancelarPersonalizacionEvaluacion = cancelarPersonalizacionEvaluacion;

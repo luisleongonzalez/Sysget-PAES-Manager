@@ -39,21 +39,23 @@ async function cargarDirectorioEscolar() {
 }
 
 async function sembrarDatosDemoDirectorio() {
+  // NOTA: Los emails usan dominio .test (RFC 2606) — nunca tienen DNS real,
+  // por lo que EmailJS NO intentará entregarlos a destinatarios reales.
   const demoAlumnos = [
-    { rut: '21.345.678-9', nombre: 'Sofía Valenzuela Castro', curso: '4° Medio A', email: 'sofia.valenzuela@colegio.cl', estado: 'Activo' },
-    { rut: '21.567.890-1', nombre: 'Benjamín Morales Silva', curso: '4° Medio A', email: 'benjamin.morales@colegio.cl', estado: 'Activo' },
-    { rut: '21.678.901-2', nombre: 'Martina Rojas Pizarro', curso: '4° Medio A', email: 'martina.rojas@colegio.cl', estado: 'Activo' },
-    { rut: '21.789.012-3', nombre: 'Matías Fernández Soto', curso: '4° Medio B', email: 'matias.fernandez@colegio.cl', estado: 'Activo' },
-    { rut: '21.890.123-4', nombre: 'Valentina Díaz Muñoz', curso: '4° Medio B', email: 'valentina.diaz@colegio.cl', estado: 'Activo' },
-    { rut: '22.012.345-6', nombre: 'Lucas Sepúlveda Lagos', curso: '3° Medio A', email: 'lucas.sepulveda@colegio.cl', estado: 'Activo' },
-    { rut: '22.123.456-7', nombre: 'Isidora Carrasco Peña', curso: '3° Medio A', email: 'isidora.carrasco@colegio.cl', estado: 'Activo' }
+    { rut: '21.345.678-9', nombre: 'Sofía Valenzuela Castro', curso: '4° Medio A', email: 'sofia.valenzuela@demo.test', estado: 'Activo' },
+    { rut: '21.567.890-1', nombre: 'Benjamín Morales Silva', curso: '4° Medio A', email: 'benjamin.morales@demo.test', estado: 'Activo' },
+    { rut: '21.678.901-2', nombre: 'Martina Rojas Pizarro', curso: '4° Medio A', email: 'martina.rojas@demo.test', estado: 'Activo' },
+    { rut: '21.789.012-3', nombre: 'Matías Fernández Soto', curso: '4° Medio B', email: 'matias.fernandez@demo.test', estado: 'Activo' },
+    { rut: '21.890.123-4', nombre: 'Valentina Díaz Muñoz', curso: '4° Medio B', email: 'valentina.diaz@demo.test', estado: 'Activo' },
+    { rut: '22.012.345-6', nombre: 'Lucas Sepúlveda Lagos', curso: '3° Medio A', email: 'lucas.sepulveda@demo.test', estado: 'Activo' },
+    { rut: '22.123.456-7', nombre: 'Isidora Carrasco Peña', curso: '3° Medio A', email: 'isidora.carrasco@demo.test', estado: 'Activo' }
   ];
 
   const demoDocentes = [
-    { nombre: 'Prof. Carlos Araya Méndez', email: 'carlos.araya@colegio.cl', asignatura: 'Matemática', rol: 'Profesor de Asignatura', cursos: '4° Medio A, 4° Medio B' },
-    { nombre: 'Prof. Andrea Guzmán Vera', email: 'andrea.guzman@colegio.cl', asignatura: 'Competencia Lectora', rol: 'Profesor Jefe', cursos: '4° Medio A' },
-    { nombre: 'Prof. Rodrigo Henríquez T.', email: 'rodrigo.henriquez@colegio.cl', asignatura: 'Ciencias', rol: 'Profesor de Asignatura', cursos: '3° Medio A, 4° Medio A' },
-    { nombre: 'Prof. Marcela Bustamante L.', email: 'marcela.bustamante@colegio.cl', asignatura: 'Historia', rol: 'Coordinador UTP', cursos: 'Todos' }
+    { nombre: 'Prof. Carlos Araya Méndez', email: 'carlos.araya@demo.test', asignatura: 'Matemática', rol: 'Profesor de Asignatura', cursos: '4° Medio A, 4° Medio B' },
+    { nombre: 'Prof. Andrea Guzmán Vera', email: 'andrea.guzman@demo.test', asignatura: 'Competencia Lectora', rol: 'Profesor Jefe', cursos: '4° Medio A' },
+    { nombre: 'Prof. Rodrigo Henríquez T.', email: 'rodrigo.henriquez@demo.test', asignatura: 'Ciencias', rol: 'Profesor de Asignatura', cursos: '3° Medio A, 4° Medio A' },
+    { nombre: 'Prof. Marcela Bustamante L.', email: 'marcela.bustamante@demo.test', asignatura: 'Historia', rol: 'Coordinador UTP', cursos: 'Todos' }
   ];
 
   await PAES_DB.importarAlumnosBatch(demoAlumnos);
