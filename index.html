@@ -38,7 +38,7 @@
   </noscript>
 
   <!-- ═══════════════════════════════════════════
-       HEADER / NAVBAR
+       HEADER / NAVBAR UNIFICADO (4 PILARES)
   ═══════════════════════════════════════════ -->
   <header class="header" id="main-header">
     <div class="header-inner">
@@ -50,41 +50,61 @@
         </div>
       </div>
 
-      <div id="header-role-indicator" style="display: none; align-items: center; gap: 8px;">
-        <span class="role-badge-nav docente" id="nav-role-badge">👨‍🏫 Docente</span>
-        <button class="btn-switch-role" onclick="cerrarSesion()" title="Cerrar Sesión">
-          <span>🚪 Cerrar Sesión</span>
-        </button>
-      </div>
-
       <button type="button" class="nav-mobile-toggle" id="nav-mobile-toggle" aria-label="Abrir menú de navegación" aria-expanded="false" aria-controls="main-nav" onclick="toggleNavMobile()">
         ☰
       </button>
 
       <nav class="nav" id="main-nav" role="navigation" aria-label="Navegación principal">
-        <!-- Renderizado dinámicamente según rol en app.js -->
+        <!-- Renderizado dinámicamente en app.js -->
       </nav>
 
-      <div class="header-badge" id="firebase-status-badge" onclick="abrirConfigFirebase()" title="Haz clic para configurar credenciales de Firebase" style="background: rgba(245, 158, 11, 0.1); border: 1px solid rgba(245, 158, 11, 0.3); color: var(--gold); margin-right: 8px; cursor: pointer;">
-        <span class="badge-dot" style="background: var(--gold);" id="firebase-status-dot"></span>
-        <span id="firebase-status-text">Conexión: Local</span>
-      </div>
+      <!-- Controles del Extremo Derecho -->
+      <div class="header-right-controls" style="display: flex; align-items: center; gap: 10px; margin-left: auto;">
+        <!-- Estado de Firebase / Nube -->
+        <div class="header-badge" id="firebase-status-badge" onclick="abrirConfigFirebase()" title="Haz clic para configurar credenciales de Firebase" style="background: rgba(16, 185, 129, 0.1); border: 1px solid rgba(16, 185, 129, 0.3); color: var(--green); cursor: pointer;">
+          <span class="badge-dot" style="background: var(--green);" id="firebase-status-dot"></span>
+          <span id="firebase-status-text">Online</span>
+        </div>
 
-      <!-- Botón Cambio de Tema Claro / Oscuro -->
-      <button
-        id="btn-theme-toggle"
-        class="btn-theme-toggle"
-        onclick="toggleTema()"
-        title="Cambiar tema claro/oscuro"
-        aria-label="Cambiar tema"
-      >
-        <span class="icon-sun">☀️</span>
-        <span class="icon-moon">🌙</span>
-      </button>
+        <!-- Toggle Tema Claro/Oscuro -->
+        <button
+          id="btn-theme-toggle"
+          class="btn-theme-toggle"
+          onclick="toggleTema()"
+          title="Cambiar tema claro/oscuro"
+          aria-label="Cambiar tema"
+        >
+          <span class="icon-sun">☀️</span>
+          <span class="icon-moon">🌙</span>
+        </button>
 
-      <div class="header-badge" id="header-demre-badge">
-        <span class="badge-dot"></span>
-        DEMRE Oficial
+        <!-- Menú de Usuario / Perfil -->
+        <div class="user-menu-wrapper" id="header-user-wrapper" style="display:none; position:relative;">
+          <button class="user-pill-btn" id="header-user-btn" onclick="toggleUserDropdown(event)" type="button">
+            <span class="user-avatar" id="user-avatar-icon">👨‍🏫</span>
+            <span class="user-name-label" id="user-display-name">Profesor</span>
+            <span class="dropdown-arrow">▾</span>
+          </button>
+          
+          <div class="user-dropdown-card" id="user-dropdown-menu" style="display:none;">
+            <div class="user-dropdown-header">
+              <strong id="dropdown-user-name" style="display:block; font-size:13.5px; color:var(--text-primary);">Profesor Docente</strong>
+              <span id="dropdown-user-email" style="display:block; font-size:11.5px; color:var(--text-secondary); margin-top:2px;">docente@colegio.cl</span>
+              <span id="dropdown-user-badge" class="role-badge-nav docente" style="margin-top:6px; display:inline-block;">👨‍🏫 Docente</span>
+            </div>
+            <div style="height:1px; background:var(--border); margin:8px 0;"></div>
+            <button class="dropdown-item-btn" onclick="abrirConfigFirebase(); cerrarUserDropdown();" type="button">
+              <span>🔥 Conexión Firebase</span>
+            </button>
+            <button class="dropdown-item-btn" onclick="abrirConfigEmailJS(); cerrarUserDropdown();" type="button">
+              <span>📧 Servicio EmailJS</span>
+            </button>
+            <div style="height:1px; background:var(--border); margin:8px 0;"></div>
+            <button class="dropdown-item-btn" onclick="cerrarSesion(); cerrarUserDropdown();" type="button" style="color:#f87171;">
+              <span>🚪 Cerrar Sesión</span>
+            </button>
+          </div>
+        </div>
       </div>
     </div>
   </header>
@@ -130,7 +150,7 @@
           </div>
           <div class="role-action-area">
             <div class="token-input-wrapper">
-              <input type="text" id="landing-token-input" class="token-input" placeholder="Ej: PAES-tok_abc123" onkeydown="if(event.key==='Enter') irAResponderToken()">
+              <input type="text" id="landing-token-input" class="token-input" placeholder="Pega aquí tu código de evaluación (ej: tok_abc123)" onkeydown="if(event.key==='Enter') irAResponderToken()">
             </div>
             <button class="btn-role-action student" onclick="irAResponderToken()">
               <span>Entrar a Responder ➔</span>
@@ -182,42 +202,42 @@
     <!-- ─── BARRA DE SUB-PESTAÑAS DE EVALUACIONES ─── -->
     <div id="subtabs-evaluaciones" class="subtabs-bar" style="display:none;">
       <button class="subtab-pill active" id="subtab-mezcla" onclick="showSubModulo('mezcla')">
-        <span>🔀 Mezclador de Ensayos</span>
-      </button>
-      <button class="subtab-pill" id="subtab-descarga" onclick="showSubModulo('descarga')">
-        <span>📥 Banco DEMRE Oficial</span>
-      </button>
-      <button class="subtab-pill" id="subtab-ensayos" onclick="showSubModulo('ensayos')">
-        <span>📂 Mis Ensayos</span>
-      </button>
-      <button class="subtab-pill" id="subtab-biblioteca" onclick="showSubModulo('biblioteca')">
-        <span>📖 Biblioteca Digital</span>
+        <span>⚡ Crear Ensayo DEMRE</span>
       </button>
       <button class="subtab-pill" id="subtab-generar" onclick="showSubModulo('generar')">
-        <span>⚡ Generador Personalizado</span>
+        <span>🎯 Generador por Ejes</span>
       </button>
-      <button class="subtab-pill" id="subtab-ayuda" onclick="showSubModulo('ayuda')">
-        <span>💡 Ayuda</span>
+      <button class="subtab-pill" id="subtab-enviar" onclick="setAppView('enviar')">
+        <span>🚀 Despachar / Sala QR</span>
+      </button>
+      <button class="subtab-pill" id="subtab-ensayos" onclick="showSubModulo('ensayos')">
+        <span>📂 Historial</span>
       </button>
     </div>
 
-    <!-- ─── SECCIÓN: DESCARGAR ─────────────────── -->
-    <section class="section" id="descarga">
-      <div class="section-header">
-        <div class="section-tag">Paso 1</div>
-        <h2 class="section-title">Descargar Pruebas PAES Históricas</h2>
-        <p class="section-desc">
-          Descarga automáticamente las pruebas PAES y sus clavijeros desde el DEMRE (2023-2026).
+    <!-- ─── SECCIÓN: DESCARGAR (BANCO DEMRE) ─────────────────── -->
+    <section class="section hidden" id="descarga">
+      <div class="section-header" style="text-align: center; margin-bottom: 20px;">
+        <span class="badge" style="background: rgba(16, 185, 129, 0.15); border: 1px solid rgba(16, 185, 129, 0.35); color: #34d399; padding: 6px 16px; border-radius: 20px; font-weight: 700; font-size: 12px; text-transform: uppercase; letter-spacing: 1px;">
+          Banco Oficial DEMRE
+        </span>
+        <h2 class="section-title" style="margin-top: 8px; font-size: 28px; font-weight: 800; color: var(--text-primary);">
+          Pruebas Oficiales y Clavijeros
+        </h2>
+        <p class="section-desc" style="color: var(--text-secondary); font-size: 14px; max-width: 680px; margin: 0 auto;">
+          Consulta y descarga los cuadernillos oficiales y clavijeros del DEMRE (Procesos de Admisión 2023-2026).
         </p>
       </div>
 
-      <!-- Aviso ejecutar Python -->
-      <div class="alert alert-info">
-        <span class="alert-icon">💡</span>
-        <div class="alert-content">
-          <strong>Para descargar:</strong> Ejecuta el script Python en orden:
-          <br>
-          <code class="cmd">python scrape_paes.py</code> &nbsp;→&nbsp; <code class="cmd">python descargar_paes.py</code>
+      <!-- Selector de Sub-pestaña de Recursos -->
+      <div style="display: flex; justify-content: center; gap: 8px; margin-bottom: 24px;">
+        <div style="display: inline-flex; background: rgba(0,0,0,0.25); border: 1px solid var(--border); border-radius: 12px; padding: 4px;">
+          <button class="subtab-pill" onclick="showSection('biblioteca')" style="padding: 8px 20px; font-size: 13px; font-weight: 700;">
+            📖 Biblioteca Digital & Videos
+          </button>
+          <button class="subtab-pill active" onclick="showSection('descarga')" style="padding: 8px 20px; font-size: 13px; font-weight: 700;">
+            📥 Banco Oficial DEMRE (PDFs)
+          </button>
         </div>
       </div>
 
@@ -237,22 +257,25 @@
 
       <!-- Clavijeros -->
       <div class="section-header" style="margin-top: 3rem">
-        <h2 class="section-title">Clavijeros</h2>
-        <p class="section-desc">Respuestas correctas por año</p>
+        <h2 class="section-title">Clavijeros Oficiales</h2>
+        <p class="section-desc">Respuestas correctas por año y escala de puntajes</p>
       </div>
       <div class="clavijeros-grid" id="clavijeros-grid">
         <!-- Se genera por JavaScript -->
       </div>
     </section>
 
-    <!-- ─── SECCIÓN: MEZCLAR ─────────────────── -->
+    <!-- ─── SECCIÓN: MEZCLAR / CREAR EVALUACIÓN ─────────────────── -->
     <section class="section hidden" id="mezcla">
-      <div class="section-header">
-        <div class="section-tag">Paso 2</div>
-        <h2 class="section-title">Crear Evaluación Mezclada</h2>
-        <p class="section-desc">
-          Configura tu ensayo seleccionando las pruebas y cuántas páginas incluir de cada una.
-          El sistema evita repetir páginas ya utilizadas en ensayos anteriores.
+      <div class="section-header" style="text-align: center; margin-bottom: 24px;">
+        <span class="badge" style="background: rgba(37, 99, 235, 0.15); border: 1px solid rgba(37, 99, 235, 0.35); color: #60a5fa; padding: 6px 16px; border-radius: 20px; font-weight: 700; font-size: 12px; text-transform: uppercase; letter-spacing: 1px;">
+          Asistente de Creación
+        </span>
+        <h2 class="section-title" style="margin-top: 8px; font-size: 28px; font-weight: 800; color: var(--text-primary);">
+          Crear Ensayo PAES Mezclado
+        </h2>
+        <p class="section-desc" style="color: var(--text-secondary); font-size: 14px; max-width: 680px; margin: 0 auto;">
+          Selecciona las pruebas oficiales y la cantidad de páginas de cada una. El sistema ensambla el cuadernillo en PDF y evita repetir preguntas utilizadas.
         </p>
       </div>
 
@@ -261,13 +284,14 @@
         <!-- Panel izquierdo: configuración -->
         <div class="mixer-config">
           <div class="config-card">
-            <h3 class="config-title">⚙️ Configuración del Ensayo</h3>
+            <h3 class="config-title">⚙️ Parámetros del Ensayo</h3>
 
             <div class="form-group">
-              <label class="form-label" for="titulo-ensayo">Título del ensayo</label>
+              <label class="form-label" for="titulo-ensayo">Título de la Evaluación</label>
               <input type="text" id="titulo-ensayo" class="form-input"
                      placeholder="Ej: Ensayo Semana 1 - Colegio XYZ"
-                     value="Ensayo PAES Invierno 2026">
+                     value="Ensayo PAES Invierno 2026"
+                     oninput="actualizarResumenMezcla()">
             </div>
 
             <div class="form-group">
@@ -290,60 +314,55 @@
             <div class="form-row">
               <div class="form-group">
                 <label class="form-label">
-                  <input type="checkbox" id="aleatorio" checked>
+                  <input type="checkbox" id="aleatorio" checked onchange="actualizarResumenMezcla()">
                   Orden aleatorio
                 </label>
               </div>
               <div class="form-group">
                 <label class="form-label">
-                  <input type="checkbox" id="registrar" checked>
-                  Marcar como usadas
+                  <input type="checkbox" id="registrar" checked onchange="actualizarResumenMezcla()">
+                  Marcar páginas como usadas
                 </label>
               </div>
             </div>
 
             <div style="display: flex; flex-direction: column; gap: 10px; margin-top: 15px;">
-              <button class="btn btn-primary w-full" id="btn-generar-pdf-directo" onclick="generarPDFDirectoNavegador()" style="font-weight: 700;">
+              <button class="btn btn-primary w-full" id="btn-generar-pdf-directo" onclick="generarPDFDirectoNavegador()" style="font-weight: 700; padding: 12px;">
                 ⚡ Generar y Descargar PDF (Navegador)
               </button>
-              <button class="btn btn-outline w-full" id="btn-generar-cmd" onclick="generarComando()" style="font-size: 13px;">
-                🐍 Ver Comando Python (CLI)
+              <button class="btn btn-outline w-full" onclick="pasarDeMezclaAEnvio()" style="font-size: 13.5px; font-weight: 600; border-color: rgba(99,102,241,0.4); color: #a5b4fc; padding: 10px;">
+                🚀 Habilitar Evaluación en Línea (Sala) ➔
               </button>
             </div>
           </div>
         </div>
 
-        <!-- Panel derecho: comando generado -->
+        <!-- Panel derecho: Resumen visual de la Evaluación -->
         <div class="mixer-result">
-          <div class="result-card">
-            <h3 class="config-title">📋 Comando para ejecutar</h3>
-            <div class="cmd-preview" id="cmd-preview">
-              <div class="cmd-placeholder">
-                <span>⚙️</span>
-                <p>Configura tu ensayo a la izquierda y el comando aparecerá aquí</p>
+          <div class="result-card" id="resumen-card">
+            <h3 class="config-title" style="display: flex; align-items: center; justify-content: space-between;">
+              <span>📊 Resumen del Cuadernillo</span>
+              <span id="badge-total-paginas" style="font-size: 12px; padding: 4px 10px; border-radius: 99px; background: rgba(37, 99, 235, 0.15); color: #93c5fd; font-weight: 700;">0 págs</span>
+            </h3>
+            <div id="resumen-content" style="font-size: 13.5px; color: var(--text-secondary); line-height: 1.6;">
+              <p style="text-align: center; padding: 20px; color: var(--text-muted);">Selecciona una o más pruebas de la izquierda para ver la composición del ensayo.</p>
+            </div>
+          </div>
+
+          <!-- Sugerencia al Generador por Ejes -->
+          <div class="result-card" style="background: linear-gradient(135deg, rgba(124, 58, 237, 0.08), rgba(37, 99, 235, 0.08)); border: 1px solid rgba(124, 58, 237, 0.3);">
+            <div style="display: flex; gap: 12px; align-items: flex-start;">
+              <div style="font-size: 24px;">🎯</div>
+              <div>
+                <h4 style="margin: 0 0 6px; font-size: 15px; font-weight: 700; color: #c084fc;">¿Necesitas control por Ejes Temáticos?</h4>
+                <p style="margin: 0 0 12px; font-size: 12.5px; color: var(--text-secondary); line-height: 1.5;">
+                  Usa el Generador Personalizado para elegir exactamente qué contenidos evaluar (Álgebra, Geometría, Comprensión, etc.) y definir el tiempo exacto.
+                </p>
+                <button class="btn btn-outline" onclick="showSubModulo('generar')" style="padding: 6px 14px; font-size: 12px; font-weight: 700; border-color: rgba(168,85,247,0.4); color: #d8b4fe;">
+                  Ir al Generador por Ejes ➔
+                </button>
               </div>
             </div>
-            <button class="btn btn-outline w-full" id="btn-copiar" onclick="copiarComando()" style="display:none">
-              📋 Copiar Comando
-            </button>
-          </div>
-
-          <!-- Resumen visual -->
-          <div class="result-card" id="resumen-card" style="display:none">
-            <h3 class="config-title">📊 Resumen del Ensayo</h3>
-            <div id="resumen-content"></div>
-          </div>
-
-          <!-- Instrucciones -->
-          <div class="result-card instrucciones-card">
-            <h3 class="config-title">📖 Cómo usar</h3>
-            <ol class="instrucciones-list">
-              <li>Descarga las pruebas con <code>descargar_paes.py</code></li>
-              <li>Configura tu ensayo aquí arriba</li>
-              <li>Copia el comando generado</li>
-              <li>Pégalo en tu terminal/PowerShell</li>
-              <li>El PDF del ensayo se guarda en <code>ensayos_generados/</code></li>
-            </ol>
           </div>
         </div>
 
@@ -703,10 +722,28 @@ historia_2025 · lectora_2024 · m1_2023 ...</div>
 
     <!-- ─── SECCIÓN: BIBLIOTECA DIGITAL ─────────────────── -->
     <section class="section hidden" id="biblioteca">
-      <div class="section-header">
-        <div class="section-tag">Recursos Pedagógicos</div>
-        <h2 class="section-title">📚 Biblioteca Digital por Ejes Temáticos</h2>
-        <p class="section-desc">Accede a formularios oficiales, PPTs de clases, videos explicativos y miniensayos por eje temático DEMRE.</p>
+      <div class="section-header" style="text-align: center; margin-bottom: 20px;">
+        <span class="badge" style="background: rgba(16, 185, 129, 0.15); border: 1px solid rgba(16, 185, 129, 0.35); color: #34d399; padding: 6px 16px; border-radius: 20px; font-weight: 700; font-size: 12px; text-transform: uppercase; letter-spacing: 1px;">
+          Centro de Recursos
+        </span>
+        <h2 class="section-title" style="margin-top: 8px; font-size: 28px; font-weight: 800; color: var(--text-primary);">
+          Recursos Pedagógicos & Banco Oficial
+        </h2>
+        <p class="section-desc" style="color: var(--text-secondary); font-size: 14px; max-width: 680px; margin: 0 auto;">
+          Explora guías oficiales, presentaciones, videos explicativos y cuadernillos DEMRE históricos.
+        </p>
+      </div>
+
+      <!-- Selector de Sub-pestaña de Recursos -->
+      <div style="display: flex; justify-content: center; gap: 8px; margin-bottom: 24px;">
+        <div style="display: inline-flex; background: rgba(0,0,0,0.25); border: 1px solid var(--border); border-radius: 12px; padding: 4px;">
+          <button class="subtab-pill active" onclick="showSection('biblioteca')" style="padding: 8px 20px; font-size: 13px; font-weight: 700;">
+            📖 Biblioteca Digital & Videos
+          </button>
+          <button class="subtab-pill" onclick="showSection('descarga')" style="padding: 8px 20px; font-size: 13px; font-weight: 700;">
+            📥 Banco Oficial DEMRE (PDFs)
+          </button>
+        </div>
       </div>
 
       <!-- Barra de herramientas: Tabs de Asignatura y Buscador -->

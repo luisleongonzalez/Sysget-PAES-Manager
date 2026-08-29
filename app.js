@@ -274,6 +274,10 @@ function filtrarAnioMezcla(anio, btn) {
 // SISTEMA DE ROLES Y NAVEGACIÓN SIMPLIFICADA
 // ──────────────────────────────────────────────────────────
 
+// ──────────────────────────────────────────────────────────
+// SISTEMA DE ROLES Y NAVEGACIÓN SIMPLIFICADA (4 PILARES)
+// ──────────────────────────────────────────────────────────
+
 function setRole(role) {
   // Proteger acceso a perfiles docentes y administradores
   if (role === 'docente' || role === 'admin') {
@@ -301,52 +305,82 @@ function setRole(role) {
 
 function renderNavbar() {
   const nav = document.getElementById('main-nav');
-  const roleIndicator = document.getElementById('header-role-indicator');
-  const roleBadge = document.getElementById('nav-role-badge');
+  const userWrapper = document.getElementById('header-user-wrapper');
   const role = state.currentRole || 'landing';
   const sesion = (typeof obtenerSesionActual === 'function') ? obtenerSesionActual() : null;
 
   if (!nav) return;
 
   if (role === 'landing') {
-    if (roleIndicator) roleIndicator.style.display = 'none';
+    if (userWrapper) userWrapper.style.display = 'none';
     nav.innerHTML = `
       <a href="#landing" class="nav-link active" onclick="showSection('landing')">Inicio</a>
       <a href="#landing" class="nav-link" onclick="document.getElementById('landing-token-input')?.focus()">🎓 Alumnos</a>
       <a href="#landing" class="nav-link" onclick="abrirModalLogin('docente')">👨‍🏫 Profesores</a>
       <a href="#landing" class="nav-link" onclick="abrirModalLogin('admin')">⚙️ Admin</a>
     `;
-  } else if (role === 'docente') {
-    if (roleIndicator) {
-      roleIndicator.style.display = 'flex';
-      if (roleBadge) {
-        roleBadge.className = 'role-badge-nav docente';
-        roleBadge.innerHTML = `👨‍🏫 ${sesion && sesion.nombre ? sesion.nombre : 'Docente'}`;
+  } else {
+    // Usuario autenticado (Docente o Admin)
+    if (userWrapper) {
+      userWrapper.style.display = 'block';
+      const displayName = document.getElementById('user-display-name');
+      const dropName = document.getElementById('dropdown-user-name');
+      const dropEmail = document.getElementById('dropdown-user-email');
+      const dropBadge = document.getElementById('dropdown-user-badge');
+      const avatarIcon = document.getElementById('user-avatar-icon');
+
+      const nombreReal = (sesion && sesion.nombre) ? sesion.nombre : (role === 'admin' ? 'Administrador' : 'Profesor');
+      const emailReal = (sesion && sesion.email) ? sesion.email : (role === 'admin' ? 'admin@colegio.cl' : 'docente@colegio.cl');
+
+      if (displayName) displayName.textContent = nombreReal;
+      if (dropName) dropName.textContent = nombreReal;
+      if (dropEmail) dropEmail.textContent = emailReal;
+      if (avatarIcon) avatarIcon.textContent = role === 'admin' ? '⚙️' : '👨‍🏫';
+      if (dropBadge) {
+        dropBadge.className = `role-badge-nav ${role}`;
+        dropBadge.innerHTML = role === 'admin' ? '⚙️ Administrador' : '👨‍🏫 Docente';
       }
     }
-    nav.innerHTML = `
-      <a href="#mezcla" class="nav-link active" id="nav-evaluaciones" onclick="setAppView('evaluaciones')">📚 Evaluaciones</a>
-      <a href="#enviar" class="nav-link" id="nav-enviar" onclick="setAppView('enviar')">📤 Enviar Evaluación</a>
-      <a href="#directorio" class="nav-link" id="nav-directorio" onclick="setAppView('directorio')">👥 Directorio Escolar</a>
-      <a href="#resultados" class="nav-link" id="nav-resultados" onclick="setAppView('resultados')">📊 Resultados</a>
-    `;
-  } else if (role === 'admin') {
-    if (roleIndicator) {
-      roleIndicator.style.display = 'flex';
-      if (roleBadge) {
-        roleBadge.className = 'role-badge-nav admin';
-        roleBadge.innerHTML = `⚙️ ${sesion && sesion.nombre ? sesion.nombre : 'Administrador'}`;
-      }
+
+    if (role === 'docente') {
+      nav.innerHTML = `
+        <a href="#mezcla" class="nav-link active" id="nav-evaluaciones" onclick="setAppView('evaluaciones')">📝 Evaluaciones</a>
+        <a href="#directorio" class="nav-link" id="nav-directorio" onclick="setAppView('directorio')">👥 Directorio Escolar</a>
+        <a href="#resultados" class="nav-link" id="nav-resultados" onclick="setAppView('resultados')">📊 Resultados</a>
+        <a href="#biblioteca" class="nav-link" id="nav-recursos" onclick="setAppView('recursos')">📚 Biblioteca & DEMRE</a>
+      `;
+    } else if (role === 'admin') {
+      nav.innerHTML = `
+        <a href="#mezcla" class="nav-link active" id="nav-evaluaciones" onclick="setAppView('evaluaciones')">📝 Evaluaciones</a>
+        <a href="#directorio" class="nav-link" id="nav-directorio" onclick="setAppView('directorio')">👥 Directorio Escolar</a>
+        <a href="#resultados" class="nav-link" id="nav-resultados" onclick="setAppView('resultados')">📊 Resultados</a>
+        <a href="#biblioteca" class="nav-link" id="nav-recursos" onclick="setAppView('recursos')">📚 Biblioteca & DEMRE</a>
+        <a href="#admin-panel" class="nav-link" id="nav-admin" onclick="setAppView('admin')">⚙️ Sistema</a>
+      `;
     }
-    nav.innerHTML = `
-      <a href="#mezcla" class="nav-link active" id="nav-evaluaciones" onclick="setAppView('evaluaciones')">📚 Evaluaciones</a>
-      <a href="#enviar" class="nav-link" id="nav-enviar" onclick="setAppView('enviar')">📤 Enviar Evaluación</a>
-      <a href="#directorio" class="nav-link" id="nav-directorio" onclick="setAppView('directorio')">👥 Directorio Escolar</a>
-      <a href="#resultados" class="nav-link" id="nav-resultados" onclick="setAppView('resultados')">📊 Resultados</a>
-      <a href="#admin-panel" class="nav-link" id="nav-admin" onclick="setAppView('admin')">⚙️ Sistema</a>
-    `;
   }
 }
+
+function toggleUserDropdown(event) {
+  if (event) event.stopPropagation();
+  const dropdown = document.getElementById('user-dropdown-menu');
+  if (!dropdown) return;
+  const isHidden = dropdown.style.display === 'none' || dropdown.style.display === '';
+  dropdown.style.display = isHidden ? 'block' : 'none';
+}
+
+function cerrarUserDropdown() {
+  const dropdown = document.getElementById('user-dropdown-menu');
+  if (dropdown) dropdown.style.display = 'none';
+}
+
+// Cerrar dropdown si se hace clic fuera
+document.addEventListener('click', (e) => {
+  const wrapper = document.getElementById('header-user-wrapper');
+  if (wrapper && !wrapper.contains(e.target)) {
+    cerrarUserDropdown();
+  }
+});
 
 function setAppView(view) {
   const subtabs = document.getElementById('subtabs-evaluaciones');
@@ -358,13 +392,21 @@ function setAppView(view) {
     if (navEval) navEval.classList.add('active');
     const sub = state.currentSubModulo || 'mezcla';
     showSubModulo(sub);
+  } else if (view === 'enviar') {
+    if (subtabs) subtabs.style.display = 'flex';
+    const navEval = document.getElementById('nav-evaluaciones');
+    if (navEval) navEval.classList.add('active');
+    document.querySelectorAll('.subtab-pill').forEach(btn => btn.classList.remove('active'));
+    const pill = document.getElementById('subtab-enviar');
+    if (pill) pill.classList.add('active');
+    showSection('enviar');
+  } else if (view === 'recursos') {
+    if (subtabs) subtabs.style.display = 'none';
+    const navRec = document.getElementById('nav-recursos');
+    if (navRec) navRec.classList.add('active');
+    showSection('biblioteca');
   } else {
     if (subtabs) subtabs.style.display = 'none';
-    if (view === 'enviar') {
-      const navEnv = document.getElementById('nav-enviar');
-      if (navEnv) navEnv.classList.add('active');
-      showSection('enviar');
-    }
     if (view === 'directorio') {
       const navDir = document.getElementById('nav-directorio');
       if (navDir) navDir.classList.add('active');
@@ -393,6 +435,82 @@ function showSubModulo(subId) {
   if (activeBtn) activeBtn.classList.add('active');
 
   showSection(subId);
+}
+
+function actualizarResumenMezcla() {
+  const checks = document.querySelectorAll('.sel-check:checked');
+  const resumenContent = document.getElementById('resumen-content');
+  const badgePaginas = document.getElementById('badge-total-paginas');
+  const titulo = document.getElementById('titulo-ensayo')?.value || 'Ensayo PAES';
+
+  if (!resumenContent) return;
+
+  if (checks.length === 0) {
+    resumenContent.innerHTML = '<p style="text-align: center; padding: 20px; color: var(--text-muted);">Selecciona una o más pruebas de la izquierda para ver la composición del ensayo.</p>';
+    if (badgePaginas) badgePaginas.textContent = '0 págs';
+    return;
+  }
+
+  let totalPags = 0;
+  let itemsHtml = '';
+
+  checks.forEach(chk => {
+    const id = chk.value;
+    const pagesEl = document.getElementById('pages-' + id);
+    const pages = pagesEl ? parseInt(pagesEl.value) || 10 : 10;
+    totalPags += pages;
+
+    const [mat, anio] = id.split('_');
+    const meta = getMeta(mat);
+    itemsHtml += `
+      <div style="display: flex; justify-content: space-between; align-items: center; padding: 6px 0; border-bottom: 1px solid rgba(255,255,255,0.06);">
+        <span>${meta?.icon || '📄'} <strong>${meta?.nombre || id}</strong> (${anio || 'DEMRE'})</span>
+        <span style="color: #60a5fa; font-weight: 700;">${pages} págs</span>
+      </div>
+    `;
+  });
+
+  if (badgePaginas) badgePaginas.textContent = `~${totalPags} págs`;
+
+  resumenContent.innerHTML = `
+    <div style="margin-bottom: 10px;">
+      <span style="font-size: 11px; color: var(--text-muted); text-transform: uppercase;">Título asignado:</span>
+      <div style="font-weight: 700; color: var(--text-primary); font-size: 14px;">${titulo}</div>
+    </div>
+    <div style="margin-bottom: 12px;">
+      ${itemsHtml}
+    </div>
+    <div style="display: flex; justify-content: space-between; align-items: center; padding-top: 8px; font-weight: 800; color: #34d399; font-size: 14px;">
+      <span>Total Estimado del Cuadernillo:</span>
+      <span>~${totalPags} páginas</span>
+    </div>
+  `;
+}
+
+function pasarDeMezclaAEnvio() {
+  const checks = document.querySelectorAll('.sel-check:checked');
+  const titulo = document.getElementById('titulo-ensayo')?.value.trim() || 'Ensayo PAES';
+  
+  // Pre-llenar título en la sesión
+  const tituloSesionInput = document.getElementById('titulo-sesion');
+  if (tituloSesionInput) {
+    tituloSesionInput.value = titulo;
+  }
+
+  // Si hay alguna prueba seleccionada, sincronizar con el selector de clavijero
+  if (checks.length > 0) {
+    const firstId = checks[0].value;
+    const selectPrueba = document.getElementById('select-prueba-envio');
+    if (selectPrueba) {
+      selectPrueba.value = firstId;
+      if (typeof alSeleccionarClavijero === 'function') {
+        alSeleccionarClavijero(firstId);
+      }
+    }
+  }
+
+  setAppView('enviar');
+  showToast('🚀 Configuración transferida a la Sala de Evaluación');
 }
 
 function irAResponderToken() {
@@ -482,7 +600,10 @@ function showSection(id, pushState = true) {
     renderClavijeros(state.anioActivoDescarga);
   }
   if (id === 'ensayos') renderEnsayos();
-  if (id === 'mezcla') actualizarComando();
+  if (id === 'mezcla') {
+    actualizarComando();
+    if (typeof actualizarResumenMezcla === 'function') actualizarResumenMezcla();
+  }
   if (id === 'generar' && typeof renderGeneradorEvaluacion === 'function') renderGeneradorEvaluacion();
 
   // Scroll al contenido
@@ -874,11 +995,12 @@ function showToast(msg, duration = 3000) {
 // ACTUALIZACIÓN EN TIEMPO REAL DEL COMANDO
 // ──────────────────────────────────────────────────────────
 function initEventListeners() {
-  // Checkboxes y inputs de páginas → actualizar comando
+  // Checkboxes y inputs de páginas → actualizar comando y resumen visual
   document.querySelectorAll('.sel-check, .pages-input').forEach(el => {
     el.addEventListener('change', () => {
       if (document.getElementById('mezcla') && !document.getElementById('mezcla').classList.contains('hidden')) {
         actualizarComando();
+        actualizarResumenMezcla();
       }
     });
   });
@@ -887,6 +1009,7 @@ function initEventListeners() {
     el.addEventListener('input', () => {
       if (document.getElementById('mezcla') && !document.getElementById('mezcla').classList.contains('hidden')) {
         actualizarComando();
+        actualizarResumenMezcla();
       }
     });
   });
@@ -896,6 +1019,7 @@ function initEventListeners() {
     tituloInput.addEventListener('input', () => {
       if (document.getElementById('mezcla') && !document.getElementById('mezcla').classList.contains('hidden')) {
         actualizarComando();
+        actualizarResumenMezcla();
       }
     });
   }
