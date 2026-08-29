@@ -1,6 +1,6 @@
 # 📌 Registro de Estado y Continuación — Proyecto PAES WEB (Sysget-PAES-Manager)
 
-**Fecha de Última Actualización:** 16 de Agosto, 2026  
+**Fecha de Última Actualización:** 28 de Agosto, 2026  
 **Ubicación Local del Proyecto:** `C:\Proyectos\Proyecto PAES WEB`  
 **Repositorio GitHub:** `https://github.com/leontestvirtual1-sketch/Sysget-PAES-Manager`  
 **Despliegue Producción (Vercel):** `https://sysget-paes-manager.vercel.app`  
@@ -8,9 +8,20 @@
 
 ---
 
-## 🚀 Novedades de la Versión Actual (2026-08-16)
+## 🚀 Novedades de la Versión Actual (2026-08-28)
 
-### 8. 🛡️ Control y Seguridad en Envío de Correos (NUEVO)
+### 10. 🏛️ Landing Page Comercial Institucional B2B (NUEVO)
+- **Propuesta de Valor Institucional:** Hero comercial orientado a colegios y preuniversitarios para elevar los puntajes PAES 2026.
+- **Barra de Métricas y Rendimiento (Social Proof):** 4+ procesos oficiales DEMRE, 100% digital o híbrido, 15+ horas ahorradas por docente, 0 segundos de retroalimentación.
+- **4 Pilares Comerciales:** Mezclador sin repetición, portal split-screen para estudiantes, solucionarios pedagógicos clasificados por habilidad y analítica UTP en tiempo real.
+- **Cuadro Comparativo B2B:** Análisis de ventajas entre el método tradicional en papel y SysGet PAES Manager.
+
+### 9. 🗺️ Navegación Simplificada en 4 Pilares y Menú de Usuario (NUEVO)
+- **Eliminación de la sobrecarga de opciones:** Se reemplazó la doble barra con 14 elementos por un header limpio con 4 secciones maestras: `📝 Evaluaciones`, `👥 Directorio Escolar`, `📊 Resultados` y `📚 Biblioteca & DEMRE`.
+- **Menú de Usuario Píldora (`👨‍🏫 Profesor ▾`):** Perfil unificado con cierre de sesión seguro y accesos directos a configuración.
+- **Flujo 100% Web en Mezclador:** Se eliminó la caja negra de terminal y comandos de Python, reemplazándola por el Resumen Interactivo de Páginas y botones de acción directa en el navegador.
+
+### 8. 🛡️ Control y Seguridad en Envío de Correos
 - **Confirmación Obligatoria:** Se añadieron cuadros de confirmación explícita con conteo de alumnos antes de enviar correos masivos o individuales en `email-service.js` y `app.js`.
 - **Cancelación Segura:** Presionar "Cancelar" en cualquier advertencia detiene la acción por completo y evita abrir el cliente de correo (`mailto:`) involuntariamente.
 - **Gestor de Credenciales EmailJS:** Diálogo interactivo al pulsar el icono de engranaje ⚙️ que permite ver el estado, modificar o **borrar las credenciales de EmailJS de `localStorage`** para desactivar envíos automáticos.
