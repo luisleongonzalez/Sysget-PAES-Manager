@@ -114,7 +114,7 @@
   ═══════════════════════════════════════════ -->
   <main class="main" id="main-content">
 
-    <!-- ─── SECCIÓN 0: LANDING PAGE PRINCIPAL ───────── -->
+    <!-- ─── SECCIÓN 0: LANDING PAGE COMERCIAL INSTITUCIONAL ───────── -->
     <section class="section" id="landing">
       <div class="hero-bg">
         <div class="hero-orb hero-orb-1"></div>
@@ -122,80 +122,241 @@
         <div class="hero-orb hero-orb-3"></div>
       </div>
 
-      <div class="landing-hero">
-        <span class="landing-tagline">🎓 Suite SysGet PAES · Admisión 2026</span>
-        <h1 class="landing-title">
-          Plataforma Integral de<br>
-          <span class="gradient-text">Evaluaciones & Ensayos PAES</span>
+      <!-- Hero Principal Comercial -->
+      <div class="landing-hero" style="padding-bottom: 2rem;">
+        <span class="landing-tagline">🏛️ Ecosistema Educativo de Preparación PAES 2026</span>
+        <h1 class="landing-title" style="max-width: 950px; margin: 0 auto 1.25rem;">
+          Eleva los Puntajes PAES de tu Colegio con <span class="gradient-text">Tecnología y Analítica en Tiempo Real</span>
         </h1>
-        <p class="landing-subtitle">
-          Descarga pruebas oficiales DEMRE, crea ensayos personalizados sin repetición, y gestiona hojas de respuesta digitales con solucionarios pedagógicos en tiempo real.
+        <p class="landing-subtitle" style="font-size: 1.15rem; max-width: 780px;">
+          La suite institucional para colegios y preuniversitarios: bancos oficiales DEMRE, creador de ensayos sin repetición, hojas de respuesta digitales táctiles y diagnósticos pedagógicos inmediatos en escala 100-1000.
         </p>
+
+        <!-- Botones de Acción Primarios -->
+        <div style="display: flex; gap: 14px; justify-content: center; align-items: center; flex-wrap: wrap; margin-bottom: 2rem;">
+          <button class="btn btn-primary" onclick="abrirModalLogin('docente')" style="padding: 12px 28px; font-size: 15px; font-weight: 700; box-shadow: 0 8px 24px rgba(37,99,235,0.35);">
+            🚀 Probar Acceso Docente (Demo)
+          </button>
+          <button class="btn btn-outline" onclick="document.getElementById('portal-estudiante-anchor')?.scrollIntoView({behavior:'smooth'}); document.getElementById('landing-token-input')?.focus();" style="padding: 12px 24px; font-size: 15px; font-weight: 600; border-color: rgba(16,185,129,0.4); color: #34d399;">
+            📝 Rendir Evaluación con Código
+          </button>
+        </div>
+
+        <!-- Badges de Confianza Institucional -->
+        <div style="display: flex; justify-content: center; gap: 18px; flex-wrap: wrap; font-size: 12.5px; color: var(--text-secondary); margin-top: 10px;">
+          <span style="display: inline-flex; align-items: center; gap: 6px;">✓ Pruebas Oficiales DEMRE (2023-2026)</span>
+          <span style="display: inline-flex; align-items: center; gap: 6px;">✓ Escala Oficial 100 a 1000 Puntos</span>
+          <span style="display: inline-flex; align-items: center; gap: 6px;">✓ Sincronización en la Nube Firestore</span>
+          <span style="display: inline-flex; align-items: center; gap: 6px;">✓ Cero Corrección Manual</span>
+        </div>
       </div>
 
-      <!-- Tarjetas de Acceso por Rol -->
-      <div class="roles-grid">
-        
-        <!-- Tarjeta 1: Alumno -->
-        <div class="role-card student">
-          <div>
-            <div class="role-header">
-              <div class="role-icon-box">📝</div>
-              <span class="role-badge">Estudiante</span>
-            </div>
-            <h2 class="role-card-title">Portal Estudiante</h2>
-            <p class="role-card-desc">
-              Ingresa el código o token personal que te entregó tu profesor para rendir tu evaluación y consultar tus explicaciones pedagógicas.
-            </p>
-          </div>
-          <div class="role-action-area">
-            <div class="token-input-wrapper">
-              <input type="text" id="landing-token-input" class="token-input" placeholder="Pega aquí tu código de evaluación (ej: tok_abc123)" onkeydown="if(event.key==='Enter') irAResponderToken()">
-            </div>
-            <button class="btn-role-action student" onclick="irAResponderToken()">
-              <span>Entrar a Responder ➔</span>
-            </button>
-          </div>
+      <!-- Barra de Métricas y Rendimiento (Social Proof) -->
+      <div style="max-width: 1100px; margin: 0 auto 3.5rem; display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 16px;">
+        <div class="config-card" style="text-align: center; padding: 22px 18px;">
+          <div style="font-size: 32px; font-weight: 900; color: #38bdf8; line-height: 1.1; margin-bottom: 6px;">4+</div>
+          <div style="font-size: 13px; font-weight: 700; color: var(--text-primary);">Procesos DEMRE Integrados</div>
+          <p style="font-size: 12px; color: var(--text-muted); margin: 4px 0 0;">Admisión Regular e Invierno 2023-2026</p>
         </div>
 
-        <!-- Tarjeta 2: Profesor -->
-        <div class="role-card teacher">
-          <div>
-            <div class="role-header">
-              <div class="role-icon-box">👨‍🏫</div>
-              <span class="role-badge">Docente</span>
-            </div>
-            <h2 class="role-card-title">Portal Profesor</h2>
-            <p class="role-card-desc">
-              Mezcla pruebas DEMRE históricas, crea ensayos a medida, despacha evaluaciones por email/QR y analiza resultados en tiempo real.
-            </p>
-          </div>
-          <div class="role-action-area">
-            <button class="btn-role-action teacher" onclick="abrirModalLogin('docente')">
-              <span>Ingresar al Panel Docente ➔</span>
-            </button>
-          </div>
+        <div class="config-card" style="text-align: center; padding: 22px 18px;">
+          <div style="font-size: 32px; font-weight: 900; color: #34d399; line-height: 1.1; margin-bottom: 6px;">100%</div>
+          <div style="font-size: 13px; font-weight: 700; color: var(--text-primary);">Digital o Híbrido</div>
+          <p style="font-size: 12px; color: var(--text-muted); margin: 4px 0 0;">Evaluaciones online y PDFs imprimibles</p>
         </div>
 
-        <!-- Tarjeta 3: Administrador -->
-        <div class="role-card admin">
-          <div>
-            <div class="role-header">
-              <div class="role-icon-box">⚙️</div>
-              <span class="role-badge">Administrador</span>
-            </div>
-            <h2 class="role-card-title">Portal Administrador</h2>
-            <p class="role-card-desc">
-              Control integral del sistema, configuración de base de datos Firebase Firestore, credenciales EmailJS y depuración global de sesiones.
-            </p>
-          </div>
-          <div class="role-action-area">
-            <button class="btn-role-action admin" onclick="abrirModalLogin('admin')">
-              <span>Panel Administrador ➔</span>
-            </button>
-          </div>
+        <div class="config-card" style="text-align: center; padding: 22px 18px;">
+          <div style="font-size: 32px; font-weight: 900; color: #fbbf24; line-height: 1.1; margin-bottom: 6px;">15+ hrs</div>
+          <div style="font-size: 13px; font-weight: 700; color: var(--text-primary);">Ahorro Docente por Ensayo</div>
+          <p style="font-size: 12px; color: var(--text-muted); margin: 4px 0 0;">Tabulación y corrección 100% automatizada</p>
         </div>
 
+        <div class="config-card" style="text-align: center; padding: 22px 18px;">
+          <div style="font-size: 32px; font-weight: 900; color: #c084fc; line-height: 1.1; margin-bottom: 6px;">0 seg</div>
+          <div style="font-size: 13px; font-weight: 700; color: var(--text-primary);">Tiempo de Retroalimentación</div>
+          <p style="font-size: 12px; color: var(--text-muted); margin: 4px 0 0;">Solucionarios paso a paso al instante</p>
+        </div>
+      </div>
+
+      <!-- 4 Pilares de Valor Comercial -->
+      <div style="max-width: 1100px; margin: 0 auto 4rem;">
+        <div style="text-align: center; margin-bottom: 2rem;">
+          <span class="badge" style="background: rgba(99, 102, 241, 0.15); border: 1px solid rgba(99, 102, 241, 0.35); color: #a5b4fc; padding: 6px 16px; border-radius: 20px; font-weight: 700; font-size: 12px; text-transform: uppercase; letter-spacing: 1px;">
+            Ventajas Institucionales
+          </span>
+          <h2 style="font-size: 26px; font-weight: 800; color: var(--text-primary); margin-top: 10px;">
+            Todo lo que tu institución necesita para liderar en la PAES
+          </h2>
+        </div>
+
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px;">
+          <!-- Pilar 1 -->
+          <div class="config-card" style="padding: 24px;">
+            <div style="width: 48px; height: 48px; border-radius: 12px; background: rgba(37,99,235,0.15); border: 1px solid rgba(37,99,235,0.3); display: flex; align-items: center; justify-content: center; font-size: 24px; margin-bottom: 16px;">
+              🔀
+            </div>
+            <h3 style="font-size: 17px; font-weight: 700; color: var(--text-primary); margin-bottom: 8px;">Mezclador sin Repetición</h3>
+            <p style="font-size: 13px; color: var(--text-secondary); line-height: 1.6; margin: 0;">
+              Crea ensayos combinados y personalizados por ejes temáticos (Matemática M1/M2, Lectura, Ciencias, Historia) garantizando que ninguna pregunta se repita entre semanas.
+            </p>
+          </div>
+
+          <!-- Pilar 2 -->
+          <div class="config-card" style="padding: 24px;">
+            <div style="width: 48px; height: 48px; border-radius: 12px; background: rgba(16,185,129,0.15); border: 1px solid rgba(16,185,129,0.3); display: flex; align-items: center; justify-content: center; font-size: 24px; margin-bottom: 16px;">
+              📱
+            </div>
+            <h3 style="font-size: 17px; font-weight: 700; color: var(--text-primary); margin-bottom: 8px;">Portal Alumno Split-Screen</h3>
+            <p style="font-size: 13px; color: var(--text-secondary); line-height: 1.6; margin: 0;">
+              Visor PDF del cuadernillo oficial a la izquierda y hoja táctil de respuestas a la derecha con guardado en tiempo real y QR para acceso móvil instantáneo en la sala.
+            </p>
+          </div>
+
+          <!-- Pilar 3 -->
+          <div class="config-card" style="padding: 24px;">
+            <div style="width: 48px; height: 48px; border-radius: 12px; background: rgba(168,85,247,0.15); border: 1px solid rgba(168,85,247,0.3); display: flex; align-items: center; justify-content: center; font-size: 24px; margin-bottom: 16px;">
+              💡
+            </div>
+            <h3 style="font-size: 17px; font-weight: 700; color: var(--text-primary); margin-bottom: 8px;">Solucionarios Pedagógicos</h3>
+            <p style="font-size: 13px; color: var(--text-secondary); line-height: 1.6; margin: 0;">
+              Retroalimentación explicativa paso a paso clasificada por habilidades y contenidos DEMRE para que el alumno aprenda del error inmediatamente tras entregar.
+            </p>
+          </div>
+
+          <!-- Pilar 4 -->
+          <div class="config-card" style="padding: 24px;">
+            <div style="width: 48px; height: 48px; border-radius: 12px; background: rgba(245,158,11,0.15); border: 1px solid rgba(245,158,11,0.3); display: flex; align-items: center; justify-content: center; font-size: 24px; margin-bottom: 16px;">
+              📊
+            </div>
+            <h3 style="font-size: 17px; font-weight: 700; color: var(--text-primary); margin-bottom: 8px;">Analítica Directiva & UTP</h3>
+            <p style="font-size: 13px; color: var(--text-secondary); line-height: 1.6; margin: 0;">
+              Monitoreo en vivo de alumnos en evaluación, detección automática de preguntas críticas (ítems con mayor tasa de error) y exportación a Excel y PDF en un clic.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Cuadro Comparativo: Método Tradicional vs SysGet PAES -->
+      <div style="max-width: 960px; margin: 0 auto 4.5rem; background: var(--bg-card); border: 1px solid var(--border-glow); border-radius: 18px; padding: 28px; box-shadow: var(--shadow-card);">
+        <div style="text-align: center; margin-bottom: 20px;">
+          <h3 style="font-size: 20px; font-weight: 800; color: var(--text-primary); margin: 0 0 6px;">¿Por qué modernizar la preparación PAES con SysGet?</h3>
+          <p style="font-size: 13px; color: var(--text-secondary); margin: 0;">Comparativa de eficiencia entre el proceso tradicional en papel y nuestra plataforma digital</p>
+        </div>
+
+        <div style="overflow-x: auto;">
+          <table style="width: 100%; border-collapse: collapse; font-size: 13.5px; text-align: left;">
+            <thead>
+              <tr style="border-bottom: 2px solid var(--border); color: var(--text-muted); font-size: 12px; text-transform: uppercase;">
+                <th style="padding: 12px 14px; width: 35%;">Aspecto Evaluativo</th>
+                <th style="padding: 12px 14px; width: 30%; color: #f87171;">Método Tradicional (Papel)</th>
+                <th style="padding: 12px 14px; width: 35%; color: #34d399; font-weight: 800;">SysGet PAES Manager 🚀</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr style="border-bottom: 1px solid var(--border);">
+                <td style="padding: 12px 14px; font-weight: 600; color: var(--text-primary);">Entrega de Resultados</td>
+                <td style="padding: 12px 14px; color: #fca5a5;">1 a 2 semanas tras la prueba</td>
+                <td style="padding: 12px 14px; color: #6ee7b7; font-weight: 700;">Instantáneo (0 segundos)</td>
+              </tr>
+              <tr style="border-bottom: 1px solid var(--border);">
+                <td style="padding: 12px 14px; font-weight: 600; color: var(--text-primary);">Análisis de Dificultad por Ítem</td>
+                <td style="padding: 12px 14px; color: #fca5a5;">Manual y casi nunca se realiza</td>
+                <td style="padding: 12px 14px; color: #6ee7b7; font-weight: 700;">Automático por pregunta y eje</td>
+              </tr>
+              <tr style="border-bottom: 1px solid var(--border);">
+                <td style="padding: 12px 14px; font-weight: 600; color: var(--text-primary);">Retroalimentación al Estudiante</td>
+                <td style="padding: 12px 14px; color: #fca5a5;">Solo puntaje bruto final</td>
+                <td style="padding: 12px 14px; color: #6ee7b7; font-weight: 700;">Solucionario paso a paso</td>
+              </tr>
+              <tr style="border-bottom: 1px solid var(--border);">
+                <td style="padding: 12px 14px; font-weight: 600; color: var(--text-primary);">Gasto en Fotocopias / Impresiones</td>
+                <td style="padding: 12px 14px; color: #fca5a5;">Alto costo recurrente mensual</td>
+                <td style="padding: 12px 14px; color: #6ee7b7; font-weight: 700;">Cero gasto (100% digital o híbrido)</td>
+              </tr>
+              <tr>
+                <td style="padding: 12px 14px; font-weight: 600; color: var(--text-primary);">Escalabilidad Institucional</td>
+                <td style="padding: 12px 14px; color: #fca5a5;">Límite físico de revisión</td>
+                <td style="padding: 12px 14px; color: #6ee7b7; font-weight: 700;">Cursos ilimitados en simultáneo</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Tarjetas de Acceso por Rol (Portal de Ingreso) -->
+      <div id="portal-estudiante-anchor" style="max-width: 1100px; margin: 0 auto;">
+        <div style="text-align: center; margin-bottom: 1.5rem;">
+          <span class="badge" style="background: rgba(37, 99, 235, 0.15); border: 1px solid rgba(37, 99, 235, 0.35); color: #60a5fa; padding: 6px 16px; border-radius: 20px; font-weight: 700; font-size: 12px; text-transform: uppercase; letter-spacing: 1px;">
+            Acceso a la Plataforma
+          </span>
+          <h2 style="font-size: 24px; font-weight: 800; color: var(--text-primary); margin-top: 8px;">
+            Selecciona tu Perfil de Ingreso
+          </h2>
+        </div>
+
+        <div class="roles-grid">
+          
+          <!-- Tarjeta 1: Alumno -->
+          <div class="role-card student">
+            <div>
+              <div class="role-header">
+                <div class="role-icon-box">📝</div>
+                <span class="role-badge">Estudiante</span>
+              </div>
+              <h2 class="role-card-title">Portal Estudiante</h2>
+              <p class="role-card-desc">
+                Ingresa el código o token personal que te entregó tu profesor para rendir tu evaluación y consultar tus explicaciones pedagógicas.
+              </p>
+            </div>
+            <div class="role-action-area">
+              <div class="token-input-wrapper">
+                <input type="text" id="landing-token-input" class="token-input" placeholder="Pega aquí tu código de evaluación (ej: tok_abc123)" onkeydown="if(event.key==='Enter') irAResponderToken()">
+              </div>
+              <button class="btn-role-action student" onclick="irAResponderToken()">
+                <span>Entrar a Responder ➔</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- Tarjeta 2: Profesor -->
+          <div class="role-card teacher">
+            <div>
+              <div class="role-header">
+                <div class="role-icon-box">👨‍🏫</div>
+                <span class="role-badge">Docente</span>
+              </div>
+              <h2 class="role-card-title">Portal Profesor</h2>
+              <p class="role-card-desc">
+                Mezcla pruebas DEMRE históricas, crea ensayos a medida, despacha evaluaciones por email/QR y analiza resultados en tiempo real.
+              </p>
+            </div>
+            <div class="role-action-area">
+              <button class="btn-role-action teacher" onclick="abrirModalLogin('docente')">
+                <span>Ingresar al Panel Docente ➔</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- Tarjeta 3: Administrador -->
+          <div class="role-card admin">
+            <div>
+              <div class="role-header">
+                <div class="role-icon-box">⚙️</div>
+                <span class="role-badge">Administrador</span>
+              </div>
+              <h2 class="role-card-title">Portal Administrador</h2>
+              <p class="role-card-desc">
+                Control integral del sistema, configuración de base de datos Firebase Firestore, credenciales EmailJS y depuración global de sesiones.
+              </p>
+            </div>
+            <div class="role-action-area">
+              <button class="btn-role-action admin" onclick="abrirModalLogin('admin')">
+                <span>Panel Administrador ➔</span>
+              </button>
+            </div>
+          </div>
+
+        </div>
       </div>
     </section>
 
